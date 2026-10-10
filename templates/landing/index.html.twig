@@ -22,29 +22,31 @@
 
 		/* Navigation */
 		.navbar {
-			background: #1e5ba8;
+			background: #ffffff;
 			padding: 1rem 0;
-			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 			position: sticky;
 			top: 0;
 			z-index: 1000;
 		}
 
 		.nav-container {
-			max-width: 1400px;
-			margin: 0 auto;
+			max-width: 100%;
+			margin: 0;
 			padding: 0 2rem;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+			background: #ffffff;
 		}
 
 		.nav-logo {
 			display: flex;
 			align-items: center;
 			gap: 0.75rem;
-			color: white;
+			color: #001f3f;
 			text-decoration: none;
+			font-family: Poppins;
+			font-weight: 600;
 		}
 
 		.nav-logo img {
@@ -53,9 +55,23 @@
 		}
 
 		.nav-brand {
-			font-size: 1.5rem;
-			font-weight: 600;
+			font-size: 1.1rem;
+			font-weight: 1000;
 			letter-spacing: 0.5px;
+			display: block;
+		}
+
+		.nav-brand-wrapper {
+			display: flex;
+			flex-direction: column;
+			gap: 0.1rem;
+		}
+
+		.nav-subtitle {
+			font-size: 0.75rem;
+			font-weight: 400;
+			color: #666;
+			letter-spacing: 0.3px;
 		}
 
 		.nav-menu {
@@ -122,7 +138,7 @@
 		}
 
 		.btn-prog {
-			background: #ffffffff;
+			background: rgb(233, 235, 248);
 			color: #1e5ba8;
 			padding: 0.6rem 1.5rem;
 			border-radius: 5px;
@@ -138,7 +154,7 @@
 		}
 
 		.btn-acscho {
-			background: #ffffffff;
+			background:  rgb(233, 235, 248);
 			color: #1e5ba8;
 			padding: 0.6rem 1.5rem;
 			border-radius: 5px;
@@ -154,7 +170,7 @@
 		}
 
 		.btn-track {
-			background: #ffffffff;
+			background:  rgb(233, 235, 248);
 			color: #1e5ba8;
 			padding: 0.6rem 1.5rem;
 			border-radius: 5px;
@@ -172,12 +188,14 @@
 		/* Hero Section */
 		.hero {
 			background: linear-gradient(rgba(30, 91, 168, 0.55), rgba(30, 91, 168, 0.72)), url('{{ asset('images/negrosorientalstateuniversity_cover.jpg') }}') center center / cover no-repeat;
-			padding: 8rem 2rem;
+			padding: 3rem 2rem;
 			color: white;
-			min-height: 600px;
+			min-height: 550px;
 			display: flex;
 			align-items: center;
 			position: relative;
+			border-radius: 30px;
+			margin: 0.25rem 2rem 2rem 2rem;
 		}
 
 		.hero-content {
@@ -188,17 +206,17 @@
 
 		.hero h1 {
 			font-family: 'Poppins', sans-serif;
-			font-size: 5.5rem;
+			font-size: 5.2rem;
 			margin-bottom: 0.5rem;
 			line-height: 1.1;
-			font-weight: 800;
-			color: #e7f1feff;
+			font-weight: 1000;
+			color: white;
 			text-shadow: 2px 2px 4px rgba(6, 4, 4, 0.65);
 		}
 
 		.hero-subtitle {
 			font-family: 'Poppins', sans-serif;
-			font-size: 1.3rem;
+			font-size: 1.1rem;
 			font-style: italic;
 			font-weight: 400;
 			color: #ffffffff;
@@ -210,7 +228,7 @@
 		}
 
 		.hero p {
-			font-family: 'Montserrat';
+			font-family: 'Poppins';
 			font-size: 1.5rem;
 			margin-bottom: 2rem;
 		}
@@ -874,20 +892,112 @@
 				font-size: 2.5rem;
 			}
 		}
+
+/* ============= NORSU scholarship visual refresh ============= */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+:root{--ns-navy:#102f56;--ns-blue:#165ca5;--ns-gold:#f3bd45;--ns-ink:#142a43;--ns-muted:#65758a;--ns-bg:#f5f8fc;--ns-line:#e6ecf3;--ns-radius:20px;--ns-shadow:0 16px 45px rgba(24,54,90,.075)}
+html{scroll-behavior:smooth;scroll-padding-top:100px}
+body{background:var(--ns-bg);color:var(--ns-ink);font-family:'DM Sans',sans-serif}
+body button,body a{font-family:inherit}
+.navbar{border-bottom:1px solid var(--ns-line);box-shadow:0 3px 22px rgba(17,44,74,.045);padding:0}
+.nav-container{max-width:1440px;margin:auto;padding:15px clamp(20px,4vw,56px);gap:24px}
+.nav-logo{min-width:230px;color:var(--ns-navy)}
+.nav-logo img{height:48px;width:48px;object-fit:contain}
+.nav-brand{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;letter-spacing:-.035em}
+.nav-subtitle{font-size:.72rem;color:var(--ns-muted);letter-spacing:0}
+.nav-menu{gap:8px}
+.nav-menu li{list-style:none}
+.nav-menu button{white-space:nowrap;border:1px solid transparent!important;padding:11px 14px!important;border-radius:11px!important;font-size:.84rem;font-weight:700;transition:background .2s,transform .2s,box-shadow .2s}
+.btn-prog,.btn-acscho,.btn-track{background:transparent!important;color:#334e6b!important}
+.btn-prog:hover,.btn-acscho:hover,.btn-track:hover{background:#edf4fb!important;transform:none!important}
+.btn-studportal{background:#eef4fb!important;color:var(--ns-blue)!important;border-color:#dce9f5!important}
+.btn-adlog{background:var(--ns-navy)!important;color:#fff!important}
+.btn-adlog:hover{background:#174b80!important}
+.mobile-menu-toggle{display:none;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid var(--ns-line);border-radius:12px;color:var(--ns-navy);background:white;cursor:pointer}
+.hero{isolation:isolate;min-height:590px;max-width:1440px;margin:22px auto 0;border-radius:25px;padding:clamp(36px,6vw,90px);background:linear-gradient(100deg,rgba(8,35,70,.95) 0%,rgba(8,35,70,.82) 43%,rgba(8,35,70,.24) 100%),url('{{ asset('images/negrosorientalstateuniversity_cover.jpg') }}') center/cover no-repeat;box-shadow:var(--ns-shadow);overflow:hidden}
+.hero:after{content:'';position:absolute;inset:auto -80px -210px auto;height:420px;width:420px;border:1px solid rgba(255,255,255,.2);border-radius:50%;pointer-events:none;z-index:-1}
+.hero-content{margin:0;max-width:760px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.3);border-radius:50px;background:rgba(255,255,255,.12);padding:10px 16px;color:#fff;font-size:.75rem;font-weight:800;letter-spacing:.12em;margin-bottom:24px}
+.hero h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2.7rem,5.5vw,5.3rem);font-weight:800;letter-spacing:-.065em;line-height:1.08;text-shadow:none;max-width:740px}
+.hero h1 span{color:#ffda87}
+.hero p.hero-subtitle{font-family:'DM Sans',sans-serif;font-size:clamp(1rem,1.5vw,1.2rem);font-style:normal;font-weight:400;color:#e8eff8;line-height:1.75;max-width:570px;margin-top:24px;margin-bottom:24px;text-shadow:none}
+.btn,.process-cta .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;border-radius:12px;font-weight:800;letter-spacing:-.01em;padding:15px 23px;box-shadow:none;transition:transform .2s,background .2s,box-shadow .2s}
+.btn-yellow{background:var(--ns-gold);color:var(--ns-navy)}
+.btn-yellow:hover{background:#ffd36b;box-shadow:0 12px 24px rgba(0,0,0,.12)}
+.quick-links{background:transparent;padding:95px 24px 88px}
+.section-intro{text-align:center;max-width:700px;margin:0 auto 36px}
+.section-kicker{color:var(--ns-blue);font-size:.74rem;font-weight:800;letter-spacing:.17em}
+.section-intro h2{font:800 clamp(1.9rem,3vw,2.75rem)/1.18 'Plus Jakarta Sans',sans-serif;letter-spacing:-.048em;color:var(--ns-navy);margin:12px 0}
+.section-intro p{color:var(--ns-muted);line-height:1.7}
+.quick-links-container{max-width:1220px;grid-template-columns:repeat(9,minmax(0,1fr));gap:12px}
+.quick-link-item{min-height:118px;border:1px solid var(--ns-line);border-radius:16px;box-shadow:0 6px 18px rgba(13,45,76,.025)}
+.quick-link-item:hover{border-color:#a9c7e5;box-shadow:0 12px 30px rgba(13,45,76,.1);transform:translateY(-4px)}
+.quick-link-logo{width:100%;height:80px;max-width:86px}
+.video-section{padding:100px 24px;background:#fff}
+.video-section:before,.video-section:after,.process-section:before{display:none}
+.video-content{max-width:1220px;grid-template-columns:1fr 1.1fr;gap:clamp(40px,5vw,90px);padding:0}
+.video-text{padding:0}
+.video-text h2,.process-header h2,.about-text h2{font:800 clamp(2rem,3.1vw,3rem)/1.16 'Plus Jakarta Sans',sans-serif;letter-spacing:-.05em;color:var(--ns-navy)}
+.video-text h2::after,.process-header h2::after{display:none}
+.video-text h3{font-size:1.05rem;color:var(--ns-blue);margin:20px 0}
+.video-text p,.about-text p{font-family:'DM Sans',sans-serif;text-align:left;color:var(--ns-muted);line-height:1.85;font-size:1rem}
+.btn-link{font-family:'DM Sans',sans-serif;color:var(--ns-blue);font-weight:800}
+.video-container{height:auto;aspect-ratio:16/10;border-radius:20px;box-shadow:var(--ns-shadow)}
+.video-container video{border-radius:20px}
+.video-container:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(20,52,88,.13)}
+.process-section{padding:100px 24px;background:var(--ns-bg)}
+.process-container{max-width:1220px}
+.process-header{margin-bottom:52px}
+.process-header h2{display:block}
+.process-header p{font-family:'DM Sans',sans-serif;color:var(--ns-muted);font-size:1.06rem}
+.process-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin:0}
+.process-step{padding:33px 27px 30px;border:1px solid var(--ns-line);border-top:1px solid var(--ns-line);border-radius:18px;box-shadow:0 8px 28px rgba(16,47,86,.035)}
+.process-step:hover{transform:translateY(-5px);border-color:#bfd5e9;box-shadow:var(--ns-shadow)}
+.process-step-number{top:20px;left:22px;transform:none;width:34px;height:34px;font-size:.87rem;background:#e8f1fa;color:var(--ns-blue);box-shadow:none}
+.process-step-icon{text-align:left;font-size:2.2rem;margin:41px 0 16px}
+.process-step h3{font:800 1.1rem/1.4 'Plus Jakarta Sans',sans-serif;text-align:left;color:var(--ns-navy)}
+.process-step p{text-align:left;font-family:'DM Sans',sans-serif;font-size:.92rem;color:var(--ns-muted)}
+.certificate-types{border:1px solid var(--ns-line);border-radius:22px;box-shadow:var(--ns-shadow);padding:38px;margin-top:54px}
+.certificate-types h3{font:800 1.65rem 'Plus Jakarta Sans',sans-serif;color:var(--ns-navy);text-align:left}
+.certificate-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.certificate-item{border:1px solid var(--ns-line);border-left:3px solid var(--ns-gold);background:#fbfcff;border-radius:12px}
+.certificate-item h4{font-family:'Plus Jakarta Sans',sans-serif;color:var(--ns-navy);font-size:1rem}
+.certificate-item p{font-family:'DM Sans',sans-serif;color:var(--ns-muted)}
+.process-cta .btn{background:var(--ns-navy);color:white;border-radius:12px;font-size:1rem;box-shadow:none}
+.process-cta .btn:hover{background:var(--ns-blue);box-shadow:0 10px 22px rgba(16,47,86,.14)}
+.about-section{background:#fff;padding:95px 24px}
+.about-content{max-width:1220px;grid-template-columns:1.4fr 1fr;gap:72px}
+.about-text h3{font-family:'Plus Jakarta Sans',sans-serif;color:var(--ns-blue);font-size:1.15rem}
+.about-images{flex-direction:row;justify-content:center;flex-wrap:wrap;gap:18px}
+.about-images img{width:min(45%,195px);height:190px;box-shadow:var(--ns-shadow);border:1px solid var(--ns-line);border-radius:18px}
+.campus-section{background:var(--ns-navy);padding:65px 24px}
+.campus-content{max-width:1220px}
+.campus-info h2{font:800 2rem 'Plus Jakarta Sans',sans-serif}
+.campus-image{border-radius:18px;font-size:4rem;color:var(--ns-gold)}
+:focus-visible{outline:3px solid #de9d26!important;outline-offset:3px}
+@media(max-width:1150px){.nav-menu{gap:3px}.nav-menu button{padding:10px!important;font-size:.76rem}.quick-links-container{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:900px){.mobile-menu-toggle{display:flex;margin-left:auto}.nav-container{flex-wrap:wrap}.nav-menu{display:none;width:100%;flex-basis:100%;flex-direction:column;align-items:stretch;padding:12px 0}.nav-menu.is-open{display:flex}.nav-menu li,.nav-menu a,.nav-menu button{width:100%}.nav-menu button{justify-content:flex-start;font-size:.92rem;padding:13px 15px!important}.hero{margin:16px 16px 0;min-height:520px}.video-content,.about-content,.campus-content{grid-template-columns:1fr;gap:34px}.process-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.video-container{max-width:700px}.quick-links-container{grid-template-columns:repeat(3,minmax(0,1fr))}.about-images{justify-content:flex-start}}
+@media(max-width:600px){.nav-container{padding:12px 17px}.nav-logo{min-width:0}.nav-logo img{width:40px;height:40px}.nav-brand{font-size:.83rem}.nav-subtitle{font-size:.65rem}.hero{margin:12px 12px 0;min-height:530px;padding:45px 25px;background-position:60% center}.hero h1{font-size:clamp(2.45rem,10vw,3.3rem)}.hero-eyebrow{font-size:.62rem;letter-spacing:.07em}.hero-buttons .btn{width:100%;font-size:.95rem}.quick-links,.video-section,.process-section,.about-section{padding:65px 18px}.quick-links-container{gap:10px}.quick-link-item{padding:10px;min-height:90px}.quick-link-logo{height:55px}.process-grid,.certificate-list{grid-template-columns:1fr}.process-step{padding:28px 24px}.certificate-types{padding:25px 18px}.about-images img{height:140px}.campus-section{padding:45px 20px}.video-container{aspect-ratio:16/9}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+
 	</style>
 {% endblock %}
 
 {% block body %}
 	<!-- Navigation -->
-	<nav class="navbar">
+	<nav class="navbar" aria-label="Main navigation">
 		<div class="nav-container">
-			<a href="#" class="nav-logo">
+			<a href="#top" class="nav-logo">
 				<img src="{{ asset('images/scholarship.png') }}" alt="NORSU Logo">
-				<span class="nav-brand">NORSU SCHOLARSHIP</span>
+				<div class="nav-brand-wrapper">
+					<span class="nav-brand">NORSU SCHOLARSHIP</span>
+					<span class="nav-subtitle">Public Scholarship Services</span>
+				</div>
 			</a>
-			<ul class="nav-menu">
+			<button class="mobile-menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-navigation"><i class="fa-solid fa-bars"></i></button>
+			<ul class="nav-menu" id="primary-navigation">
 				<li>
-					<button class="btn-prog">
+					<button class="btn-prog" type="button" onclick="document.getElementById('programs').scrollIntoView({behavior:'smooth'})">
 						<i class="fa-solid fa-list"></i>
 						Programs</button>
 				</li>
@@ -920,15 +1030,14 @@
 	</nav>
 
 	<!-- Hero Section -->
-	<section class="hero">
+	<section class="hero" id="top">
 		<div class="hero-content">
-			<h1>NORSU Scholarship</h1>
-			<h1>Applications</h1>
-			<p class="hero-subtitle">The official scholarship portal for officially enrolled Negros Oriental State
-				            University (NORSU) students.</p>
+			<span class="hero-eyebrow"><i class="fa-solid fa-graduation-cap"></i> STUDENT OPPORTUNITIES</span>
+			<h1>Your future starts <span>with opportunity.</span></h1>
+			<p class="hero-subtitle">Explore scholarship opportunities and access student services at Negros Oriental State University.</p>
 			<div class="hero-buttons">
 				<a href="{{ path('student_register') }}" style="text-decoration: none;">
-					<button class="btn btn-yellow">APPLY NOW</button>
+					<button class="btn btn-yellow"> Register Now <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
 				</a>
 			</div>
 		</div>
@@ -936,7 +1045,8 @@
 
 	<!-- Quick Links -->
 	<!-- Scholarship Partners -->
-	<section class="quick-links">
+	<section class="quick-links" id="programs">
+		<div class="section-intro"><span class="section-kicker">SCHOLARSHIP OPPORTUNITIES</span><h2>Explore scholarship programs</h2><p>Discover available scholarship programs and partner organizations.</p></div>
 		<div class="quick-links-container">
 			<a href="{{ path('app_scholarship_detail', {slug: 'acef-giahep'}) }}" class="quick-link-item">
 				<div class="quick-link-logo">
@@ -988,7 +1098,7 @@
 
 
 	<!-- Video Section -->
-	<section class="video-section">
+	<section class="video-section" id="about-scholarships">
 		<div class="video-content">
 			<div class="video-text">
 				<h2>About NORSU Scholarship Program</h2>
@@ -997,7 +1107,7 @@
 					                students, helping them achieve their academic goals and build a brighter future.</p>
 				<p>Watch our video to learn more about how we support students in their educational journey and the
 					                opportunities available through our scholarship programs.</p>
-				<a href="#" class="btn-link">Learn More →</a>
+				<a href="#document-requests" class="btn-link">How document requests work <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
 			</div>
 			<div class="video-container">
 				<video controls preload="metadata" playsinline>
@@ -1009,7 +1119,7 @@
 	</section>
 
 	<!-- Document Request Process Section -->
-	<section class="process-section">
+	<section class="process-section" id="document-requests">
 		<div class="process-container">
 			<div class="process-header">
 				<h2>Certificate Request Process</h2>
@@ -1089,24 +1199,20 @@
 			</div>
 
 			<div class="process-cta">
-				<button class="btn">Request a Certificate Now</button>
+				<a class="btn" href="{{ path('student_register') }}">Go to Student Portal <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
 			</div>
 		</div>
 	</section>
 
 	<!-- About Section -->
-	<section class="about-section">
+	<section class="about-section" id="about-norsu">
 		<div class="about-content">
 			<div class="about-text">
 				<h2>About Negros Oriental State University</h2>
-				<h3>High-quality, Bible-based education</h3>
-				<p>NORSU has provided high-quality, Bible-based education to thousands of students since 1982.</p>
-				<p>HCS was established by its founders to make available a school which seeks to educate with the three-wise
-					                and proper of educating youth at all levels of the learning, instruction, honor and worship.</p>
-				<p>We believe that everyone is all things that God has us to do. We strive to provide an excellent
-					                educational environment that gives the knowledge and ability to gain wisdom to live and work for His
-					                glory.</p>
-				<a href="#" class="btn-link">About NCS →</a>
+				<h3>Education that opens doors</h3>
+				<p>Negros Oriental State University serves students across Negros Oriental through its academic programs and campus community.</p>
+				<p>This scholarship portal helps students explore opportunities, find information about financial assistance, and access relevant student services.</p>
+				<a href="#programs" class="btn-link">Explore scholarship programs →</a>
 			</div>
 			<div class="about-images">
 				<img src="{{ asset('images/scholarship.png') }}" alt="NORSU Logo">
@@ -1123,10 +1229,27 @@
 				<h2>Our Campus</h2>
 				<div class="campus-location">
 					<span>📍</span>
-					<span>Located in Dumaguete, just 15 minutes north of Bais, PH</span>
+					<span>Negros Oriental, Philippines</span>
 				</div>
 			</div>
-			<div class="campus-image">🏫</div>
+			<div class="campus-image"><i class="fa-solid fa-building-columns" aria-hidden="true"></i></div>
 		</div>
 	</section>
+
+<script>
+  (function () {
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    const menu = document.getElementById('primary-navigation');
+    if (!toggle || !menu) return;
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      menu.classList.toggle('is-open', !expanded);
+    });
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      menu.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }));
+  })();
+</script>
 {% endblock %}

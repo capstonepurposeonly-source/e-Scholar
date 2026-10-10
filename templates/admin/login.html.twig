@@ -1,0 +1,296 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Login - NORSU Scholarship{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: url('{{ asset('images/images.jpg') }}') center/cover no-repeat;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(30, 91, 168, 0.75);
+            backdrop-filter: blur(2px);
+        }
+
+        .login-card {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-container img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+
+        .login-title {
+            color: #1e5ba8;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .login-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+            margin-bottom: 1rem;
+        }
+
+        .logo-container img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        .login-title {
+            color: #09376f;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .login-subtitle {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .alert {
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            background: #f9f9f9;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #1e5ba8;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(30, 91, 168, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: #999;
+        }
+
+        .remember-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #1e5ba8;
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .remember-section label {
+            font-size: 0.9rem;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .btn-access {
+            width: 100%;
+            padding: 0.9rem;
+            background: #1e5ba8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: none;
+        }
+
+        .btn-access:hover {
+            background: #2563a8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 91, 168, 0.4);
+        }
+
+        .footer-text {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        @media (max-width: 500px) {
+            .login-card {
+                margin: 1rem;
+                padding: 2.5rem 2rem;
+            }
+
+            .login-title {
+                font-size: 1.5rem;
+            }
+
+            .logo-container img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="login-card">
+        <div class="logo-container">
+            <img src="{{ asset('images/scholarship.png') }}" alt="NORSU Logo">
+        </div>
+
+        <h1 class="login-title">NORSU</h1>
+        <p class="login-subtitle">Scholarship Management System</p>
+
+        {% if error %}
+            <div class="alert">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+
+        <form method="post" action="{{ path('admin_login') }}">
+            <div class="form-group">
+                <label for="email" class="form-label">Institutional Email</label>
+                <input type="email" 
+                       id="email" 
+                       name="_username" 
+                       class="form-control" 
+                       value="{{ last_username }}" 
+                       required 
+                       autofocus
+                       placeholder="example@norsu.edu.ph">
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" 
+                       id="password" 
+                       name="_password" 
+                       class="form-control" 
+                       required
+                       placeholder="••••••">
+            </div>
+
+            <div class="remember-section">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="remember_me" name="_remember_me">
+                    <span class="toggle-slider"></span>
+                </label>
+                <label for="remember_me">Remember session</label>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button type="submit" class="btn-access">
+                Access Portal
+            </button>
+        </form>
+
+    
+    </div>
+{% endblock %}

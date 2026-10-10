@@ -1,0 +1,1132 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Negros Oriental State University - Scholarship
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			background: #f5f5f5;
+			color: #333;
+		}
+
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800 &display=swap');
+
+		/* Navigation */
+		.navbar {
+			background: #1e5ba8;
+			padding: 1rem 0;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+			position: sticky;
+			top: 0;
+			z-index: 1000;
+		}
+
+		.nav-container {
+			max-width: 1400px;
+			margin: 0 auto;
+			padding: 0 2rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.nav-logo {
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			color: white;
+			text-decoration: none;
+		}
+
+		.nav-logo img {
+			width: 50px;
+			height: 50px;
+		}
+
+		.nav-brand {
+			font-size: 1.5rem;
+			font-weight: 600;
+			letter-spacing: 0.5px;
+		}
+
+		.nav-menu {
+			display: flex;
+			gap: 2rem;
+			list-style: none;
+			align-items: center;
+		}
+
+		.nav-menu a {
+			color: white;
+			text-decoration: none;
+			font-weight: 500;
+			transition: opacity 0.3s;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+		}
+
+		.nav-menu a:hover {
+			opacity: 0.8;
+		}
+
+		.nav-menu a button {
+			cursor: pointer;
+		}
+
+		.nav-menu button {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+		}
+
+		.btn-adlog {
+			background: #ffc107;
+			color: #1e5ba8;
+			padding: 0.6rem 1.5rem;
+			border-radius: 5px;
+			font-weight: 600;
+			border: none;
+			cursor: pointer;
+			transition: all 0.3s;
+		}
+
+		.btn-adlog:hover {
+			background: #ffcd38;
+			transform: translateY(-1px);
+		}
+
+		.btn-studportal {
+			background: #ffc107;
+			color: #1e5ba8;
+			padding: 0.6rem 1.5rem;
+			border-radius: 5px;
+			font-weight: 600;
+			border: none;
+			cursor: pointer;
+			transition: all 0.3s;
+		}
+
+		.btn-studportal:hover {
+			background: #ffcd38;
+			transform: translateY(-1px);
+		}
+
+		.btn-prog {
+			background: #ffffffff;
+			color: #1e5ba8;
+			padding: 0.6rem 1.5rem;
+			border-radius: 5px;
+			font-weight: 600;
+			border: none;
+			cursor: pointer;
+			transition: all 0.3s;
+		}
+
+		.btn-prog:hover {
+			background: #ffffffff;
+			transform: translateY(-1px);
+		}
+
+		.btn-acscho {
+			background: #ffffffff;
+			color: #1e5ba8;
+			padding: 0.6rem 1.5rem;
+			border-radius: 5px;
+			font-weight: 600;
+			border: none;
+			cursor: pointer;
+			transition: all 0.3s;
+		}
+
+		.btn-acscho:hover {
+			background: #ffffffff;
+			transform: translateY(-1px);
+		}
+
+		.btn-track {
+			background: #ffffffff;
+			color: #1e5ba8;
+			padding: 0.6rem 1.5rem;
+			border-radius: 5px;
+			font-weight: 600;
+			border: none;
+			cursor: pointer;
+			transition: all 0.3s;
+		}
+
+		.btn-track:hover {
+			background: #ffffffff;
+			transform: translateY(-1px);
+		}
+
+		/* Hero Section */
+		.hero {
+			background: linear-gradient(rgba(30, 91, 168, 0.55), rgba(30, 91, 168, 0.72)), url('{{ asset('images/negrosorientalstateuniversity_cover.jpg') }}') center center / cover no-repeat;
+			padding: 8rem 2rem;
+			color: white;
+			min-height: 600px;
+			display: flex;
+			align-items: center;
+			position: relative;
+		}
+
+		.hero-content {
+			max-width: 1500px;
+			margin: 0 0 0 3rem;
+			text-align: left;
+		}
+
+		.hero h1 {
+			font-family: 'Poppins', sans-serif;
+			font-size: 5.5rem;
+			margin-bottom: 0.5rem;
+			line-height: 1.1;
+			font-weight: 800;
+			color: #e7f1feff;
+			text-shadow: 2px 2px 4px rgba(6, 4, 4, 0.65);
+		}
+
+		.hero-subtitle {
+			font-family: 'Poppins', sans-serif;
+			font-size: 1.3rem;
+			font-style: italic;
+			font-weight: 400;
+			color: #ffffffff;
+			text-shadow: 2px 2px 4px rgba(6, 4, 4, 0.65);
+			margin-top: 1.5rem;
+			margin-bottom: 0.5rem;
+			line-height: 1.6;
+			max-width: 800px;
+		}
+
+		.hero p {
+			font-family: 'Montserrat';
+			font-size: 1.5rem;
+			margin-bottom: 2rem;
+		}
+
+		.hero-buttons {
+			display: flex;
+			gap: 1rem;
+			justify-content: flex-start;
+			flex-wrap: wrap;
+			margin-top: 2rem;
+		}
+
+		.btn {
+			font-family: 'Poppins', sans-serif;
+			padding: 1rem 2.5rem;
+			font-size: 1.1rem;
+			font-weight: 600;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: all 0.3s;
+			text-decoration: none;
+			display: inline-block;
+		}
+
+		.btn-yellow {
+			background: #ffc107;
+			color: #1e5ba8;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+		}
+
+		.btn-yellow:hover {
+			background: #ffcd38;
+			transform: translateY(-2px);
+			box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+		}
+
+		/* Quick Links / Scholarship Partners */
+		.quick-links {
+			background: #fcfcfcff;
+			padding: 1rem;
+		}
+
+		.quick-links-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			display: grid;
+			grid-template-columns: repeat(9, 1fr);
+			gap: 2rem;
+			align-items: center;
+		}
+
+		.quick-link-item {
+			text-align: center;
+			padding: 1rem;
+			transition: background 0.3s, transform 0.3s;
+			border-radius: 8px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: rgba(255, 255, 255, 0.95);
+			text-decoration: none;
+		}
+
+		.quick-link-item:hover {
+			background: rgba(255, 255, 255, 1);
+			transform: translateY(-3px);
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+		}
+
+		.quick-link-logo {
+			width: 80px;
+			height: 80px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.quick-link-logo img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+
+		.quick-link-icon {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+		}
+
+		.quick-link-text {
+			font-size: 0.9rem;
+			font-weight: 600;
+		}
+
+		/* Video Section */
+		.video-section {
+			padding: 6rem 4rem;
+			background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.video-section::before {
+			content: '';
+			position: absolute;
+			top: -50%;
+			right: -10%;
+			width: 500px;
+			height: 500px;
+			background: radial-gradient(circle, rgba(30, 91, 168, 0.08) 0%, transparent 70%);
+			border-radius: 50%;
+		}
+
+		.video-section::after {
+			content: '';
+			position: absolute;
+			bottom: -30%;
+			left: -5%;
+			width: 400px;
+			height: 400px;
+			background: radial-gradient(circle, rgba(255, 193, 7, 0.08) 0%, transparent 70%);
+			border-radius: 50%;
+		}
+
+		.video-content {
+			max-width: 1400px;
+			margin: 0 auto;
+			display: grid;
+			grid-template-columns: 1fr 1.2fr;
+			gap: 5rem;
+			align-items: center;
+			padding: 0 2rem;
+			position: relative;
+			z-index: 1;
+		}
+
+		.video-text {
+			font-family: 'Poppins', sans-serif;
+			padding-right: 2rem;
+		}
+
+		.video-text h2 {
+			font-family: 'Poppins', sans-serif;
+			color: #1e5ba8;
+			font-size: 2.8rem;
+			font-weight: 800;
+			margin-bottom: 1rem;
+			line-height: 1.2;
+			position: relative;
+			display: inline-block;
+		}
+
+		.video-text h2::after {
+			content: '';
+			position: absolute;
+			bottom: -10px;
+			left: 0;
+			width: 80px;
+			height: 4px;
+			background: linear-gradient(90deg, #1e5ba8, #ffc107);
+			border-radius: 2px;
+		}
+
+		.video-text h3 {
+			font-family: 'Poppins', sans-serif;
+			color: #ffc107;
+			font-size: 1.5rem;
+			font-weight: 600;
+			margin: 2rem 0 1.5rem;
+			letter-spacing: 0.5px;
+		}
+
+		.video-text p {
+			font-family: 'Poppins', sans-serif;
+			line-height: 1.9;
+			color: #555;
+			margin-bottom: 1.25rem;
+			font-size: 1.05rem;
+			text-align: justify;
+		}
+
+		.video-container {
+			position: relative;
+			width: 100%;
+			height: 500px;
+			border-radius: 20px;
+			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+			background: #000;
+			overflow: hidden;
+			transition: transform 0.3s, box-shadow 0.3s;
+		}
+
+		.video-container:hover {
+			transform: translateY(-10px);
+			box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+		}
+
+		.video-container::before {
+			content: '';
+			position: absolute;
+			inset: -3px;
+			background: linear-gradient(135deg, #1e5ba8, #ffc107, #1e5ba8);
+			border-radius: 20px;
+			z-index: -1;
+			opacity: 0;
+			transition: opacity 0.3s;
+		}
+
+		.video-container:hover::before {
+			opacity: 0.7;
+		}
+
+		.video-container video {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border: none;
+			border-radius: 20px;
+			object-fit: cover;
+			background: #000;
+		}
+
+		/* Document Request Process Section */
+		.process-section {
+			background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+			padding: 6rem 2rem;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.process-section::before {
+			content: '';
+			position: absolute;
+			top: -100px;
+			right: -100px;
+			width: 400px;
+			height: 400px;
+			background: radial-gradient(circle, rgba(30, 91, 168, 0.05) 0%, transparent 70%);
+			border-radius: 50%;
+		}
+
+		.process-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			position: relative;
+			z-index: 1;
+		}
+
+		.process-header {
+			text-align: center;
+			margin-bottom: 4rem;
+		}
+
+		.process-header h2 {
+			font-family: 'Poppins', sans-serif;
+			color: #1e5ba8;
+			font-size: 3rem;
+			font-weight: 800;
+			margin-bottom: 1rem;
+			position: relative;
+			display: inline-block;
+		}
+
+		.process-header h2::after {
+			content: '';
+			position: absolute;
+			bottom: -10px;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 100px;
+			height: 4px;
+			background: linear-gradient(90deg, #1e5ba8, #ffc107);
+			border-radius: 2px;
+		}
+
+		.process-header p {
+			font-family: 'Poppins', sans-serif;
+			color: #555;
+			font-size: 1.2rem;
+			margin-top: 1.5rem;
+			max-width: 700px;
+			margin-left: auto;
+			margin-right: auto;
+			line-height: 1.7;
+		}
+
+		.process-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			gap: 3rem;
+			margin-top: 3rem;
+		}
+
+		.process-step {
+			background: white;
+			padding: 2.5rem 2rem;
+			border-radius: 15px;
+			box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+			position: relative;
+			transition: all 0.3s ease;
+			border-top: 4px solid transparent;
+		}
+
+		.process-step:hover {
+			transform: translateY(-10px);
+			box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+			border-top-color: #1e5ba8;
+		}
+
+		.process-step-number {
+			position: absolute;
+			top: -20px;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 50px;
+			height: 50px;
+			background: linear-gradient(135deg, #1e5ba8, #2a6fc7);
+			color: white;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.5rem;
+			font-weight: 700;
+			box-shadow: 0 4px 15px rgba(30, 91, 168, 0.3);
+		}
+
+		.process-step-icon {
+			font-size: 3rem;
+			text-align: center;
+			margin: 1rem 0;
+			color: #1e5ba8;
+		}
+
+		.process-step h3 {
+			font-family: 'Poppins', sans-serif;
+			color: #1e5ba8;
+			font-size: 1.4rem;
+			font-weight: 700;
+			margin-bottom: 1rem;
+			text-align: center;
+		}
+
+		.process-step p {
+			font-family: 'Poppins', sans-serif;
+			color: #666;
+			font-size: 1rem;
+			line-height: 1.7;
+			text-align: center;
+		}
+
+		.process-cta {
+			text-align: center;
+			margin-top: 4rem;
+		}
+
+		.process-cta .btn {
+			background: linear-gradient(135deg, #ffc107, #ffcd38);
+			color: #1e5ba8;
+			padding: 1.2rem 3rem;
+			font-size: 1.2rem;
+			font-weight: 700;
+			border-radius: 50px;
+			box-shadow: 0 5px 20px rgba(255, 193, 7, 0.4);
+			transition: all 0.3s ease;
+		}
+
+		.process-cta .btn:hover {
+			background: linear-gradient(135deg, #ffcd38, #ffe066);
+			transform: translateY(-3px);
+			box-shadow: 0 8px 30px rgba(255, 193, 7, 0.5);
+		}
+
+		.certificate-types {
+			background: white;
+			padding: 3rem;
+			border-radius: 15px;
+			margin-top: 3rem;
+			box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+		}
+
+		.certificate-types h3 {
+			font-family: 'Poppins', sans-serif;
+			
+			color: #1e5ba8;
+			font-size: 1.8rem;
+			font-weight: 700;
+			margin-bottom: 1.5rem;
+			text-align: center;
+		}
+
+		.certificate-list {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 1.5rem;
+			margin-top: 2rem;
+		}
+
+		.certificate-item {
+			background: #f8f9fa;
+			padding: 1.5rem;
+			border-radius: 10px;
+			border-left: 4px solid #ffc107;
+			transition: all 0.3s ease;
+		}
+
+		.certificate-item:hover {
+			background: #fff;
+			box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+			transform: translateX(5px);
+		}
+
+		.certificate-item h4 {
+			font-family: 'Poppins', sans-serif;
+			color: #1e5ba8;
+			font-size: 1.1rem;
+			font-weight: 600;
+			margin-bottom: 0.5rem;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+		}
+
+		.certificate-item p {
+			font-family: 'Poppins', sans-serif;
+			color: #666;
+			font-size: 0.9rem;
+			line-height: 1.5;
+		}
+
+		/* About Section */
+		.about-section {
+			padding: 4rem 2rem;
+			background: #f9f9f9;
+		}
+
+		.about-content {
+			max-width: 1200px;
+			margin: 0 auto;
+			display: grid;
+			grid-template-columns: 2fr 1fr;
+			gap: 4rem;
+			align-items: center;
+		}
+
+		.about-text {
+			font-family: 'Poppins', sans-serif;
+		}
+
+		.about-text h2 {
+			font-family: 'Poppins', sans-serif;
+			color: #1e5ba8;
+			font-size: 2.5rem;
+			font-weight: 700;
+			margin-bottom: 1rem;
+		}
+
+		.about-text h3 {
+			font-family: 'Poppins', sans-serif;
+			color: #1e5ba8;
+			font-size: 1.3rem;
+			font-weight: 600;
+			margin: 1.5rem 0 1rem;
+		}
+
+		.about-text p {
+			font-family: 'Poppins', sans-serif;
+			line-height: 1.8;
+			color: #555;
+			margin-bottom: 1rem;
+			font-size: 1rem;
+		}
+
+		.about-images {
+			display: flex;
+			flex-direction: column;
+			gap: 2rem;
+			align-items: center;
+		}
+
+		.about-images img {
+			width: 200px;
+			height: 200px;
+			object-fit: contain;
+			background: white;
+			padding: 1.5rem;
+			border-radius: 15px;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+		}
+
+		.about-image {
+			width: 100%;
+			height: 180px;
+			background: #e0e0e0;
+			border-radius: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 3rem;
+		}
+
+		.btn-link {
+			font-family: 'Poppins', sans-serif;
+			color: #1e5ba8;
+			font-weight: 600;
+			text-decoration: none;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			margin-top: 1rem;
+		}
+
+		/* Campus Section */
+		.campus-section {
+			background: #1e5ba8;
+			padding: 4rem 2rem;
+			color: white;
+		}
+
+		.campus-content {
+			max-width: 1200px;
+			margin: 0 auto;
+			display: grid;
+			grid-template-columns: 2fr 1fr;
+			gap: 3rem;
+			align-items: center;
+		}
+
+		.campus-info h2 {
+			font-size: 2rem;
+			margin-bottom: 1rem;
+		}
+
+		.campus-location {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			font-size: 1rem;
+		}
+
+		.campus-image {
+			width: 100%;
+			height: 250px;
+			background: rgba(255, 255, 255, 0.1);
+			border-radius: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 4rem;
+		}
+
+		@media(max-width: 768px) {
+			.nav-menu {
+				display: none;
+			}
+
+			.hero h1 {
+				font-size: 2.5rem;
+			}
+
+			.about-content,
+			.campus-content,
+			.video-content {
+				grid-template-columns: 1fr;
+				padding: 0 1rem;
+			}
+
+			.programs-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.quick-links-container {
+				grid-template-columns: repeat(3, 1fr);
+				gap: 1rem;
+			}
+
+			.quick-link-logo {
+				width: 60px;
+				height: 60px;
+			}
+
+			.video-container {
+				height: 300px;
+				margin-left: 0;
+			}
+
+			.video-text {
+				padding-right: 0;
+			}
+
+			.video-text h2 {
+				font-size: 2rem;
+			}
+
+			.video-text h3 {
+				font-size: 1.2rem;
+			}
+
+			.video-section {
+				padding: 4rem 2rem;
+			}
+
+			.process-header h2 {
+				font-size: 2rem;
+			}
+
+			.process-header p {
+				font-size: 1rem;
+			}
+
+			.process-grid {
+				grid-template-columns: 1fr;
+				gap: 2rem;
+			}
+
+			.certificate-list {
+				grid-template-columns: 1fr;
+			}
+
+			.certificate-types {
+				padding: 2rem 1.5rem;
+			}
+		}
+
+		@media(min-width: 769px) and(max-width: 1024px) {
+			.programs-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			.quick-links-container {
+				grid-template-columns: repeat(5, 1fr);
+			}
+
+			.quick-link-logo {
+				width: 70px;
+				height: 70px;
+			}
+
+			.video-container {
+				height: 400px;
+				margin-left: 1rem;
+			}
+
+			.video-content {
+				gap: 3rem;
+				padding: 0 1rem;
+			}
+
+			.video-text h2 {
+				font-size: 2.2rem;
+			}
+
+			.process-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			.process-header h2 {
+				font-size: 2.5rem;
+			}
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<!-- Navigation -->
+	<nav class="navbar">
+		<div class="nav-container">
+			<a href="#" class="nav-logo">
+				<img src="{{ asset('images/scholarship.png') }}" alt="NORSU Logo">
+				<span class="nav-brand">NORSU SCHOLARSHIP</span>
+			</a>
+			<ul class="nav-menu">
+				<li>
+					<button class="btn-prog">
+						<i class="fa-solid fa-list"></i>
+						Programs</button>
+				</li>
+				<li>
+					<button class="btn-acscho">
+						<i class="fa-solid fa-user-graduate"></i>
+						Accepted Scholars</button>
+				</li>
+				<li>
+					<button class="btn-track">
+						<i class="fa-solid fa-magnifying-glass"></i>
+						Track Application</button>
+				</li>
+				<li>
+					<a href="{{ path('student_register') }}" style="text-decoration: none;">
+						<button class="btn-studportal">
+							<i class="fa-solid fa-people-group"></i>
+							Student Portal</button>
+					</a>
+				</li>
+				<li>
+					<a href="{{ path('admin_login') }}" style="text-decoration: none;">
+						<button class="btn-adlog">
+							<i class="fa-solid fa-right-to-bracket"></i>
+							Admin Login</button>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<!-- Hero Section -->
+	<section class="hero">
+		<div class="hero-content">
+			<h1>NORSU Scholarship</h1>
+			<h1>Applications</h1>
+			<p class="hero-subtitle">The official scholarship portal for officially enrolled Negros Oriental State
+				            University (NORSU) students.</p>
+			<div class="hero-buttons">
+				<a href="{{ path('student_register') }}" style="text-decoration: none;">
+					<button class="btn btn-yellow">APPLY NOW</button>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Quick Links -->
+	<!-- Scholarship Partners -->
+	<section class="quick-links">
+		<div class="quick-links-container">
+			<a href="{{ path('app_scholarship_detail', {slug: 'acef-giahep'}) }}" class="quick-link-item">
+				<div class="quick-link-logo">
+					<img src="{{ asset('images/quicklinks/ACEF-GIAHEP LOGO-modified.png') }}" alt="ACEF-GIAHEP">
+				</div>
+			</a>
+			<a href="{{ path('app_scholarship_detail', {slug: 'cmsp'}) }}" class="quick-link-item">
+				<div class="quick-link-logo">
+					<img src="{{ asset('images/quicklinks/CMSP-modified.png') }}" alt="CMSP">
+				</div>
+			</a>
+			<a href="{{ path('app_scholarship_detail', {slug: 'coscho'}) }}" class="quick-link-item">
+				<div class="quick-link-logo">
+					<img src="{{ asset('images/quicklinks/COSCHO LOGO-modified.png') }}" alt="COSCHO">
+				</div>
+			</a>
+			<a href="{{ path('app_scholarship_detail', {slug: 'landbank'}) }}" class="quick-link-item">
+				<div class="quick-link-logo">
+					<img src="{{ asset('images/quicklinks/LANDBANK LOGO-modified.png') }}" alt="Land Bank">
+				</div>
+			</a>
+			<a href="{{ path('app_scholarship_detail', {slug: 'ngcp'}) }}" class="quick-link-item">
+				<div class="quick-link-logo">
+					<img src="{{ asset('images/quicklinks/NGCP LOGO-modified.png') }}" alt="NGCP">
+				</div>
+			</a>
+			<a href="{{ path('app_scholarship_detail', {slug: 'sida-sgp'}) }}" class="quick-link-item">
+				<div class="quick-link-logo">
+					<img src="{{ asset('images/quicklinks/SIDA-SGP LOGO-modified.png') }}" alt="SIDA-SGP">
+				</div>
+			</a>
+			<a href="{{ path('app_scholarship_detail', {slug: 'tdp'}) }}" class="quick-link-item">
+				<div class="quick-link-logo">
+					<img src="{{ asset('images/quicklinks/TDP logo-modified.png') }}" alt="TDP">
+				</div>
+			</a>
+			<a href="{{ path('app_scholarship_detail', {slug: 'tes'}) }}" class="quick-link-item">
+				<div class="quick-link-logo">
+					<img src="{{ asset('images/quicklinks/TES LOGO-modified.png') }}" alt="TES">
+				</div>
+			</a>
+			<a href="{{ path('app_scholarship_detail', {slug: 'pldt'}) }}" class="quick-link-item">
+				<div class="quick-link-logo">
+					<img src="{{ asset('images/quicklinks/PLDT-Logo.png') }}" alt="PLDT">
+				</div>
+			</a>
+		</div>
+	</section>
+
+
+	<!-- Video Section -->
+	<section class="video-section">
+		<div class="video-content">
+			<div class="video-text">
+				<h2>About NORSU Scholarship Program</h2>
+				<h3>Empowering Students Through Education</h3>
+				<p>The Negros Oriental State University Scholarship Program provides financial assistance to deserving
+					                students, helping them achieve their academic goals and build a brighter future.</p>
+				<p>Watch our video to learn more about how we support students in their educational journey and the
+					                opportunities available through our scholarship programs.</p>
+				<a href="#" class="btn-link">Learn More →</a>
+			</div>
+			<div class="video-container">
+				<video controls preload="metadata" playsinline>
+					<source src="{{ asset('video/scholarship-norsu.mp4') }}" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+			</div>
+		</div>
+	</section>
+
+	<!-- Document Request Process Section -->
+	<section class="process-section">
+		<div class="process-container">
+			<div class="process-header">
+				<h2>Certificate Request Process</h2>
+				<p>Follow these simple steps to request certificates and documents from the Scholarship Office. We're here
+					                to support your needs efficiently and professionally.</p>
+			</div>
+
+			<div class="process-grid">
+				<div class="process-step">
+					<div class="process-step-number">1</div>
+					<div class="process-step-icon">📝</div>
+					<h3>Login to Portal</h3>
+					<p>Access your student portal using your credentials. Navigate to the "Document Request" section in your
+						                    dashboard.</p>
+				</div>
+
+				<div class="process-step">
+					<div class="process-step-number">2</div>
+					<div class="process-step-icon">📋</div>
+					<h3>Select Certificate Type</h3>
+					<p>Choose the type of certificate you need from the available options (e.g., Certificate of Scholarship,
+						                    Certificate of Good Standing).</p>
+				</div>
+
+				<div class="process-step">
+					<div class="process-step-number">3</div>
+					<div class="process-step-icon">✏️</div>
+					<h3>Fill Out Request Form</h3>
+					<p>Complete the request form with accurate information. Include the purpose of the certificate and any
+						                    specific requirements.</p>
+				</div>
+
+				<div class="process-step">
+					<div class="process-step-number">4</div>
+					<div class="process-step-icon">💳</div>
+					<h3>Submit & Pay Fees</h3>
+					<p>Submit your request and pay the applicable processing fees through the available payment methods.</p>
+				</div>
+
+				<div class="process-step">
+					<div class="process-step-number">5</div>
+					<div class="process-step-icon">⏳</div>
+					<h3>Wait for Processing</h3>
+					<p>Your request will be processed within 3-5 business days. You'll receive notifications via email and
+						                    SMS.</p>
+				</div>
+
+				<div class="process-step">
+					<div class="process-step-number">6</div>
+					<div class="process-step-icon">✅</div>
+					<h3>Claim Your Document</h3>
+					<p>Once ready, you can claim your certificate at the Scholarship Office or request delivery to your
+						                    address.</p>
+				</div>
+			</div>
+
+			<div class="certificate-types">
+				<h3>Available Certificates & Documents</h3>
+				<div class="certificate-list">
+					<div class="certificate-item">
+						<h4>📜 Certificate of Scholarship</h4>
+						<p>Official certification of your scholarship status and benefits received.</p>
+					</div>
+					<div class="certificate-item">
+						<h4>📜 Certificate of Good Standing</h4>
+						<p>Verification that you maintain good academic and disciplinary standing as a scholar.</p>
+					</div>
+					<div class="certificate-item">
+						<h4>📜 Scholarship Transcript</h4>
+						<p>Detailed record of scholarship grants, amounts, and duration.</p>
+					</div>
+					<div class="certificate-item">
+						<h4>📜 Certificate of Completion</h4>
+						<p>Document certifying successful completion of scholarship requirements and obligations.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="process-cta">
+				<button class="btn">Request a Certificate Now</button>
+			</div>
+		</div>
+	</section>
+
+	<!-- About Section -->
+	<section class="about-section">
+		<div class="about-content">
+			<div class="about-text">
+				<h2>About Negros Oriental State University</h2>
+				<h3>High-quality, Bible-based education</h3>
+				<p>NORSU has provided high-quality, Bible-based education to thousands of students since 1982.</p>
+				<p>HCS was established by its founders to make available a school which seeks to educate with the three-wise
+					                and proper of educating youth at all levels of the learning, instruction, honor and worship.</p>
+				<p>We believe that everyone is all things that God has us to do. We strive to provide an excellent
+					                educational environment that gives the knowledge and ability to gain wisdom to live and work for His
+					                glory.</p>
+				<a href="#" class="btn-link">About NCS →</a>
+			</div>
+			<div class="about-images">
+				<img src="{{ asset('images/scholarship.png') }}" alt="NORSU Logo">
+				<img src="{{ asset('images/norsu.png') }}" alt="NORSU Logo">
+
+			</div>
+		</div>
+	</section>
+
+	<!-- Campus Section -->
+	<section class="campus-section">
+		<div class="campus-content">
+			<div class="campus-info">
+				<h2>Our Campus</h2>
+				<div class="campus-location">
+					<span>📍</span>
+					<span>Located in Dumaguete, just 15 minutes north of Bais, PH</span>
+				</div>
+			</div>
+			<div class="campus-image">🏫</div>
+		</div>
+	</section>
+{% endblock %}

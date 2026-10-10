@@ -1,0 +1,39 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: scholarship-mysql-1
+    command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0
+    environment:
+      MYSQL_ROOT_PASSWORD: scholarship_root_password
+      MYSQL_DATABASE: scholarship_db
+      MYSQL_USER: scholarship_user
+      MYSQL_PASSWORD: scholarship_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - scholarship_network
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: scholarship-phpmyadmin-1
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8082:80"
+    depends_on:
+      - mysql
+    networks:
+      - scholarship_network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  scholarship_network:
+    driver: bridge

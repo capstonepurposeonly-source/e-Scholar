@@ -1,0 +1,436 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ student.firstName }} {{ student.lastName }} - e-Scholar NORSU{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f5f5;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #1e5ba8 0%, #2563a8 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .admin-header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .btn-back {
+            background: #ffc107;
+            color: #1e5ba8;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            background: #ffcd38;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .student-profile {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .profile-header {
+            display: flex;
+            gap: 2rem;
+            align-items: start;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 15px;
+            object-fit: cover;
+            border: 4px solid #1e5ba8;
+        }
+
+        .profile-info h2 {
+            color: #1e5ba8;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-meta {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .status-form {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .status-form select {
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+
+        .status-form button {
+            background: #1e5ba8;
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .status-form button:hover {
+            background: #2563a8;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .info-section h3 {
+            color: #1e5ba8;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #ffc107;
+            padding-bottom: 0.5rem;
+        }
+
+        .info-row {
+            margin-bottom: 1.25rem;
+        }
+
+        .info-label {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            color: #333;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .badge-pending {
+            background: #fff9e6;
+            color: #ffc107;
+        }
+
+        .badge-approved {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+
+        .badge-rejected {
+            background: #ffebee;
+            color: #f44336;
+        }
+
+        .badge-hold {
+            background: #e3f2fd;
+            color: #2196f3;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            color: #4caf50;
+            border-left: 4px solid #4caf50;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <header class="admin-header">
+        <div class="admin-header-content">
+            <div class="admin-logo">
+                <h1>👤 Student Profile</h1>
+            </div>
+            <a href="{{ path('admin_students') }}" class="btn-back">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Students
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+
+        <div class="student-profile">
+            <div class="profile-header">
+                {% if student.profilePicturePath %}
+                    <img src="{{ asset('uploads/profile_pictures/' ~ student.profilePicturePath) }}" alt="Profile Picture" class="profile-picture">
+                {% else %}
+                    <div class="profile-picture" style="background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-user" style="font-size: 3rem; color: #999;"></i>
+                    </div>
+                {% endif %}
+                
+                <div class="profile-info">
+                    <h2>{{ student.firstName }} {{ student.middleName }} {{ student.lastName }} {{ student.extensionName }}</h2>
+                    <p class="profile-meta">
+                        <strong>Student Number:</strong> {{ student.studentNumber }}<br>
+                        <strong>Scholarship:</strong> {{ student.scholarshipType }}<br>
+                        <strong>Campus:</strong> {{ student.campus }} | {{ student.yearLevel }}
+                    </p>
+                    <div>
+                        {% if student.registrationStatus == 'Pending' %}
+                            <span class="badge badge-pending">⏰ Pending Review</span>
+                        {% elseif student.registrationStatus == 'Approved' %}
+                            <span class="badge badge-approved">✓ Approved</span>
+                        {% elseif student.registrationStatus == 'Rejected' %}
+                            <span class="badge badge-rejected">✗ Rejected</span>
+                        {% else %}
+                            <span class="badge badge-hold">⚠ On Hold</span>
+                        {% endif %}
+                    </div>
+                    
+                    <form method="post" action="{{ path('admin_student_update_status', {id: student.id}) }}" class="status-form">
+                        <label><strong>Change Status:</strong></label>
+                        <select name="status" required>
+                            <option value="Pending" {% if student.registrationStatus == 'Pending' %}selected{% endif %}>Pending</option>
+                            <option value="Approved" {% if student.registrationStatus == 'Approved' %}selected{% endif %}>Approved</option>
+                            <option value="Rejected" {% if student.registrationStatus == 'Rejected' %}selected{% endif %}>Rejected</option>
+                            <option value="On Hold" {% if student.registrationStatus == 'On Hold' %}selected{% endif %}>On Hold</option>
+                        </select>
+                        <button type="submit">Update Status</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <!-- Personal Information -->
+            <div class="info-section">
+                <h3>👤 Personal Information</h3>
+                <div class="info-row">
+                    <div class="info-label">Date of Birth</div>
+                    <div class="info-value">{{ student.dateOfBirth|date('M d, Y') }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Place of Birth</div>
+                    <div class="info-value">{{ student.placeOfBirth }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Sex</div>
+                    <div class="info-value">{{ student.sex }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Civil Status</div>
+                    <div class="info-value">{{ student.civilStatus }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Religion</div>
+                    <div class="info-value">{{ student.religion ?: 'N/A' }}</div>
+                </div>
+            </div>
+
+            <!-- Academic Information -->
+            <div class="info-section">
+                <h3>🎓 Academic Information</h3>
+                <div class="info-row">
+                    <div class="info-label">Course</div>
+                    <div class="info-value">{{ student.course }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">GWA</div>
+                    <div class="info-value">{{ student.gwa ?: 'N/A' }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Semester</div>
+                    <div class="info-value">{{ student.semester }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Academic Year</div>
+                    <div class="info-value">{{ student.academicYear }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">High School</div>
+                    <div class="info-value">{{ student.highSchool ?: 'N/A' }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">High School Year</div>
+                    <div class="info-value">{{ student.highSchoolYear ?: 'N/A' }}</div>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="info-section">
+                <h3>📞 Contact Information</h3>
+                <div class="info-row">
+                    <div class="info-label">Email</div>
+                    <div class="info-value">{{ student.email }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Contact Number</div>
+                    <div class="info-value">{{ student.contactNumber }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Alternate Contact</div>
+                    <div class="info-value">{{ student.alternateContactNumber ?: 'N/A' }}</div>
+                </div>
+            </div>
+
+            <!-- Address Information -->
+            <div class="info-section">
+                <h3>📍 Address Information</h3>
+                <div class="info-row">
+                    <div class="info-label">Permanent Address</div>
+                    <div class="info-value">{{ student.permanentAddress }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Current Address</div>
+                    <div class="info-value">{{ student.currentAddress ?: 'Same as permanent' }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Barangay</div>
+                    <div class="info-value">{{ student.barangay }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Municipality/City</div>
+                    <div class="info-value">{{ student.municipality }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Province</div>
+                    <div class="info-value">{{ student.province }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Zip Code</div>
+                    <div class="info-value">{{ student.zipCode ?: 'N/A' }}</div>
+                </div>
+            </div>
+
+            <!-- Family Information -->
+            <div class="info-section">
+                <h3>👨‍👩‍👧‍👦 Family Information</h3>
+                <div class="info-row">
+                    <div class="info-label">Father's Name</div>
+                    <div class="info-value">{{ student.fatherName ?: 'N/A' }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Father's Occupation</div>
+                    <div class="info-value">{{ student.fatherOccupation ?: 'N/A' }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Father's Contact</div>
+                    <div class="info-value">{{ student.fatherContactNumber ?: 'N/A' }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Mother's Name</div>
+                    <div class="info-value">{{ student.motherName ?: 'N/A' }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Mother's Occupation</div>
+                    <div class="info-value">{{ student.motherOccupation ?: 'N/A' }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Mother's Contact</div>
+                    <div class="info-value">{{ student.motherContactNumber ?: 'N/A' }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Guardian's Name</div>
+                    <div class="info-value">{{ student.guardianName ?: 'N/A' }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Guardian Relationship</div>
+                    <div class="info-value">{{ student.guardianRelationship ?: 'N/A' }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Guardian's Contact</div>
+                    <div class="info-value">{{ student.guardianContactNumber ?: 'N/A' }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Number of Siblings</div>
+                    <div class="info-value">{{ student.numberOfSiblings ?: 'N/A' }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Family Monthly Income</div>
+                    <div class="info-value">₱{{ student.familyMonthlyIncome ?: 'N/A' }}</div>
+                </div>
+            </div>
+
+            <!-- Registration Information -->
+            <div class="info-section">
+                <h3>📋 Registration Information</h3>
+                <div class="info-row">
+                    <div class="info-label">Registration Date</div>
+                    <div class="info-value">{{ student.createdAt|date('M d, Y - h:i A') }}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Last Updated</div>
+                    <div class="info-value">{{ student.updatedAt|date('M d, Y - h:i A') }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

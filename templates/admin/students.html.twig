@@ -1,0 +1,314 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manage Students - e-Scholar NORSU{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f5f5;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #1e5ba8 0%, #2563a8 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .admin-header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .btn-back {
+            background: #ffc107;
+            color: #1e5ba8;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            background: #ffcd38;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .filter-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .filter-section h2 {
+            color: #1e5ba8;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter-form input,
+        .filter-form select {
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .filter-form button {
+            background: #1e5ba8;
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-form button:hover {
+            background: #2563a8;
+        }
+
+        .students-table {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        .students-table h2 {
+            color: #1e5ba8;
+            margin-bottom: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8f9fa;
+            color: #1e5ba8;
+            font-weight: 600;
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid #1e5ba8;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-pending {
+            background: #fff9e6;
+            color: #ffc107;
+        }
+
+        .badge-approved {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+
+        .badge-rejected {
+            background: #ffebee;
+            color: #f44336;
+        }
+
+        .badge-hold {
+            background: #e3f2fd;
+            color: #2196f3;
+        }
+
+        .btn-view {
+            background: #1e5ba8;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .btn-view:hover {
+            background: #2563a8;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <header class="admin-header">
+        <div class="admin-header-content">
+            <div class="admin-logo">
+                <h1>📋 Manage Students</h1>
+            </div>
+            <a href="{{ path('admin_dashboard') }}" class="btn-back">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="filter-section">
+            <h2>🔍 Filter Students</h2>
+            <form method="get" class="filter-form">
+                <input type="text" name="search" placeholder="Search student number, name..." value="{{ search }}">
+                <select name="campus">
+                    <option value="">All Campuses</option>
+                    <option value="Main Campus 1" {% if campus == 'Main Campus 1' %}selected{% endif %}>Main Campus 1</option>
+                    <option value="Main Campus 2" {% if campus == 'Main Campus 2' %}selected{% endif %}>Main Campus 2</option>
+                    <option value="Guihulngan" {% if campus == 'Guihulngan' %}selected{% endif %}>Guihulngan</option>
+                    <option value="Bais" {% if campus == 'Bais' %}selected{% endif %}>Bais</option>
+                    <option value="Pamplona" {% if campus == 'Pamplona' %}selected{% endif %}>Pamplona</option>
+                    <option value="Mabinay" {% if campus == 'Mabinay' %}selected{% endif %}>Mabinay</option>
+                    <option value="Bayawan" {% if campus == 'Bayawan' %}selected{% endif %}>Bayawan</option>
+                </select>
+                <select name="year_level">
+                    <option value="">All Year Levels</option>
+                    <option value="1st Year" {% if yearLevel == '1st Year' %}selected{% endif %}>1st Year</option>
+                    <option value="2nd Year" {% if yearLevel == '2nd Year' %}selected{% endif %}>2nd Year</option>
+                    <option value="3rd Year" {% if yearLevel == '3rd Year' %}selected{% endif %}>3rd Year</option>
+                    <option value="4th Year" {% if yearLevel == '4th Year' %}selected{% endif %}>4th Year</option>
+                </select>
+                <select name="scholarship_type">
+                    <option value="">All Scholarships</option>
+                    <option value="ACEF-GIAHEP" {% if scholarshipType == 'ACEF-GIAHEP' %}selected{% endif %}>ACEF-GIAHEP</option>
+                    <option value="CMSP" {% if scholarshipType == 'CMSP' %}selected{% endif %}>CMSP</option>
+                    <option value="COSCHO" {% if scholarshipType == 'COSCHO' %}selected{% endif %}>COSCHO</option>
+                    <option value="Landbank" {% if scholarshipType == 'Landbank' %}selected{% endif %}>Landbank</option>
+                    <option value="NGCP" {% if scholarshipType == 'NGCP' %}selected{% endif %}>NGCP</option>
+                    <option value="SIDA-SGP" {% if scholarshipType == 'SIDA-SGP' %}selected{% endif %}>SIDA-SGP</option>
+                    <option value="TDP" {% if scholarshipType == 'TDP' %}selected{% endif %}>TDP</option>
+                    <option value="TES" {% if scholarshipType == 'TES' %}selected{% endif %}>TES</option>
+                    <option value="PLDT" {% if scholarshipType == 'PLDT' %}selected{% endif %}>PLDT</option>
+                </select>
+                <select name="status">
+                    <option value="">All Status</option>
+                    <option value="Pending" {% if status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Approved" {% if status == 'Approved' %}selected{% endif %}>Approved</option>
+                    <option value="Rejected" {% if status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                    <option value="On Hold" {% if status == 'On Hold' %}selected{% endif %}>On Hold</option>
+                </select>
+                <button type="submit">
+                    <i class="fa-solid fa-search"></i> Search
+                </button>
+            </form>
+        </div>
+
+        <div class="students-table">
+            <h2>👥 Student List ({{ students|length }} students)</h2>
+            
+            {% if students|length > 0 %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student Number</th>
+                            <th>Name</th>
+                            <th>Campus</th>
+                            <th>Year Level</th>
+                            <th>Scholarship</th>
+                            <th>Status</th>
+                            <th>Registered</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                            <tr>
+                                <td><strong>{{ student.studentNumber }}</strong></td>
+                                <td>{{ student.firstName }} {{ student.lastName }}</td>
+                                <td>{{ student.campus }}</td>
+                                <td>{{ student.yearLevel }}</td>
+                                <td>{{ student.scholarshipType }}</td>
+                                <td>
+                                    {% if student.registrationStatus == 'Pending' %}
+                                        <span class="badge badge-pending">Pending</span>
+                                    {% elseif student.registrationStatus == 'Approved' %}
+                                        <span class="badge badge-approved">Approved</span>
+                                    {% elseif student.registrationStatus == 'Rejected' %}
+                                        <span class="badge badge-rejected">Rejected</span>
+                                    {% else %}
+                                        <span class="badge badge-hold">On Hold</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ student.createdAt|date('M d, Y') }}</td>
+                                <td>
+                                    <a href="{{ path('admin_student_view', {id: student.id}) }}" class="btn-view">
+                                        <i class="fa-solid fa-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="no-results">
+                    <i class="fa-solid fa-inbox" style="font-size: 4rem; color: #ccc; margin-bottom: 1rem;"></i>
+                    <p>No students found matching your criteria.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

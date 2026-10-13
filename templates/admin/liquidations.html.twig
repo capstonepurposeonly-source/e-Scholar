@@ -1,0 +1,84 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Liquidations - e-Scholar NORSU{% endblock %}
+{% block page_title %}Liquidations{% endblock %}
+
+{% block page_content %}
+    <div class="panel" style="margin-bottom: 24px;">
+        <div class="panel-header">
+            <div>
+                <h3 class="panel-title">Upcoming Liquidation Deadlines</h3>
+                <p class="panel-subtitle">Track and manage scholarship liquidation deadlines</p>
+            </div>
+        </div>
+        <table class="directory-table">
+            <thead>
+                <tr>
+                    <th>SCHOLARSHIP</th>
+                    <th>CAMPUS</th>
+                    <th>DEADLINE</th>
+                    <th>DAYS REMAINING</th>
+                    <th>STATUS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for liquidation in upcomingLiquidations %}
+                    <tr>
+                        <td><strong>{{ liquidation.scholarshipName }}</strong></td>
+                        <td>{{ liquidation.campusName }}</td>
+                        <td>{{ liquidation.deadline|date('M d, Y') }}</td>
+                        <td>{{ liquidation.daysRemaining }} days</td>
+                        <td>
+                            <span class="enrollment-badge badge-{{ liquidation.status == 'Active' ? 'success' : (liquidation.status == 'Due Soon' ? 'warning' : 'danger') }}">
+                                {{ liquidation.status }}
+                            </span>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 32px; color: var(--muted);">
+                            No upcoming liquidations found
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if overdueLiquidations|length > 0 %}
+    <div class="panel">
+        <div class="panel-header">
+            <div>
+                <h3 class="panel-title">Overdue Liquidations</h3>
+                <p class="panel-subtitle">{{ overdueLiquidations|length }} liquidation(s) past deadline</p>
+            </div>
+        </div>
+        <table class="directory-table">
+            <thead>
+                <tr>
+                    <th>SCHOLARSHIP</th>
+                    <th>CAMPUS</th>
+                    <th>DEADLINE</th>
+                    <th>DAYS OVERDUE</th>
+                    <th>STATUS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for liquidation in overdueLiquidations %}
+                    <tr>
+                        <td><strong>{{ liquidation.scholarshipName }}</strong></td>
+                        <td>{{ liquidation.campusName }}</td>
+                        <td>{{ liquidation.deadline|date('M d, Y') }}</td>
+                        <td>{{ liquidation.daysRemaining|abs }} days</td>
+                        <td>
+                            <span class="enrollment-badge badge-danger">
+                                Overdue
+                            </span>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+{% endblock %}

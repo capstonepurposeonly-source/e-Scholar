@@ -1,0 +1,180 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Student Registration - e-Scholar NORSU{% endblock %}
+{% block page_title %}Registration{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .form-input {
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            font: inherit;
+            font-size: 14px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--teal);
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 16px;
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+{% endblock %}
+
+{% block page_content %}
+    <div class="panel">
+        <div class="panel-header">
+            <div>
+                <h3 class="panel-title">Register New Student</h3>
+                <p class="panel-subtitle">Add a new student to the scholarship program</p>
+            </div>
+        </div>
+        <div class="panel-content">
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-section">
+                    <h3 class="section-title">Personal Information</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Student Number *</label>
+                            <input type="text" class="form-input" name="student_number" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">LRN</label>
+                            <input type="text" class="form-input" name="lrn">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">First Name *</label>
+                            <input type="text" class="form-input" name="first_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Middle Name</label>
+                            <input type="text" class="form-input" name="middle_name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name *</label>
+                            <input type="text" class="form-input" name="last_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Suffix</label>
+                            <input type="text" class="form-input" name="suffix" placeholder="Jr., Sr., III, etc.">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Gender *</label>
+                            <select class="form-input" name="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Birthday *</label>
+                            <input type="date" class="form-input" name="birthday" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-input" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Marital Status</label>
+                            <select class="form-input" name="marital_status">
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Widowed">Widowed</option>
+                                <option value="Separated">Separated</option>
+                                <option value="Divorced">Divorced</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">Academic Information</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Campus *</label>
+                            <select class="form-input" name="campus_id" required>
+                                <option value="">Select Campus</option>
+                                {% for campus in campuses %}
+                                    <option value="{{ campus.id }}">{{ campus.campusName }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Course *</label>
+                            <input type="text" class="form-input" name="course" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Scholarship Type *</label>
+                            <input type="text" class="form-input" name="scholarship_type" placeholder="e.g., TES, CHED, etc." required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Registration Status</label>
+                            <select class="form-input" name="registration_status">
+                                <option value="Not Enrolled">Not Enrolled</option>
+                                <option value="Enrolled">Enrolled</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">Education Background</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Elementary School</label>
+                            <input type="text" class="form-input" name="elementary_school">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Elementary Year</label>
+                            <input type="number" class="form-input" name="elementary_year" min="1900" max="2100">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">High School</label>
+                            <input type="text" class="form-input" name="high_school">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">High School Year</label>
+                            <input type="number" class="form-input" name="high_school_year" min="1900" max="2100">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 32px;">
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='{{ path('admin_students') }}'">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Register Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

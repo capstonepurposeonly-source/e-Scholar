@@ -1,0 +1,482 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap">
+    <style>
+        :root {
+            --navy: #142b35;
+            --teal: #087e78;
+            --teal-light: #e7f4ef;
+            --bg: #f5f6f3;
+            --ink: #20343d;
+            --muted: #708087;
+            --line: #e3e8e4;
+            --white: #fff;
+            --amber: #a56919;
+            --red: #b54f49;
+            --green: #087e78;
+            --radius: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font: 14px/1.5 'DM Sans', -apple-system, sans-serif;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 246px;
+            background: var(--navy);
+            color: #c6d5d8;
+            position: fixed;
+            inset: 0 auto 0 0;
+            padding: 32px 20px;
+            display: flex;
+            flex-direction: column;
+            z-index: 20;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+
+        .brand-mark {
+            width: 40px;
+            height: 40px;
+            background: var(--teal);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            color: white;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .brand-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .brand-sub {
+            font-size: 11px;
+            color: #708d93;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .workspace-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #5a7479;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            color: #c6d5d8;
+            text-decoration: none;
+            transition: all 0.15s;
+            font-size: 14px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-item::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: currentColor;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .nav-item.active::before {
+            opacity: 1;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.05);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(8, 126, 120, 0.15);
+            color: white;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 32px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .footer-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--teal);
+            font-size: 16px;
+        }
+
+        .footer-text h4 {
+            font-size: 13px;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .footer-text p {
+            font-size: 11px;
+            color: #708d93;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 246px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Header */
+        .top-header {
+            background: white;
+            border-bottom: 1px solid var(--line);
+            padding: 14px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .breadcrumb a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .breadcrumb strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .user-menu {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .workspace-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--teal-light);
+            color: var(--teal);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .workspace-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--teal);
+            border-radius: 50%;
+        }
+
+        .user-role {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--navy);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* Page Content */
+        .page-content {
+            padding: 32px;
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .panel-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 4px;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .panel-subtitle {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .panel-content {
+            padding: 24px;
+        }
+
+        .directory-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .directory-table thead {
+            background: var(--bg);
+        }
+
+        .directory-table th {
+            padding: 12px 24px;
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--muted);
+            font-weight: 650;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .directory-table td {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--line);
+            font-size: 13px;
+        }
+
+        .directory-table tbody tr:hover {
+            background: var(--bg);
+        }
+
+        .enrollment-badge {
+            display: inline-flex;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-enrolled {
+            background: #e7f4ef;
+            color: var(--teal);
+        }
+
+        .badge-not-enrolled {
+            background: #fdeeed;
+            color: var(--red);
+        }
+
+        .badge-success {
+            background: #e7f4ef;
+            color: var(--teal);
+        }
+
+        .badge-warning {
+            background: #fef3e8;
+            color: var(--amber);
+        }
+
+        .badge-danger {
+            background: #fdeeed;
+            color: var(--red);
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: none;
+            font: inherit;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+
+        .btn-primary {
+            background: var(--teal);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #096e69;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--ink);
+            border: 1px solid var(--line);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg);
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-mark">e</div>
+            <div class="brand-text">
+                <div class="brand-name">e-Scholar</div>
+                <div class="brand-sub">NEGROS SCHOLARSHIP SERVICES</div>
+            </div>
+        </div>
+
+        <div class="workspace-label">WORKSPACE</div>
+        <nav class="nav-menu">
+            <a href="{{ path('admin_dashboard') }}" class="nav-item {% if app.request.get('_route') == 'admin_dashboard' %}active{% endif %}">
+                Overview
+            </a>
+            <a href="{{ path('admin_students') }}" class="nav-item {% if app.request.get('_route') == 'admin_students' %}active{% endif %}">
+                Student directory
+                <span class="nav-badge">28</span>
+            </a>
+            <a href="{{ path('admin_campuses') }}" class="nav-item {% if app.request.get('_route') == 'admin_campuses' %}active{% endif %}">
+                Campuses
+            </a>
+            <a href="{{ path('admin_liquidations') }}" class="nav-item {% if app.request.get('_route') == 'admin_liquidations' %}active{% endif %}">
+                Liquidations
+            </a>
+            <a href="{{ path('admin_reports') }}" class="nav-item {% if app.request.get('_route') == 'admin_reports' %}active{% endif %}">
+                Reports & activity
+            </a>
+            <a href="{{ path('admin_registration') }}" class="nav-item {% if app.request.get('_route') == 'admin_registration' %}active{% endif %}">
+                Registration
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="footer-brand">
+                <div class="footer-icon">N</div>
+                <div class="footer-text">
+                    <h4>One university.</h4>
+                    <h4>Every student's future.</h4>
+                    <p>Negros Oriental State University</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="breadcrumb">
+                <a href="#">Workspace</a>
+                <span>/</span>
+                <strong>{% block page_title %}Page{% endblock %}</strong>
+            </div>
+            <div class="user-menu">
+                <div class="workspace-badge">
+                    <span class="workspace-dot"></span>
+                    Demo workspace
+                </div>
+                <span class="user-role">Administrator</span>
+                <div class="user-avatar">AD</div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            {% block page_content %}{% endblock %}
+        </div>
+    </main>
+{% endblock %}

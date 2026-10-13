@@ -21,8 +21,8 @@ services:
     container_name: scholarship-phpmyadmin-1
     environment:
       PMA_HOST: mysql
-      PMA_USER: ${MYSQL_USER}
-      PMA_PASSWORD: ${MYSQL_PASSWORD}
+      PMA_USER: root
+      PMA_PASSWORD: scholarship_root_password
     ports:
       - "8082:80"
     depends_on:

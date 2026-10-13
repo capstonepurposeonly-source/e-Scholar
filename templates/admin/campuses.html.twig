@@ -1,0 +1,41 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Campuses - e-Scholar NORSU{% endblock %}
+{% block page_title %}Campuses{% endblock %}
+
+{% block page_content %}
+    <div class="panel">
+        <div class="panel-header">
+            <div>
+                <h3 class="panel-title">NORSU Campuses</h3>
+                <p class="panel-subtitle">All campus locations across Negros Oriental</p>
+            </div>
+        </div>
+        <table class="directory-table">
+            <thead>
+                <tr>
+                    <th>CAMPUS NAME</th>
+                    <th>CAMPUS CODE</th>
+                    <th>STUDENTS</th>
+                    <th>STATUS</th>
+                    <th>CONTACT</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for campus in campuses %}
+                    <tr>
+                        <td><strong>{{ campus.campus_name }}</strong></td>
+                        <td>{{ campus.campus_code }}</td>
+                        <td>{{ campus.student_count }} students</td>
+                        <td>
+                            <span class="enrollment-badge badge-{{ campus.is_active ? 'enrolled' : 'not-enrolled' }}">
+                                {{ campus.is_active ? 'Active' : 'Inactive' }}
+                            </span>
+                        </td>
+                        <td>{{ campus.contact_number|default('N/A') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

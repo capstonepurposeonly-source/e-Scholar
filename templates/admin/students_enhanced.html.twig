@@ -1,0 +1,852 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Student Directory - e-Scholar NORSU{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fa;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #1e5ba8 0%, #2563a8 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .admin-header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-logo img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .admin-logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .btn-back {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .page-header h2 {
+            color: #1e5ba8;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #666;
+        }
+
+        .search-filters {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            padding: 0.75rem 1rem;
+            border: 1px solid #d5deea;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2874bd;
+            box-shadow: 0 0 0 3px rgba(40, 116, 189, 0.1);
+        }
+
+        .btn-search, .btn-clear {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-search {
+            background: #1e5ba8;
+            color: white;
+        }
+
+        .btn-search:hover {
+            background: #164785;
+        }
+
+        .btn-clear {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .btn-clear:hover {
+            background: #e0e0e0;
+        }
+
+        .students-table-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .table-header h3 {
+            color: #1e5ba8;
+            font-size: 1.3rem;
+        }
+
+        .results-count {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .students-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .students-table thead th {
+            background: #f5f7fa;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            font-size: 0.9rem;
+        }
+
+        .students-table tbody td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .students-table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .student-photo {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e0e0e0;
+        }
+
+        .student-photo.placeholder {
+            background: #e3f2fd;
+            color: #1e5ba8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .status-badge {
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-badge.enrolled {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-badge.not-enrolled {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .btn-view {
+            padding: 0.5rem 1rem;
+            background: #1e5ba8;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .btn-view:hover {
+            background: #164785;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .pagination button {
+            padding: 0.6rem 1rem;
+            border: 1px solid #d5deea;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #f5f7fa;
+        }
+
+        .pagination button.active {
+            background: #1e5ba8;
+            color: white;
+            border-color: #1e5ba8;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 1000px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1e5ba8 0%, #2563a8 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .btn-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .btn-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .profile-section {
+            margin-bottom: 2rem;
+        }
+
+        .profile-section h4 {
+            color: #1e5ba8;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ffc107;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .profile-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-item label {
+            font-weight: 600;
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .profile-item span {
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1e5ba8;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 1200px) {
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <header class="admin-header">
+        <div class="admin-header-content">
+            <div class="admin-logo">
+                <img src="{{ asset('images/scholarship.png') }}" alt="NORSU Logo">
+                <h1>Student Directory</h1>
+            </div>
+            <a href="{{ path('admin_dashboard') }}" class="btn-back">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h2><i class="fa-solid fa-users"></i> Student Management</h2>
+            <p>Search, filter, and manage student records</p>
+        </div>
+
+        <div class="search-filters">
+            <div class="filter-row">
+                <div class="form-group">
+                    <label for="search">Search</label>
+                    <input type="text" id="search" class="form-control" placeholder="Student Number, LRN, Name, or Email...">
+                </div>
+                <div class="form-group">
+                    <label for="campus">Campus</label>
+                    <select id="campus" class="form-control">
+                        <option value="">All Campuses</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="scholarship">Scholarship Type</label>
+                    <select id="scholarship" class="form-control">
+                        <option value="">All Types</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" class="form-control">
+                        <option value="">All Status</option>
+                        <option value="Enrolled">Enrolled</option>
+                        <option value="Not Enrolled">Not Enrolled</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button class="btn-search" onclick="searchStudents()">
+                        <i class="fa-solid fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="students-table-container">
+            <div class="table-header">
+                <h3>Student Records</h3>
+                <span class="results-count" id="results-count">Loading...</span>
+            </div>
+
+            <div id="students-table-wrapper">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading students...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Profile Modal -->
+    <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-user"></i> Student Profile</h3>
+                <button class="btn-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading student information...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+
+        // Load filter options on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFilterOptions();
+            searchStudents();
+        });
+
+        // Load available filter options
+        async function loadFilterOptions() {
+            try {
+                const response = await fetch('/api/admin/students/filters/options');
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Populate campus dropdown
+                    const campusSelect = document.getElementById('campus');
+                    data.data.campuses.forEach(campus => {
+                        const option = document.createElement('option');
+                        option.value = campus;
+                        option.textContent = campus;
+                        campusSelect.appendChild(option);
+                    });
+
+                    // Populate scholarship dropdown
+                    const scholarshipSelect = document.getElementById('scholarship');
+                    data.data.scholarship_types.forEach(type => {
+                        const option = document.createElement('option');
+                        option.value = type;
+                        option.textContent = type;
+                        scholarshipSelect.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading filter options:', error);
+            }
+        }
+
+        // Search students with filters
+        async function searchStudents(page = 1) {
+            currentPage = page;
+            const search = document.getElementById('search').value;
+            const campus = document.getElementById('campus').value;
+            const scholarship = document.getElementById('scholarship').value;
+            const status = document.getElementById('status').value;
+
+            const params = new URLSearchParams({
+                search,
+                campus,
+                scholarship_type: scholarship,
+                status,
+                page,
+                limit: 20
+            });
+
+            try {
+                const response = await fetch(`/api/admin/students?${params}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    displayStudents(data.data, data.pagination);
+                }
+            } catch (error) {
+                console.error('Error searching students:', error);
+                document.getElementById('students-table-wrapper').innerHTML = `
+                    <div class="loading">
+                        <p style="color: red;">Error loading students. Please try again.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Display students in table
+        function displayStudents(students, pagination) {
+            totalPages = pagination.pages;
+            
+            document.getElementById('results-count').textContent = 
+                `Showing ${students.length} of ${pagination.total} students`;
+
+            if (students.length === 0) {
+                document.getElementById('students-table-wrapper').innerHTML = `
+                    <div class="loading">
+                        <p>No students found. Try adjusting your filters.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <table class="students-table">
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Full Name</th>
+                            <th>Student Number</th>
+                            <th>LRN</th>
+                            <th>Campus</th>
+                            <th>Course</th>
+                            <th>Scholarship Type</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            students.forEach(student => {
+                const initials = (student.first_name[0] + student.last_name[0]).toUpperCase();
+                const photoHtml = student.photo_url 
+                    ? `<img src="${student.photo_url}" class="student-photo" alt="${student.full_name}">`
+                    : `<div class="student-photo placeholder">${initials}</div>`;
+
+                const statusClass = student.registration_status === 'Enrolled' ? 'enrolled' : 'not-enrolled';
+
+                html += `
+                    <tr>
+                        <td>${photoHtml}</td>
+                        <td><strong>${student.full_name}</strong></td>
+                        <td>${student.student_number}</td>
+                        <td>${student.lrn || 'N/A'}</td>
+                        <td>${student.campus}</td>
+                        <td>${student.course}</td>
+                        <td>${student.scholarship_type}</td>
+                        <td><span class="status-badge ${statusClass}">${student.registration_status}</span></td>
+                        <td><button class="btn-view" onclick="viewStudent(${student.id})">View Profile</button></td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+
+            // Add pagination
+            html += '<div class="pagination">';
+            html += `<button onclick="searchStudents(1)" ${currentPage === 1 ? 'disabled' : ''}>First</button>`;
+            html += `<button onclick="searchStudents(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>`;
+            
+            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+                html += `<button onclick="searchStudents(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            
+            html += `<button onclick="searchStudents(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`;
+            html += `<button onclick="searchStudents(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>Last</button>`;
+            html += '</div>';
+
+            document.getElementById('students-table-wrapper').innerHTML = html;
+        }
+
+        // View student profile
+        async function viewStudent(id) {
+            document.getElementById('studentModal').classList.add('show');
+            document.getElementById('modal-body').innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading student information...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`/api/admin/students/${id}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    displayStudentProfile(data.data);
+                }
+            } catch (error) {
+                console.error('Error loading student:', error);
+                document.getElementById('modal-body').innerHTML = `
+                    <div class="loading">
+                        <p style="color: red;">Error loading student profile.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Display student profile in modal
+        function displayStudentProfile(data) {
+            const student = data.student;
+            const family = data.family;
+            
+            let html = `
+                <div class="profile-section">
+                    <h4>Personal Information</h4>
+                    <div class="profile-grid">
+                        <div class="profile-item">
+                            <label>Student Number</label>
+                            <span>${student.student_number}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>LRN</label>
+                            <span>${student.lrn || 'N/A'}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Full Name</label>
+                            <span>${student.full_name}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Date of Birth</label>
+                            <span>${student.date_of_birth}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Gender</label>
+                            <span>${student.sex}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Civil Status</label>
+                            <span>${student.civil_status}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Religion</label>
+                            <span>${student.religion || 'N/A'}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Registration Status</label>
+                            <span class="status-badge ${student.registration_status === 'Enrolled' ? 'enrolled' : 'not-enrolled'}">${student.registration_status}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h4>Academic Information</h4>
+                    <div class="profile-grid">
+                        <div class="profile-item">
+                            <label>Campus</label>
+                            <span>${student.campus}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Course</label>
+                            <span>${student.course}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Year Level</label>
+                            <span>${student.year_level}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Scholarship Type</label>
+                            <span>${student.scholarship_type}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>High School</label>
+                            <span>${student.high_school || 'N/A'}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>High School Year Graduated</label>
+                            <span>${student.high_school_year || 'N/A'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h4>Contact Information</h4>
+                    <div class="profile-grid">
+                        <div class="profile-item">
+                            <label>Email</label>
+                            <span>${student.email}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Contact Number</label>
+                            <span>${student.contact_number}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Address</label>
+                            <span>${student.permanent_address}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Barangay</label>
+                            <span>${student.barangay}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Municipality</label>
+                            <span>${student.municipality}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Province</label>
+                            <span>${student.province}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h4>Family Information</h4>
+                    <div class="profile-grid">
+                        <div class="profile-item">
+                            <label>Father's Name</label>
+                            <span>${family.father_name || 'N/A'}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Father's Contact</label>
+                            <span>${family.father_contact_number || 'N/A'}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Mother's Name</label>
+                            <span>${family.mother_name || 'N/A'}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Mother's Contact</label>
+                            <span>${family.mother_contact_number || 'N/A'}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Guardian Name</label>
+                            <span>${family.guardian_name || 'N/A'}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Guardian Contact</label>
+                            <span>${family.guardian_contact_number || 'N/A'}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Annual Family Income</label>
+                            <span>₱${family.annual_income ? parseFloat(family.annual_income).toLocaleString() : 'N/A'}</span>
+                        </div>
+                        <div class="profile-item">
+                            <label>Number of Siblings</label>
+                            <span>${family.number_of_siblings || 'N/A'}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modal-body').innerHTML = html;
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('studentModal').classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('studentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Enter key to search
+        document.getElementById('search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchStudents();
+            }
+        });
+    </script>
+{% endblock %}

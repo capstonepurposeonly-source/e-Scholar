@@ -1,0 +1,327 @@
+/* Landing Page Styles - External CSS */
+
+:root {
+    --ns-navy: #102f56;
+    --ns-blue: #165ca5;
+    --ns-gold: #f3bd45;
+    --ns-ink: #142a43;
+    --ns-muted: #65758a;
+    --ns-bg: #f5f8fc;
+    --ns-line: #e6ecf3;
+    --ns-radius: 20px;
+    --ns-shadow: 0 16px 45px rgba(24, 54, 90, .075);
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+}
+
+body {
+    background: var(--ns-bg);
+    color: var(--ns-ink);
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    transform: none !important;
+    margin: 0;
+    padding: 0;
+}
+
+button, a {
+    font-family: inherit;
+}
+
+/* Navigation */
+.navbar {
+    border-bottom: 1px solid var(--ns-line);
+    box-shadow: 0 3px 22px rgba(17, 44, 74, .045);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: white;
+}
+
+.nav-container {
+    max-width: 1440px;
+    margin: auto;
+    padding: 15px clamp(20px, 4vw, 56px);
+    gap: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-logo {
+    min-width: 230px;
+    color: var(--ns-navy);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
+.nav-logo img {
+    height: 48px;
+    width: 48px;
+    object-fit: contain;
+}
+
+.nav-brand {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -.035em;
+}
+
+.nav-subtitle {
+    font-size: .72rem;
+    color: var(--ns-muted);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li {
+    list-style: none;
+}
+
+.nav-menu button {
+    white-space: nowrap;
+    border: 1px solid transparent !important;
+    padding: 11px 14px !important;
+    border-radius: 11px !important;
+    font-size: .84rem;
+    font-weight: 700;
+    transition: background .2s, transform .2s, box-shadow .2s;
+    transform: none;
+}
+
+.btn-prog, .btn-acscho, .btn-track {
+    background: transparent !important;
+    color: #334e6b !important;
+    border: 1px solid transparent !important;
+}
+
+.btn-prog:hover, .btn-acscho:hover, .btn-track:hover {
+    background: #edf4fb !important;
+    transform: none !important;
+}
+
+.btn-studportal {
+    background: #eef4fb !important;
+    color: var(--ns-blue) !important;
+    border-color: #dce9f5 !important;
+}
+
+.btn-adlog {
+    background: var(--ns-navy) !important;
+    color: #fff !important;
+}
+
+.btn-adlog:hover {
+    background: #174b80 !important;
+}
+
+.mobile-menu-toggle {
+    display: none;
+}
+
+/* Hero Section */
+.hero {
+    isolation: isolate;
+    min-height: 590px;
+    max-width: 1440px;
+    margin: 22px auto 0;
+    border-radius: 25px;
+    padding: clamp(36px, 6vw, 90px);
+    background: linear-gradient(100deg, rgba(8, 35, 70, .95) 0%, rgba(8, 35, 70, .82) 43%, rgba(8, 35, 70, .24) 100%),
+                url('{{ asset('images/negrosorientalstateuniversity_cover.jpg') }}') center/cover no-repeat;
+    box-shadow: var(--ns-shadow);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+    transform: none;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    inset: auto -80px -210px auto;
+    height: 420px;
+    width: 420px;
+    border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.hero-content {
+    max-width: 760px;
+}
+
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, .3);
+    border-radius: 50px;
+    background: rgba(255, 255, 255, .12);
+    padding: 10px 16px;
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    margin-bottom: 24px;
+}
+
+.hero h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(2.7rem, 5.5vw, 5.3rem);
+    font-weight: 800;
+    letter-spacing: -.065em;
+    line-height: 1.08;
+    max-width: 740px;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.hero h1 span {
+    color: #ffda87;
+}
+
+.hero .hero-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-weight: 400;
+    color: #e8eff8;
+    line-height: 1.75;
+    max-width: 570px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding: 0;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border-radius: 12px;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    padding: 15px 23px;
+    box-shadow: none;
+    transition: transform .2s, background .2s, box-shadow .2s;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    transform: none;
+}
+
+.btn-yellow {
+    background: var(--ns-gold);
+    color: var(--ns-navy);
+}
+
+.btn-yellow:hover {
+    background: #ffd36b;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, .12);
+}
+
+/* Quick Links */
+.quick-links {
+    background: transparent;
+    padding: 95px 24px 88px;
+}
+
+.section-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 36px;
+}
+
+.section-kicker {
+    color: var(--ns-blue);
+    font-size: .74rem;
+    font-weight: 800;
+    letter-spacing: .17em;
+}
+
+.section-intro h2 {
+    font: 800 clamp(1.9rem, 3vw, 2.75rem)/1.18 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: -.048em;
+    color: var(--ns-navy);
+    margin: 12px 0;
+}
+
+.section-intro p {
+    color: var(--ns-muted);
+    line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+    .mobile-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border: 1px solid var(--ns-line);
+        border-radius: 12px;
+        color: var(--ns-navy);
+        background: white;
+        cursor: pointer;
+        margin-left: auto;
+    }
+    
+    .nav-menu {
+        display: none;
+    }
+    
+    .hero {
+        margin: 16px 16px 0;
+        min-height: 520px;
+    }
+}
+
+@media (max-width: 600px) {
+    .nav-container {
+        padding: 12px 17px;
+    }
+    
+    .nav-logo {
+        min-width: 0;
+    }
+    
+    .nav-logo img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .nav-brand {
+        font-size: .83rem;
+    }
+    
+    .nav-subtitle {
+        font-size: .65rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    * {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+    }
+}

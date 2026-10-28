@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Admin Account - NORSU</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #0a2e5c 0%, #1a4d8f 100%);
+            color: #172b4d;
+        }
+
+        .register-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-container img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        h1 {
+            color: #123f72;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .alert-success {
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            color: #166534;
+        }
+
+        .alert-error {
+            background: #fff1f0;
+            border: 1px solid #ffd4d1;
+            color: #b42318;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            color: #334155;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d5deea;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            transition: all 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2874bd;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(40, 116, 189, 0.1);
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 14px;
+            background: #145a96;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-register:hover {
+            background: #0e477b;
+        }
+
+        .btn-back {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            color: #145a96;
+            border: 2px solid #145a96;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-back:hover {
+            background: #145a96;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-card">
+        <div class="logo-container">
+            <img src="{{ asset('images/scholarship.png') }}" alt="NORSU Logo">
+        </div>
+
+        <h1>Create Admin Account</h1>
+        <p class="subtitle">Register as an administrator</p>
+
+        {% if success %}
+            <div class="alert alert-success">
+                ✅ Admin account created successfully! Redirecting to login...
+            </div>
+            <script>
+                setTimeout(function() {
+                    window.location.href = "/admin/login";
+                }, 2000);
+            </script>
+        {% endif %}
+
+        {% if error %}
+            <div class="alert alert-error">
+                ❌ {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="post" action="{{ path('admin_register') }}">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text"
+                       id="fullName"
+                       name="full_name"
+                       required
+                       placeholder="Juan Dela Cruz"
+                       value="{{ full_name ?? '' }}">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email"
+                       id="email"
+                       name="email"
+                       required
+                       placeholder="admin@norsu.edu.ph"
+                       value="{{ email ?? '' }}">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password"
+                       id="password"
+                       name="password"
+                       required
+                       minlength="6"
+                       placeholder="Minimum 6 characters">
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password"
+                       id="confirmPassword"
+                       name="confirm_password"
+                       required
+                       placeholder="Re-enter your password">
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('admin_register') }}">
+
+            <button type="submit" class="btn-register">
+                Create Admin Account
+            </button>
+        </form>
+
+        <a href="/admin/login" class="btn-back">
+            ← Back to Login
+        </a>
+    </div>
+</body>
+</html>

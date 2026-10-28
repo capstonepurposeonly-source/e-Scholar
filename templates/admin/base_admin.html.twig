@@ -269,6 +269,14 @@
             justify-content: center;
             font-weight: 600;
             font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .user-avatar:hover {
+            background: var(--teal);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(8, 126, 120, 0.3);
         }
 
         /* Page Content */
@@ -406,6 +414,59 @@
         .btn-secondary:hover {
             background: var(--bg);
         }
+        
+        /* Action Buttons */
+        .sidebar-actions {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            color: #c6d5d8;
+            text-decoration: none;
+            transition: all 0.15s;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.03);
+        }
+
+        .action-btn:hover {
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .action-btn.btn-logout {
+            color: #fca5a5;
+            border-color: rgba(252, 165, 165, 0.2);
+        }
+
+        .action-btn.btn-logout:hover {
+            background: rgba(252, 165, 165, 0.1);
+            color: #ef4444;
+            border-color: rgba(252, 165, 165, 0.3);
+        }
+
+        .action-btn.btn-home {
+            color: #93c5fd;
+            border-color: rgba(147, 197, 253, 0.2);
+        }
+
+        .action-btn.btn-home:hover {
+            background: rgba(147, 197, 253, 0.1);
+            color: #60a5fa;
+            border-color: rgba(147, 197, 253, 0.3);
+        }
     </style>
 {% endblock %}
 
@@ -442,6 +503,22 @@
                 Registration
             </a>
         </nav>
+        <div class="workspace-label" style="margin-top: 24px;">ACCOUNT</div>
+        <nav class="nav-menu">
+            <a href="{{ path('admin_profile') }}" class="nav-item {% if app.request.get('_route') starts with 'admin_profile' %}active{% endif %}">
+                👤 Administrator Profile
+            </a>
+        </nav>
+        <div class="sidebar-actions">
+            <a href="/" class="action-btn btn-home">
+                <i class="fa-solid fa-house"></i>
+                Back to Landing Page
+            </a>
+            <a href="{{ path('admin_logout') }}" class="action-btn btn-logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+        </div>
 
         <div class="sidebar-footer">
             <div class="footer-brand">
@@ -470,7 +547,9 @@
                     Demo workspace
                 </div>
                 <span class="user-role">Administrator</span>
-                <div class="user-avatar">AD</div>
+                <a href="{{ path('admin_profile') }}" style="text-decoration: none;">
+                    <div class="user-avatar" title="View Profile">AD</div>
+                </a>
             </div>
         </header>
 
@@ -479,4 +558,55 @@
             {% block page_content %}{% endblock %}
         </div>
     </main>
+
+    <script>
+        // ============================================
+        // FIX FOR BROKEN LAYOUT ON BROWSER BACK BUTTON
+        // ============================================
+        (function() {
+            console.log('Back button fix loaded on admin page');
+            
+            // Detect when page is restored from browser cache (bfcache)
+            window.addEventListener('pageshow', function(event) {
+                if (event.persisted) {
+                    console.log('Admin page restored from cache - fixing layout...');
+                    
+                    // Force reload to fix layout
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 10);
+                }
+            });
+            
+            // Also handle popstate (back/forward buttons)
+            window.addEventListener('popstate', function() {
+                console.log('Popstate detected on admin - checking layout...');
+                setTimeout(function() {
+                    // Check if layout is broken
+                    var body = document.body;
+                    var computedStyle = window.getComputedStyle(body);
+                    
+                    // If body has unexpected transform, fix it
+                    if (computedStyle.transform !== 'none' && computedStyle.transform !== 'matrix(1, 0, 0, 1, 0, 0)') {
+                        console.log('Layout broken - reloading');
+                        window.location.reload();
+                    }
+                }, 100);
+            });
+            
+            // Store scroll position before unload
+            window.addEventListener('beforeunload', function() {
+                sessionStorage.setItem('scrollPosition', window.pageYOffset.toString());
+            });
+            
+            // Restore scroll position after reload
+            window.addEventListener('load', function() {
+                var scrollPos = sessionStorage.getItem('scrollPosition');
+                if (scrollPos) {
+                    window.scrollTo(0, parseInt(scrollPos));
+                    sessionStorage.removeItem('scrollPosition');
+                }
+            });
+        })();
+    </script>
 {% endblock %}

@@ -28,6 +28,9 @@ security:
             logout:
                 path: admin_logout
                 target: app_landing
+                invalidate_session: true
+                
+            # Remove remember_me to force re-login each time
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
@@ -35,6 +38,8 @@ security:
     # Note: Only the *first* matching rule is applied
     access_control:
         - { path: ^/admin/login, roles: PUBLIC_ACCESS }
+        - { path: ^/admin/register, roles: PUBLIC_ACCESS }
+        - { path: ^/admin/profile, roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_ADMIN }
 
 when@test:

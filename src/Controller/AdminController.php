@@ -27,10 +27,84 @@ class AdminController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('admin/login.html.twig', [
+        $response = $this->render('admin/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
+
+        // Disable browser caching to prevent bfcache issues
+        $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+        $response->headers->set('Pragma', 'no-cache');
+        $response->headers->set('Expires', '0');
+
+        return $response;
+    }
+
+
+    #[Route('/admin/register', name: 'admin_register')]
+    public function register(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        // If user is already logged in, redirect to dashboard
+        if ($this->getUser()) {
+            return $this->redirectToRoute('admin_dashboard');
+        }
+
+        $error = null;
+        $success = false;
+        $fullName = '';
+        $email = '';
+
+        if ($request->isMethod('POST')) {
+            $fullName = $request->request->get('full_name');
+            $email = $request->request->get('email');
+            $password = $request->request->get('password');
+            $confirmPassword = $request->request->get('confirm_password');
+
+            // Validate inputs
+            if (empty($fullName) || empty($email) || empty($password)) {
+                $error = 'All fields are required.';
+            } elseif ($password !== $confirmPassword) {
+                $error = 'Passwords do not match.';
+            } elseif (strlen($password) < 6) {
+                $error = 'Password must be at least 6 characters long.';
+            } else {
+                // Check if email already exists
+                $existingAdmin = $entityManager->getRepository(\App\Entity\Admin::class)
+                    ->findOneBy(['email' => $email]);
+
+                if ($existingAdmin) {
+                    $error = 'An admin with this email already exists.';
+                } else {
+                    // Create new admin
+                    $admin = new \App\Entity\Admin();
+                    $admin->setFullName($fullName);
+                    $admin->setEmail($email);
+
+                    // Hash the password
+                    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                    $admin->setPassword($hashedPassword);
+
+                    $entityManager->persist($admin);
+                    $entityManager->flush();
+
+                    $success = true;
+                }
+            }
+        }
+
+        $response = $this->render('admin/register.html.twig', [
+            'error' => $error,
+            'success' => $success,
+            'full_name' => $fullName,
+            'email' => $email,
+        ]);
+
+        // Add cache prevention headers
+        $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0');
+        $response->headers->set('Pragma', 'no-cache');
+        $response->headers->set('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
+
+        return $response;
     }
 
     #[Route('/admin/logout', name: 'admin_logout')]
@@ -52,7 +126,7 @@ class AdminController extends AbstractController
         // Get campus statistics using raw SQL
         $sql = 'SELECT c.campus_name, COUNT(s.id) as student_count 
                 FROM campuses c 
-                LEFT JOIN students s ON c.id = s.campus_id 
+                LEFT JOIN students s ON c.campus_name = s.campus 
                 WHERE c.is_active = 1 
                 GROUP BY c.id, c.campus_name 
                 ORDER BY c.campus_name';
@@ -94,9 +168,8 @@ class AdminController extends AbstractController
         }));
 
         // Get recent students for the directory table
-        $sql = 'SELECT s.*, c.campus_name 
+        $sql = 'SELECT s.* 
                 FROM students s 
-                JOIN campuses c ON s.campus_id = c.id 
                 ORDER BY s.id DESC 
                 LIMIT 4';
         $recentStudents = $conn->executeQuery($sql)->fetchAllAssociative();
@@ -159,7 +232,7 @@ class AdminController extends AbstractController
         // Get all campuses with student counts
         $sql = 'SELECT c.*, COUNT(s.id) as student_count 
                 FROM campuses c 
-                LEFT JOIN students s ON c.id = s.campus_id 
+                LEFT JOIN students s ON c.campus_name = s.campus 
                 GROUP BY c.id 
                 ORDER BY c.campus_name';
         $campuses = $conn->executeQuery($sql)->fetchAllAssociative();
@@ -209,7 +282,7 @@ class AdminController extends AbstractController
         // Get campus distribution
         $sql = 'SELECT c.campus_name, COUNT(s.id) as count 
                 FROM campuses c 
-                LEFT JOIN students s ON c.id = s.campus_id 
+                LEFT JOIN students s ON c.campus_name = s.campus 
                 GROUP BY c.id, c.campus_name 
                 ORDER BY count DESC';
         $campusStats = $conn->executeQuery($sql)->fetchAllAssociative();
@@ -229,6 +302,93 @@ class AdminController extends AbstractController
 
         return $this->render('admin/registration.html.twig', [
             'campuses' => $campuses,
+        ]);
+    }
+
+    #[Route('/admin/profile', name: 'admin_profile')]
+    public function profile(): Response
+    {
+        $admin = $this->getUser();
+
+        if (!$admin) {
+            return $this->redirectToRoute('admin_login');
+        }
+
+        return $this->render('admin/profile.html.twig', [
+            'admin' => $admin,
+        ]);
+    }
+
+    #[Route('/admin/profile/edit', name: 'admin_profile_edit', methods: ['GET', 'POST'])]
+    public function profileEdit(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHasher
+    ): Response {
+        $admin = $this->getUser();
+
+        if (!$admin) {
+            return $this->redirectToRoute('admin_login');
+        }
+
+        $error = null;
+        $success = false;
+
+        if ($request->isMethod('POST')) {
+            $fullName = $request->request->get('full_name');
+            $email = $request->request->get('email');
+            $currentPassword = $request->request->get('current_password');
+            $newPassword = $request->request->get('new_password');
+            $confirmPassword = $request->request->get('confirm_password');
+
+            // Validate inputs
+            if (empty($fullName) || empty($email)) {
+                $error = 'Full name and email are required.';
+            } else {
+                // Check if email is being changed and if it's already taken by another admin
+                if ($email !== $admin->getEmail()) {
+                    $existingAdmin = $entityManager->getRepository(\App\Entity\Admin::class)
+                        ->findOneBy(['email' => $email]);
+
+                    if ($existingAdmin && $existingAdmin->getId() !== $admin->getId()) {
+                        $error = 'This email is already in use by another administrator.';
+                    }
+                }
+
+                if (!$error) {
+                    // Update basic info
+                    $admin->setFullName($fullName);
+                    $admin->setEmail($email);
+
+                    // Handle password change if requested
+                    if (!empty($newPassword)) {
+                        if (empty($currentPassword)) {
+                            $error = 'Please enter your current password to change your password.';
+                        } elseif (!$passwordHasher->isPasswordValid($admin, $currentPassword)) {
+                            $error = 'Current password is incorrect.';
+                        } elseif (strlen($newPassword) < 6) {
+                            $error = 'New password must be at least 6 characters long.';
+                        } elseif ($newPassword !== $confirmPassword) {
+                            $error = 'New passwords do not match.';
+                        } else {
+                            $hashedPassword = $passwordHasher->hashPassword($admin, $newPassword);
+                            $admin->setPassword($hashedPassword);
+                        }
+                    }
+
+                    if (!$error) {
+                        $entityManager->flush();
+                        $success = true;
+                        $this->addFlash('success', 'Profile updated successfully.');
+                    }
+                }
+            }
+        }
+
+        return $this->render('admin/profile_edit.html.twig', [
+            'admin' => $admin,
+            'error' => $error,
+            'success' => $success,
         ]);
     }
 }

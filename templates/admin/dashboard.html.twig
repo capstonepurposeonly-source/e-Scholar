@@ -1172,7 +1172,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{ student.campus_name|split(' ')|first }}</td>
+                                <td>{{ student.campus|split(' ')|first }}</td>
                                 <td>{{ student.scholarship_type }}</td>
                                 <td>
                                     <span class="enrollment-badge badge-{{ student.registration_status == 'Enrolled' ? 'enrolled' : 'not-enrolled' }}">

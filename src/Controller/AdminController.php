@@ -200,7 +200,39 @@ class AdminController extends AbstractController
         $status = $request->query->get('status', '');
         $registrationStatus = $request->query->get('registration_status', '');
 
-        // Pass filter values to template
+        // Build query to fetch students with filters
+        $queryBuilder = $studentRepository->createQueryBuilder('s');
+
+        if ($search) {
+            $queryBuilder->andWhere('s.studentNumber LIKE :search OR s.firstName LIKE :search OR s.lastName LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        if ($campus) {
+            $queryBuilder->andWhere('s.campus = :campus')
+                ->setParameter('campus', $campus);
+        }
+
+        if ($yearLevel) {
+            $queryBuilder->andWhere('s.yearLevel = :yearLevel')
+                ->setParameter('yearLevel', $yearLevel);
+        }
+
+        if ($scholarshipType) {
+            $queryBuilder->andWhere('s.scholarshipType = :scholarshipType')
+                ->setParameter('scholarshipType', $scholarshipType);
+        }
+
+        if ($status) {
+            $queryBuilder->andWhere('s.registrationStatus = :status')
+                ->setParameter('status', $status);
+        }
+
+        $queryBuilder->orderBy('s.id', 'DESC');
+
+        $students = $queryBuilder->getQuery()->getResult();
+
+        // Pass filter values and students to template
         return $this->render('admin/students.html.twig', [
             'search' => $search,
             'campus' => $campus,
@@ -208,6 +240,7 @@ class AdminController extends AbstractController
             'scholarshipType' => $scholarshipType,
             'status' => $status,
             'registrationStatus' => $registrationStatus,
+            'students' => $students,
         ]);
     }
 

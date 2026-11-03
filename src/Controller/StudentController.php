@@ -207,16 +207,16 @@ class StudentController extends AbstractController
                 $hashedPassword = $passwordHasher->hashPassword($student, $password);
                 $student->setPassword($hashedPassword);
 
-                // Set default values - pending admin approval
-                $student->setRegistrationStatus('Pending');
-                $student->setIsActive(false); // Admin needs to activate
+                // Set default values - automatically active
+                $student->setRegistrationStatus('Enrolled');
+                $student->setIsActive(true); // Automatically activate - no admin approval needed
                 $student->setIsEmailVerified(false);
                 $student->setRoles(['ROLE_STUDENT']);
 
                 $entityManager->persist($student);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Registration successful! Your account is pending admin approval. You will be notified once your account is activated.');
+                $this->addFlash('success', 'Registration successful! You can now log in to your account.');
                 return $this->redirectToRoute('student_login');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Registration failed: ' . $e->getMessage());

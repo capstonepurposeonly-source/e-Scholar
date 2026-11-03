@@ -63,6 +63,9 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $course = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $department = null;
+
     #[ORM\Column(length: 50)]
     private ?string $yearLevel = null;
 
@@ -352,6 +355,17 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCourse(string $course): static
     {
         $this->course = $course;
+        return $this;
+    }
+
+    public function getDepartment(): ?string
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(?string $department): static
+    {
+        $this->department = $department;
         return $this;
     }
 

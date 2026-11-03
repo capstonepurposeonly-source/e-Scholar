@@ -506,7 +506,6 @@ class AdminController extends AbstractController
             'success' => $success,
         ]);
     }
-}
 
     #[Route('/admin/announcements', name: 'admin_announcements')]
     public function announcements(
@@ -622,3 +621,4 @@ class AdminController extends AbstractController
         $this->addFlash('success', 'Announcement deleted successfully!');
         return $this->redirectToRoute('admin_announcements');
     }
+}

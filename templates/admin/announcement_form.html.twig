@@ -1,0 +1,119 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}{{ announcement ? 'Edit' : 'Create' }} Announcement{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="mb-4">
+        <h2>
+            <i class="fas fa-bullhorn"></i> 
+            {{ announcement ? 'Edit' : 'Create' }} Announcement
+        </h2>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="title" 
+                                   name="title" 
+                                   value="{{ announcement ? announcement.title : '' }}" 
+                                   required
+                                   maxlength="255"
+                                   placeholder="Enter announcement title">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Type <span class="text-danger">*</span></label>
+                            <select class="form-select" id="type" name="type" required>
+                                <option value="general" {{ announcement and announcement.type == 'general' ? 'selected' : '' }}>General</option>
+                                <option value="urgent" {{ announcement and announcement.type == 'urgent' ? 'selected' : '' }}>Urgent</option>
+                                <option value="event" {{ announcement and announcement.type == 'event' ? 'selected' : '' }}>Event</option>
+                                <option value="scholarship" {{ announcement and announcement.type == 'scholarship' ? 'selected' : '' }}>Scholarship</option>
+                            </select>
+                            <div class="form-text">
+                                <strong>General:</strong> Regular updates and information<br>
+                                <strong>Urgent:</strong> Time-sensitive announcements<br>
+                                <strong>Event:</strong> Event notifications and reminders<br>
+                                <strong>Scholarship:</strong> Scholarship-related updates
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Content <span class="text-danger">*</span></label>
+                            <textarea class="form-control" 
+                                      id="content" 
+                                      name="content" 
+                                      rows="8" 
+                                      required
+                                      placeholder="Enter announcement content">{{ announcement ? announcement.content : '' }}</textarea>
+                            <div class="form-text">Detailed message for students</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="expiry_date" class="form-label">Expiry Date (Optional)</label>
+                            <input type="datetime-local" 
+                                   class="form-control" 
+                                   id="expiry_date" 
+                                   name="expiry_date" 
+                                   value="{{ announcement and announcement.expiryDate ? announcement.expiryDate|date('Y-m-d\\TH:i') : '' }}">
+                            <div class="form-text">Leave empty if announcement has no expiry date</div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> 
+                                {{ announcement ? 'Update' : 'Create' }} Announcement
+                            </button>
+                            <a href="{{ path('admin_announcements') }}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <i class="fas fa-info-circle"></i> Tips
+                </div>
+                <div class="card-body">
+                    <h6><i class="fas fa-lightbulb"></i> Best Practices:</h6>
+                    <ul class="small">
+                        <li>Keep titles clear and concise</li>
+                        <li>Use "Urgent" type sparingly for truly time-sensitive matters</li>
+                        <li>Include relevant dates in the content for events</li>
+                        <li>Set expiry dates for time-limited announcements</li>
+                        <li>Proofread content before publishing</li>
+                    </ul>
+
+                    <h6 class="mt-3"><i class="fas fa-eye"></i> Visibility:</h6>
+                    <p class="small">
+                        Active announcements appear on the student dashboard immediately. 
+                        Inactive announcements are hidden from students but can be reactivated anytime.
+                    </p>
+
+                    {% if announcement %}
+                        <h6 class="mt-3"><i class="fas fa-clock"></i> Details:</h6>
+                        <p class="small mb-1">
+                            <strong>Created:</strong><br>
+                            {{ announcement.createdAt|date('F d, Y h:i A') }}
+                        </p>
+                        <p class="small">
+                            <strong>Last Updated:</strong><br>
+                            {{ announcement.updatedAt|date('F d, Y h:i A') }}
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -496,6 +496,9 @@
             <a href="{{ path('admin_liquidations') }}" class="nav-item {% if app.request.attributes.get('_route') == 'admin_liquidations' %}active{% endif %}">
                 Liquidations
             </a>
+            <a href="{{ path('admin_announcements') }}" class="nav-item {% if app.request.attributes.get('_route') starts with 'admin_announcement' %}active{% endif %}">
+                Announcements
+            </a>
             <a href="{{ path('admin_reports') }}" class="nav-item {% if app.request.attributes.get('_route') == 'admin_reports' %}active{% endif %}">
                 Reports & activity
             </a>

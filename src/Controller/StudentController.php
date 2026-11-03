@@ -53,110 +53,145 @@ class StudentController extends AbstractController
 
         if ($request->isMethod('POST')) {
             try {
+                // Validate passwords first
+                $password = $request->request->get('password');
+                $confirmPassword = $request->request->get('confirmPassword');
+
+                if ($password !== $confirmPassword) {
+                    $this->addFlash('error', 'Passwords do not match.');
+                    return $this->render('student/register.html.twig', [
+                        'campuses' => $campuses,
+                    ]);
+                }
+
+                if (strlen($password) < 6) {
+                    $this->addFlash('error', 'Password must be at least 6 characters.');
+                    return $this->render('student/register.html.twig', [
+                        'campuses' => $campuses,
+                    ]);
+                }
+
+                // Check if email already exists
+                $existingStudent = $entityManager->getRepository(Student::class)
+                    ->findOneBy(['email' => $request->request->get('email')]);
+                if ($existingStudent) {
+                    $this->addFlash('error', 'Email address is already registered.');
+                    return $this->render('student/register.html.twig', [
+                        'campuses' => $campuses,
+                    ]);
+                }
+
+                // Check if student number already exists
+                $existingStudentNumber = $entityManager->getRepository(Student::class)
+                    ->findOneBy(['studentNumber' => $request->request->get('studentNumber')]);
+                if ($existingStudentNumber) {
+                    $this->addFlash('error', 'Student number is already registered.');
+                    return $this->render('student/register.html.twig', [
+                        'campuses' => $campuses,
+                    ]);
+                }
+
                 // Create new student
                 $student = new Student();
 
-                // Basic Information
-                $student->setStudentNumber($request->request->get('student_number'));
-                $student->setFirstName($request->request->get('first_name'));
-                $student->setMiddleName($request->request->get('middle_name'));
-                $student->setLastName($request->request->get('last_name'));
-                $student->setExtensionName($request->request->get('extension_name'));
-                $student->setDateOfBirth(new \DateTime($request->request->get('date_of_birth')));
-                $student->setPlaceOfBirth($request->request->get('place_of_birth'));
+                // Personal Information
+                $student->setStudentNumber($request->request->get('studentNumber'));
+                $student->setFirstName($request->request->get('firstName'));
+                $student->setMiddleName($request->request->get('middleName'));
+                $student->setLastName($request->request->get('lastName'));
                 $student->setSex($request->request->get('sex'));
-                $student->setCivilStatus($request->request->get('civil_status'));
+
+                $birthDate = $request->request->get('birthDate');
+                if ($birthDate) {
+                    $student->setBirthDate(new \DateTime($birthDate));
+                }
+
+                $student->setCivilStatus($request->request->get('civilStatus'));
                 $student->setReligion($request->request->get('religion'));
+
+                // Contact Information
+                $student->setEmail($request->request->get('email'));
+                $student->setContactNumber($request->request->get('contactNumber'));
+                $student->setAddress($request->request->get('address'));
 
                 // Academic Information
                 $student->setCampus($request->request->get('campus'));
                 $student->setCourse($request->request->get('course'));
-                $student->setYearLevel($request->request->get('year_level'));
-                $student->setSemester($request->request->get('semester'));
-                $student->setAcademicYear($request->request->get('academic_year'));
-
-                // Set scholarship type to "Pending" - admin will assign actual scholarship
-                $student->setScholarshipType('Pending Assignment');
-
-                // Contact Information
-                $student->setEmail($request->request->get('email'));
-                $student->setContactNumber($request->request->get('contact_number'));
-                $student->setAlternateContactNumber($request->request->get('alternate_contact_number'));
-
-                // Address
-                $student->setPermanentAddress($request->request->get('permanent_address'));
-                $student->setCurrentAddress($request->request->get('current_address'));
-                $student->setBarangay($request->request->get('barangay'));
-                $student->setMunicipality($request->request->get('municipality'));
-                $student->setProvince($request->request->get('province'));
-                $student->setZipCode($request->request->get('zip_code'));
+                $student->setYearLevel($request->request->get('yearLevel'));
+                $student->setDepartment($request->request->get('department'));
 
                 // Family Information
-                $student->setFatherName($request->request->get('father_name'));
-                $student->setFatherOccupation($request->request->get('father_occupation'));
-                $student->setFatherContactNumber($request->request->get('father_contact_number'));
-                $student->setMotherName($request->request->get('mother_name'));
-                $student->setMotherOccupation($request->request->get('mother_occupation'));
-                $student->setMotherContactNumber($request->request->get('mother_contact_number'));
-                $student->setGuardianName($request->request->get('guardian_name'));
-                $student->setGuardianRelationship($request->request->get('guardian_relationship'));
-                $student->setGuardianContactNumber($request->request->get('guardian_contact_number'));
-                $student->setNumberOfSiblings($request->request->get('number_of_siblings'));
-                $student->setFamilyMonthlyIncome($request->request->get('family_monthly_income'));
+                $student->setFatherName($request->request->get('fatherName'));
+                $student->setFatherOccupation($request->request->get('fatherOccupation'));
+                $student->setMotherName($request->request->get('motherName'));
+                $student->setMotherOccupation($request->request->get('motherOccupation'));
+                $student->setParentsAddress($request->request->get('parentsAddress'));
+
+                // Set scholarship type to "Pending Assignment" - admin will assign actual scholarship
+                $student->setScholarshipType('Pending Assignment');
 
                 // Handle Load Slip PDF Upload
-                $loadSlipFile = $request->files->get('load_slip');
+                $loadSlipFile = $request->files->get('loadSlip');
                 if ($loadSlipFile) {
+                    // Validate file
+                    if ($loadSlipFile->getSize() > 5 * 1024 * 1024) { // 5MB limit
+                        $this->addFlash('error', 'Load slip file size must not exceed 5MB.');
+                        return $this->render('student/register.html.twig', [
+                            'campuses' => $campuses,
+                        ]);
+                    }
+
+                    if ($loadSlipFile->getMimeType() !== 'application/pdf') {
+                        $this->addFlash('error', 'Load slip must be a PDF file.');
+                        return $this->render('student/register.html.twig', [
+                            'campuses' => $campuses,
+                        ]);
+                    }
+
                     $originalFilename = pathinfo($loadSlipFile->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename . '-' . uniqid() . '.' . $loadSlipFile->guessExtension();
 
                     try {
-                        $loadSlipFile->move(
-                            $this->getParameter('kernel.project_dir') . '/public/uploads/load_slips',
-                            $newFilename
-                        );
+                        $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/load_slips';
+
+                        // Create directory if it doesn't exist
+                        if (!is_dir($uploadDir)) {
+                            mkdir($uploadDir, 0755, true);
+                        }
+
+                        $loadSlipFile->move($uploadDir, $newFilename);
                         $student->setLoadSlipPath($newFilename);
                     } catch (FileException $e) {
-                        $error = 'Failed to upload load slip. Please try again.';
+                        $this->addFlash('error', 'Failed to upload load slip. Please try again.');
+                        return $this->render('student/register.html.twig', [
+                            'campuses' => $campuses,
+                        ]);
                     }
                 }
 
                 // Hash password
-                $password = $request->request->get('password');
-                $confirmPassword = $request->request->get('confirm_password');
+                $hashedPassword = $passwordHasher->hashPassword($student, $password);
+                $student->setPassword($hashedPassword);
 
-                if ($password !== $confirmPassword) {
-                    $error = 'Passwords do not match.';
-                } elseif (strlen($password) < 6) {
-                    $error = 'Password must be at least 6 characters.';
-                } else {
-                    $hashedPassword = $passwordHasher->hashPassword($student, $password);
-                    $student->setPassword($hashedPassword);
+                // Set default values - pending admin approval
+                $student->setRegistrationStatus('Pending');
+                $student->setIsActive(false); // Admin needs to activate
+                $student->setIsEmailVerified(false);
+                $student->setRoles(['ROLE_STUDENT']);
 
-                    // Set status - pending admin approval
-                    $student->setRegistrationStatus('Not Enrolled');
-                    $student->setIsActive(false); // Admin needs to activate
-                    $student->setIsEmailVerified(false);
-                    $student->setRoles(['ROLE_STUDENT']);
+                $entityManager->persist($student);
+                $entityManager->flush();
 
-                    if (!$error) {
-                        $entityManager->persist($student);
-                        $entityManager->flush();
-
-                        $success = true;
-                        $this->addFlash('success', 'Registration successful! Please wait for admin approval.');
-                    }
-                }
+                $this->addFlash('success', 'Registration successful! Your account is pending admin approval. You will be notified once your account is activated.');
+                return $this->redirectToRoute('student_login');
             } catch (\Exception $e) {
-                $error = 'Registration failed: ' . $e->getMessage();
+                $this->addFlash('error', 'Registration failed: ' . $e->getMessage());
             }
         }
 
         return $this->render('student/register.html.twig', [
             'campuses' => $campuses,
-            'error' => $error,
-            'success' => $success,
         ]);
     }
 

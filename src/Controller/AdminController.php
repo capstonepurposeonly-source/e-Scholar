@@ -507,3 +507,118 @@ class AdminController extends AbstractController
         ]);
     }
 }
+
+    #[Route('/admin/announcements', name: 'admin_announcements')]
+    public function announcements(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $announcementRepo = $entityManager->getRepository(\App\Entity\Announcement::class);
+        $announcements = $announcementRepo->findBy([], ['createdAt' => 'DESC']);
+
+        return $this->render('admin/announcements.html.twig', [
+            'announcements' => $announcements,
+        ]);
+    }
+
+    #[Route('/admin/announcements/create', name: 'admin_announcement_create')]
+    public function createAnnouncement(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if ($request->isMethod('POST')) {
+            $announcement = new \App\Entity\Announcement();
+            $announcement->setTitle($request->request->get('title'));
+            $announcement->setContent($request->request->get('content'));
+            $announcement->setType($request->request->get('type', 'general'));
+            $announcement->setCreatedBy($this->getUser()->getId());
+
+            $expiryDate = $request->request->get('expiry_date');
+            if ($expiryDate) {
+                $announcement->setExpiryDate(new \DateTime($expiryDate));
+            }
+
+            $announcement->setIsActive(true);
+
+            $entityManager->persist($announcement);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Announcement created successfully!');
+            return $this->redirectToRoute('admin_announcements');
+        }
+
+        return $this->render('admin/announcement_form.html.twig', [
+            'announcement' => null,
+        ]);
+    }
+
+    #[Route('/admin/announcements/edit/{id}', name: 'admin_announcement_edit')]
+    public function editAnnouncement(
+        int $id,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $announcement = $entityManager->getRepository(\App\Entity\Announcement::class)->find($id);
+
+        if (!$announcement) {
+            throw $this->createNotFoundException('Announcement not found');
+        }
+
+        if ($request->isMethod('POST')) {
+            $announcement->setTitle($request->request->get('title'));
+            $announcement->setContent($request->request->get('content'));
+            $announcement->setType($request->request->get('type', 'general'));
+
+            $expiryDate = $request->request->get('expiry_date');
+            if ($expiryDate) {
+                $announcement->setExpiryDate(new \DateTime($expiryDate));
+            } else {
+                $announcement->setExpiryDate(null);
+            }
+
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Announcement updated successfully!');
+            return $this->redirectToRoute('admin_announcements');
+        }
+
+        return $this->render('admin/announcement_form.html.twig', [
+            'announcement' => $announcement,
+        ]);
+    }
+
+    #[Route('/admin/announcements/toggle/{id}', name: 'admin_announcement_toggle')]
+    public function toggleAnnouncement(
+        int $id,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $announcement = $entityManager->getRepository(\App\Entity\Announcement::class)->find($id);
+
+        if (!$announcement) {
+            throw $this->createNotFoundException('Announcement not found');
+        }
+
+        $announcement->setIsActive(!$announcement->isActive());
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Announcement status updated!');
+        return $this->redirectToRoute('admin_announcements');
+    }
+
+    #[Route('/admin/announcements/delete/{id}', name: 'admin_announcement_delete', methods: ['POST'])]
+    public function deleteAnnouncement(
+        int $id,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $announcement = $entityManager->getRepository(\App\Entity\Announcement::class)->find($id);
+
+        if (!$announcement) {
+            throw $this->createNotFoundException('Announcement not found');
+        }
+
+        $entityManager->remove($announcement);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Announcement deleted successfully!');
+        return $this->redirectToRoute('admin_announcements');
+    }

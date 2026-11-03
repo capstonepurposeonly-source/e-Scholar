@@ -1,318 +1,317 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Student Registration - e-Scholar NORSU{% endblock %}
-
-{% block body %}
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
-:root { --navy:#102e59; --blue:#1e5ba8; --blue2:#276dc0; --gold:#f7bd39; --ink:#182940; --muted:#68788d; --line:#e3eaf3; --surface:#ffffff; --soft:#f5f8fc; }
-*, *::before, *::after {box-sizing:border-box;}
-html {scroll-behavior:smooth;}
-body {margin:0;min-height:100vh;font-family:'Poppins',sans-serif;color:var(--ink);background:radial-gradient(ellipse at 8% 0%,#dce9fb 0,transparent 40%),linear-gradient(160deg,#f2f6fc,#edf3fa 60%,#fafcff);}
-.registration-page {max-width:1260px;margin:auto;padding:28px 26px 76px;}
-.topbar {display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:24px;}
-.back-link {display:inline-flex;align-items:center;gap:10px;color:var(--navy);text-decoration:none;font-size:13px;font-weight:700;padding:11px 15px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 14px rgba(16,46,89,.04);transition:transform .2s,border-color .2s;}
-.back-link:hover {transform:translateX(-3px);border-color:#b6c8e0;}
-.portal-label {font-size:11px;letter-spacing:.14em;font-weight:800;color:var(--blue);text-transform:uppercase;}
-.registration-container {background:#fff;border:1px solid #e1eaf5;border-radius:24px;box-shadow:0 20px 70px rgba(17,54,99,.10);overflow:hidden;}
-.registration-header {position:relative;overflow:hidden;background:linear-gradient(115deg,#0d2b55 0%,#194d8f 65%,#2768b1 100%);color:#fff;padding:47px 54px 45px;}
-.registration-header::after {content:'';position:absolute;width:330px;height:330px;right:-90px;top:-205px;border:60px solid rgba(255,255,255,.045);border-radius:50%;pointer-events:none;}
-.header-eyebrow {display:inline-flex;gap:8px;align-items:center;padding:8px 13px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.09);border-radius:99px;font-size:11px;text-transform:uppercase;font-weight:700;letter-spacing:.13em;}
-.header-eyebrow::before {content:'';width:7px;height:7px;background:var(--gold);border-radius:50%;}
-.registration-header h1 {font-size:clamp(25px,3vw,39px);line-height:1.18;letter-spacing:-.035em;font-weight:800;margin:20px 0 10px;position:relative;z-index:1;}
-.registration-header p {font-size:14px;max-width:630px;color:#d5e5f8;line-height:1.85;position:relative;z-index:1;margin:0;}
-.header-gold-line {width:54px;height:4px;background:var(--gold);border-radius:99px;margin-top:25px;}
-.form-overview {padding:25px 54px;background:#f8fafd;border-bottom:1px solid var(--line);}
-.overview-heading {font-size:12px;text-transform:uppercase;letter-spacing:.12em;font-weight:800;color:var(--muted);margin:0 0 16px;}
-.section-navigation {display:flex;gap:9px;flex-wrap:wrap;}
-.section-navigation a {color:#2e4d70;text-decoration:none;font-size:12px;font-weight:600;border:1px solid #dee7f1;background:#fff;border-radius:99px;padding:9px 13px;transition:background .2s,border-color .2s,transform .2s;}
-.section-navigation a:hover,.section-navigation a:focus-visible {background:#e9f2ff;border-color:#b5d0f2;transform:translateY(-1px);}
-.form-container {padding:40px 54px 50px;}
-.form-intro {display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:26px;}
-.form-intro h2 {font-size:19px;letter-spacing:-.02em;margin:0;color:var(--navy);}
-.form-intro p {font-size:12px;color:var(--muted);margin:6px 0 0;}
-.required-note {white-space:nowrap;color:var(--muted);font-size:12px;}
-.form-section {scroll-margin-top:28px;padding:30px 30px 14px;margin-bottom:22px;background:linear-gradient(180deg,#fff,#fdfefe);border:1px solid var(--line);border-radius:18px;box-shadow:0 4px 14px rgba(13,45,88,.025);}
-.form-section h2 {display:flex;align-items:center;gap:12px;font-size:17px;letter-spacing:-.025em;color:var(--navy);font-weight:700;margin:0 0 27px;padding-bottom:18px;border-bottom:1px solid var(--line);}
-.form-section h2 .section-icon {display:inline-grid;place-items:center;width:38px;height:38px;flex:0 0 38px;border-radius:11px;background:#eaf2fc;color:var(--blue);font-size:19px;font-weight:600;}
-.form-row {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 23px;margin-bottom:19px;}
-.form-group {display:flex;flex-direction:column;min-width:0;gap:7px;}
-.form-group label {color:#2e415a;font-size:12px;font-weight:700;margin:0;line-height:1.6;}
-.form-group input,.form-group select,.form-group textarea {width:100%;min-width:0;min-height:48px;background:#f9fbfe;border:1px solid #dbe5f0;border-radius:10px;color:#1c2e44;font:500 13px 'Poppins',sans-serif;padding:11px 14px;outline:none;transition:border-color .2s,background .2s,box-shadow .2s;}
-.form-group input:hover,.form-group select:hover,.form-group textarea:hover {border-color:#b9cbe0;}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus {background:white;border-color:var(--blue2);box-shadow:0 0 0 4px rgba(39,109,192,.10);}
-.form-group input::placeholder,.form-group textarea::placeholder {color:#91a0b2;}
-.form-group input[type=file] {padding:9px;cursor:pointer;height:auto;}
-.form-group input[type=file]::file-selector-button {border:0;background:#e6effa;color:#1d4f89;border-radius:7px;padding:8px 12px;font:600 11px 'Poppins',sans-serif;cursor:pointer;margin-right:10px;}
-.form-group textarea {min-height:98px;resize:vertical;}
-.form-group .form-error-message,.form-group .invalid-feedback,.form-group ul {color:#aa263c;font-size:12px;}
-.form-group input.is-invalid,.form-group select.is-invalid,.form-group textarea.is-invalid {border-color:#c94a5b;}
-.alert {border-radius:12px;padding:14px 17px;margin-bottom:20px;font-size:13px;line-height:1.6;border:1px solid;}
-.alert-success {background:#effaf3;color:#20633f;border-color:#bee7cd;}
-.alert-error {background:#fff1f2;color:#9e2740;border-color:#f7c4ce;}
-.submit-container {margin-top:27px;padding:27px 28px;display:flex;justify-content:space-between;align-items:center;gap:20px;background:#f6f9fe;border:1px solid var(--line);border-radius:16px;text-align:left;}
-.submit-caption strong {display:block;font-size:14px;color:var(--navy);}
-.submit-caption span {display:block;font-size:12px;color:var(--muted);margin-top:4px;line-height:1.6;max-width:380px;}
-.btn-submit {border:0;border-radius:11px;min-height:50px;padding:13px 27px;color:#122d52;background:linear-gradient(110deg,#ffd25c,#f5b82e);font:700 13px 'Poppins',sans-serif;cursor:pointer;box-shadow:0 5px 15px rgba(202,145,29,.18);white-space:nowrap;transition:transform .2s,box-shadow .2s,filter .2s;}
-.btn-submit:hover {transform:translateY(-2px);filter:brightness(1.035);box-shadow:0 10px 22px rgba(202,145,29,.24);}
-.btn-submit:focus-visible,.back-link:focus-visible {outline:3px solid #76aff2;outline-offset:3px;}
-.page-footer {text-align:center;margin:24px 0 0;color:#77879c;font-size:11px;}
-@media(max-width:850px) {.registration-page{padding:20px 16px 42px;}.registration-header{padding:36px 30px;}.form-overview{padding:24px 30px;}.form-container{padding:30px;}.form-section{padding:24px 22px 9px;}}
-@media(max-width:600px) {.topbar{align-items:flex-start;}.portal-label{display:none;}.registration-container{border-radius:17px;}.registration-header{padding:30px 23px;}.registration-header h1{font-size:25px;}.registration-header p{font-size:12px;}.form-overview{padding:22px;}.form-container{padding:22px 16px;}.form-intro{align-items:flex-start;flex-direction:column;}.form-section{padding:22px 16px 5px;border-radius:14px;}.form-section h2{font-size:15px;gap:9px;}.form-row{grid-template-columns:minmax(0,1fr);gap:15px;margin-bottom:15px;}.submit-container{flex-direction:column;align-items:stretch;padding:23px 20px;}.btn-submit{width:100%;}.section-navigation a{font-size:11px;padding:8px 11px;}}
-@media(prefers-reduced-motion:reduce) {html{scroll-behavior:auto;}*,*::before,*::after{transition:none!important;}}
-</style>
-
-<main class="registration-page">
-    <div class="topbar"><a href="{{ path('app_landing') }}" class="back-link">← Back to Home</a><span class="portal-label">NORSU • e-Scholar Portal</span></div>
-
-    <div class="registration-container">
-        <div class="registration-header">
-            <div class="header-eyebrow">Student Services</div>
-            <h1>Scholarship Registration</h1>
-            <p>Apply for scholarship support through the e-Scholar Integrated Scholarship Data Management System. Complete the details below accurately.</p>
-            <div class="header-gold-line"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration - e-Scholar NORSU</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .register-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .register-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .register-header img {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 50%;
+            padding: 8px;
+        }
+        .register-body {
+            padding: 40px;
+        }
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .section-title {
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+        }
+        .btn-register {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 40px;
+            color: white;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        .alert {
+            border-radius: 8px;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        .back-home {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-home a {
+            color: white;
+            text-decoration: none;
+        }
+        .back-home a:hover {
+            text-decoration: underline;
+        }
+        .required-note {
+            color: #dc3545;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        label .text-danger {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <img src="{{ asset('images/norsu.png') }}" alt="NORSU Logo">
+            <h3 class="mb-0">Student Registration</h3>
+            <p class="mb-0 mt-2" style="font-size: 14px;">e-Scholar Management System</p>
         </div>
-
-        <div class="form-overview"><p class="overview-heading">Jump to a section</p><nav class="section-navigation" aria-label="Registration sections"><a href="#scholarship-information">Scholarship</a><a href="#personal-information">Personal</a><a href="#academic-information">Academic</a><a href="#contact-information">Contact</a><a href="#address-information">Address</a><a href="#family-information">Family</a></nav></div>
-
-        <div class="form-container">
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-success">{{ message }}</div>
-            {% endfor %}
-
+        
+        <div class="register-body">
             {% for message in app.flashes('error') %}
-                <div class="alert alert-error">{{ message }}</div>
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i> {{ message }}
+                </div>
             {% endfor %}
 
-            <div class="form-intro"><div><h2>Application Details</h2><p>Fill in each section to complete your registration.</p></div><span class="required-note">Fields marked * are required</span></div>
+            <p class="required-note"><i class="fas fa-info-circle"></i> All fields marked with <span class="text-danger">*</span> are required</p>
 
-            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+            <form method="post" action="{{ path('student_register') }}" enctype="multipart/form-data">
+                
+                <!-- Personal Information -->
+                <h5 class="section-title"><i class="fas fa-user"></i> Personal Information</h5>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="middleName" class="form-label">Middle Name</label>
+                        <input type="text" class="form-control" id="middleName" name="middleName">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                    </div>
+                </div>
 
-            <!-- Scholarship Information -->
-            <div class="form-section" id="scholarship-information">
-                <h2><span class="section-icon" aria-hidden="true">🎓</span>Scholarship Information</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.studentNumber) }}
-                        {{ form_widget(form.studentNumber) }}
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="sex" class="form-label">Sex <span class="text-danger">*</span></label>
+                        <select class="form-select" id="sex" name="sex" required>
+                            <option value="">Select...</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
                     </div>
-                    <div class="form-group">
-                        {{ form_label(form.scholarshipType) }}
-                        {{ form_widget(form.scholarshipType) }}
+                    <div class="col-md-3 mb-3">
+                        <label for="birthDate" class="form-label">Birth Date <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="civilStatus" class="form-label">Civil Status <span class="text-danger">*</span></label>
+                        <select class="form-select" id="civilStatus" name="civilStatus" required>
+                            <option value="">Select...</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Widowed">Widowed</option>
+                            <option value="Separated">Separated</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="religion" class="form-label">Religion</label>
+                        <input type="text" class="form-control" id="religion" name="religion">
                     </div>
                 </div>
-            </div>
 
-            <!-- Personal Information -->
-            <div class="form-section" id="personal-information">
-                <h2><span class="section-icon" aria-hidden="true">👤</span>Personal Information</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.firstName) }}
-                        {{ form_widget(form.firstName) }}
+                <!-- Contact Information -->
+                <h5 class="section-title"><i class="fas fa-address-book"></i> Contact Information</h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="email" name="email" required>
                     </div>
-                    <div class="form-group">
-                        {{ form_label(form.middleName) }}
-                        {{ form_widget(form.middleName) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.lastName) }}
-                        {{ form_widget(form.lastName) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.extensionName) }}
-                        {{ form_widget(form.extensionName) }}
+                    <div class="col-md-6 mb-3">
+                        <label for="contactNumber" class="form-label">Contact Number <span class="text-danger">*</span></label>
+                        <input type="tel" class="form-control" id="contactNumber" name="contactNumber" required placeholder="09XXXXXXXXX">
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.dateOfBirth) }}
-                        {{ form_widget(form.dateOfBirth) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.placeOfBirth) }}
-                        {{ form_widget(form.placeOfBirth) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.sex) }}
-                        {{ form_widget(form.sex) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.civilStatus) }}
-                        {{ form_widget(form.civilStatus) }}
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.religion) }}
-                        {{ form_widget(form.religion) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.profilePicture) }}
-                        {{ form_widget(form.profilePicture) }}
-                    </div>
-                </div>
-            </div>
 
-            <!-- Academic Information -->
-            <div class="form-section" id="academic-information">
-                <h2><span class="section-icon" aria-hidden="true">🏫</span>Academic Information</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.campus) }}
-                        {{ form_widget(form.campus) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.course) }}
-                        {{ form_widget(form.course) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.yearLevel) }}
-                        {{ form_widget(form.yearLevel) }}
-                    </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Complete Address <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="address" name="address" rows="2" required></textarea>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.gwa) }}
-                        {{ form_widget(form.gwa) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.semester) }}
-                        {{ form_widget(form.semester) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.academicYear) }}
-                        {{ form_widget(form.academicYear) }}
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.highSchool) }}
-                        {{ form_widget(form.highSchool) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.highSchoolYear) }}
-                        {{ form_widget(form.highSchoolYear) }}
-                    </div>
-                </div>
-            </div>
 
-            <!-- Contact Information -->
-            <div class="form-section" id="contact-information">
-                <h2><span class="section-icon" aria-hidden="true">📞</span>Contact Information</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.email) }}
-                        {{ form_widget(form.email) }}
+                <!-- Academic Information -->
+                <h5 class="section-title"><i class="fas fa-graduation-cap"></i> Academic Information</h5>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="studentNumber" class="form-label">Student Number <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="studentNumber" name="studentNumber" required placeholder="20XX-XXXXX">
                     </div>
-                    <div class="form-group">
-                        {{ form_label(form.contactNumber) }}
-                        {{ form_widget(form.contactNumber) }}
+                    <div class="col-md-4 mb-3">
+                        <label for="campus" class="form-label">Campus <span class="text-danger">*</span></label>
+                        <select class="form-select" id="campus" name="campus" required>
+                            <option value="">Select Campus...</option>
+                            {% for campus in campuses %}
+                                <option value="{{ campus.name }}">{{ campus.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    <div class="form-group">
-                        {{ form_label(form.alternateContactNumber) }}
-                        {{ form_widget(form.alternateContactNumber) }}
+                    <div class="col-md-4 mb-3">
+                        <label for="yearLevel" class="form-label">Year Level <span class="text-danger">*</span></label>
+                        <select class="form-select" id="yearLevel" name="yearLevel" required>
+                            <option value="">Select...</option>
+                            <option value="1st Year">1st Year</option>
+                            <option value="2nd Year">2nd Year</option>
+                            <option value="3rd Year">3rd Year</option>
+                            <option value="4th Year">4th Year</option>
+                            <option value="5th Year">5th Year</option>
+                        </select>
                     </div>
                 </div>
-            </div>
 
-            <!-- Address Information -->
-            <div class="form-section" id="address-information">
-                <h2><span class="section-icon" aria-hidden="true">📍</span>Address Information</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.permanentAddress) }}
-                        {{ form_widget(form.permanentAddress) }}
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="course" class="form-label">Course/Program <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="course" name="course" required placeholder="e.g., BS Computer Science">
                     </div>
-                    <div class="form-group">
-                        {{ form_label(form.currentAddress) }}
-                        {{ form_widget(form.currentAddress) }}
+                    <div class="col-md-6 mb-3">
+                        <label for="department" class="form-label">Department</label>
+                        <input type="text" class="form-control" id="department" name="department" placeholder="e.g., College of Science and Technology">
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.barangay) }}
-                        {{ form_widget(form.barangay) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.municipality) }}
-                        {{ form_widget(form.municipality) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.province) }}
-                        {{ form_widget(form.province) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.zipCode) }}
-                        {{ form_widget(form.zipCode) }}
-                    </div>
-                </div>
-            </div>
 
-            <!-- Family Information -->
-            <div class="form-section" id="family-information">
-                <h2><span class="section-icon" aria-hidden="true">👨‍👩‍👧‍👦</span>Family Information</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.fatherName) }}
-                        {{ form_widget(form.fatherName) }}
+                <!-- Family Information -->
+                <h5 class="section-title"><i class="fas fa-users"></i> Family Information</h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="fatherName" class="form-label">Father's Name</label>
+                        <input type="text" class="form-control" id="fatherName" name="fatherName">
                     </div>
-                    <div class="form-group">
-                        {{ form_label(form.fatherOccupation) }}
-                        {{ form_widget(form.fatherOccupation) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.fatherContactNumber) }}
-                        {{ form_widget(form.fatherContactNumber) }}
+                    <div class="col-md-6 mb-3">
+                        <label for="fatherOccupation" class="form-label">Father's Occupation</label>
+                        <input type="text" class="form-control" id="fatherOccupation" name="fatherOccupation">
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.motherName) }}
-                        {{ form_widget(form.motherName) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.motherOccupation) }}
-                        {{ form_widget(form.motherOccupation) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.motherContactNumber) }}
-                        {{ form_widget(form.motherContactNumber) }}
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.guardianName) }}
-                        {{ form_widget(form.guardianName) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.guardianRelationship) }}
-                        {{ form_widget(form.guardianRelationship) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.guardianContactNumber) }}
-                        {{ form_widget(form.guardianContactNumber) }}
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        {{ form_label(form.numberOfSiblings) }}
-                        {{ form_widget(form.numberOfSiblings) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.familyMonthlyIncome) }}
-                        {{ form_widget(form.familyMonthlyIncome) }}
-                    </div>
-                </div>
-            </div>
 
-            <div class="submit-container">
-                <div class="submit-caption"><strong>Ready to submit your application?</strong><span>Review your information carefully before submitting.</span></div><button type="submit" class="btn-submit">Submit Application →</button>
-            </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="motherName" class="form-label">Mother's Name</label>
+                        <input type="text" class="form-control" id="motherName" name="motherName">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="motherOccupation" class="form-label">Mother's Occupation</label>
+                        <input type="text" class="form-control" id="motherOccupation" name="motherOccupation">
+                    </div>
+                </div>
 
-            {{ form_end(form) }}
+                <div class="mb-3">
+                    <label for="parentsAddress" class="form-label">Parent's Address</label>
+                    <textarea class="form-control" id="parentsAddress" name="parentsAddress" rows="2"></textarea>
+                </div>
+
+                <!-- Document Upload -->
+                <h5 class="section-title"><i class="fas fa-file-upload"></i> Required Document</h5>
+                <div class="mb-3">
+                    <label for="loadSlip" class="form-label">Load Slip (PDF) <span class="text-danger">*</span></label>
+                    <input type="file" class="form-control" id="loadSlip" name="loadSlip" accept=".pdf" required>
+                    <div class="form-text">Please upload your current semester load slip in PDF format (Max 5MB)</div>
+                </div>
+
+                <!-- Account Security -->
+                <h5 class="section-title"><i class="fas fa-lock"></i> Account Security</h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="password" name="password" required minlength="6">
+                        <div class="form-text">Minimum 6 characters</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required minlength="6">
+                    </div>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('student_register') }}">
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-register">
+                        <i class="fas fa-user-plus"></i> Register
+                    </button>
+                </div>
+
+                <div class="login-link">
+                    <p class="mb-0">Already have an account? <a href="{{ path('student_login') }}">Login here</a></p>
+                </div>
+            </form>
         </div>
     </div>
-<p class="page-footer">e-Scholar · NORSU Scholarship Management System</p>
-</main>
-{% endblock %}
+
+    <div class="back-home">
+        <a href="{{ path('landing') }}"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Password confirmation validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                alert('Passwords do not match!');
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

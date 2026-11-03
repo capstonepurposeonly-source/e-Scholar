@@ -8,6 +8,8 @@ framework:
         cookie_secure: auto
         cookie_samesite: lax
         storage_factory_id: session.storage.factory.native
+        cookie_lifetime: 0  # Session expires when browser closes
+        gc_maxlifetime: 3600  # Session data garbage collected after 1 hour
 
     # Enable CSRF protection
     csrf_protection: true
@@ -20,3 +22,4 @@ when@test:
         test: true
         session:
             storage_factory_id: session.storage.factory.mock_file
+

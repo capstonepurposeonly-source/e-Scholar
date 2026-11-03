@@ -19,7 +19,7 @@ final class Version20261007134514 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('CREATE TABLE student (
+        $this->addSql('CREATE TABLE students (
             id INT AUTO_INCREMENT NOT NULL,
             student_number VARCHAR(50) NOT NULL,
             scholarship_type VARCHAR(100) NOT NULL,
@@ -75,6 +75,6 @@ final class Version20261007134514 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->addSql('DROP TABLE student');
+        $this->addSql('DROP TABLE students');
     }
 }

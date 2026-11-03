@@ -22,13 +22,13 @@ class DashboardApiController extends AbstractController
         Connection $connection
     ): JsonResponse {
         // Get total student count
-        $totalStudents = $connection->fetchOne('SELECT COUNT(*) FROM students WHERE is_active = 1');
+        $totalStudents = $connection->fetchOne('SELECT COUNT(*) FROM students');
 
         // Get student count per campus
         $campusStats = $connection->fetchAllAssociative(
             'SELECT c.campus_name, c.campus_code, COUNT(s.id) as student_count 
              FROM campuses c 
-             LEFT JOIN students s ON c.id = s.campus_id AND s.is_active = 1
+             LEFT JOIN students s ON c.campus_name = s.campus
              WHERE c.is_active = 1
              GROUP BY c.id, c.campus_name, c.campus_code
              ORDER BY c.campus_name'
@@ -39,8 +39,8 @@ class DashboardApiController extends AbstractController
 
         // Get upcoming liquidations (next 30 days)
         $upcomingLiquidations = $liquidationRepository->findUpcoming(30);
-        
-        $liquidationData = array_map(function($liq) {
+
+        $liquidationData = array_map(function ($liq) {
             return [
                 'id' => $liq->getId(),
                 'student_name' => $liq->getStudent()->getFirstName() . ' ' . $liq->getStudent()->getLastName(),
@@ -97,7 +97,7 @@ class DashboardApiController extends AbstractController
                 SUM(CASE WHEN s.registration_status = "Enrolled" THEN 1 ELSE 0 END) as enrolled,
                 SUM(CASE WHEN s.registration_status = "Not Enrolled" THEN 1 ELSE 0 END) as not_enrolled
              FROM campuses c 
-             LEFT JOIN students s ON c.id = s.campus_id AND s.is_active = 1
+             LEFT JOIN students s ON c.campus_name = s.campus
              WHERE c.is_active = 1
              GROUP BY c.id, c.campus_name, c.campus_code
              ORDER BY total_students DESC'
@@ -117,7 +117,7 @@ class DashboardApiController extends AbstractController
         $days = $request->query->getInt('days', 30);
         $liquidations = $liquidationRepository->findUpcoming($days);
 
-        $data = array_map(function($liq) {
+        $data = array_map(function ($liq) {
             return [
                 'id' => $liq->getId(),
                 'student' => [
@@ -152,7 +152,7 @@ class DashboardApiController extends AbstractController
     {
         $liquidations = $liquidationRepository->findOverdue();
 
-        $data = array_map(function($liq) {
+        $data = array_map(function ($liq) {
             return [
                 'id' => $liq->getId(),
                 'student' => [
@@ -185,7 +185,7 @@ class DashboardApiController extends AbstractController
         LiquidationRepository $liquidationRepository
     ): JsonResponse {
         $validStatuses = ['Pending', 'Submitted', 'Approved', 'Rejected', 'Overdue'];
-        
+
         if (!in_array($status, $validStatuses)) {
             return $this->json([
                 'success' => false,
@@ -195,7 +195,7 @@ class DashboardApiController extends AbstractController
 
         $liquidations = $liquidationRepository->findByStatus($status);
 
-        $data = array_map(function($liq) {
+        $data = array_map(function ($liq) {
             return [
                 'id' => $liq->getId(),
                 'student_name' => $liq->getStudent()->getFirstName() . ' ' . $liq->getStudent()->getLastName(),
@@ -220,12 +220,12 @@ class DashboardApiController extends AbstractController
         LiquidationRepository $liquidationRepository,
         Connection $connection
     ): JsonResponse {
-        $totalStudents = $connection->fetchOne('SELECT COUNT(*) FROM students WHERE is_active = 1');
+        $totalStudents = $connection->fetchOne('SELECT COUNT(*) FROM students');
         $liquidationStats = $liquidationRepository->getDashboardStatistics();
         $campusCount = $connection->fetchOne('SELECT COUNT(*) FROM campuses WHERE is_active = 1');
-        
+
         // Get scholarship programs count
-        $scholarshipCount = $connection->fetchOne('SELECT COUNT(DISTINCT scholarship_type) FROM students WHERE is_active = 1');
+        $scholarshipCount = $connection->fetchOne('SELECT COUNT(DISTINCT scholarship_type) FROM students');
 
         return $this->json([
             'success' => true,

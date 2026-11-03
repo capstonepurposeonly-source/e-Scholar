@@ -4,6 +4,8 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
         App\Entity\Admin:
             algorithm: auto
+        App\Entity\Student:
+            algorithm: auto
 
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
@@ -11,13 +13,35 @@ security:
             entity:
                 class: App\Entity\Admin
                 property: email
+        student_provider:
+            entity:
+                class: App\Entity\Student
+                property: email
 
     firewalls:
         dev:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
-        main:
+        
+        # Student firewall
+        student:
+            pattern: ^/student
+            lazy: true
+            provider: student_provider
+            form_login:
+                login_path: student_login
+                check_path: student_login
+                default_target_path: student_dashboard
+                enable_csrf: true
+            logout:
+                path: student_logout
+                target: app_landing
+                invalidate_session: true
+        
+        # Admin firewall
+        admin:
+            pattern: ^/admin
             lazy: true
             provider: admin_provider
             form_login:
@@ -29,11 +53,10 @@ security:
                 path: admin_logout
                 target: app_landing
                 invalidate_session: true
-                
-            # Remove remember_me to force re-login each time
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+        
+        # Main firewall for public pages
+        main:
+            lazy: true
 
     # Note: Only the *first* matching rule is applied
     access_control:
@@ -41,6 +64,9 @@ security:
         - { path: ^/admin/register, roles: PUBLIC_ACCESS }
         - { path: ^/admin/profile, roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/student/login, roles: PUBLIC_ACCESS }
+        - { path: ^/student/register, roles: PUBLIC_ACCESS }
+        - { path: ^/student, roles: ROLE_STUDENT }
 
 when@test:
     security:

@@ -374,10 +374,6 @@ body {
     font-size: 0.8rem;
 }
 
-/* ===========================
-   Responsive Styles
-   =========================== */
-
 @media (max-width: 1024px) {
     .contact-grid {
         grid-template-columns: 1fr;
@@ -399,54 +395,7 @@ body {
         font-size: 2rem;
     }
 
-    .faq-header p,
-    .contact-header p {
-        font-size: 1rem;
-    }
-
-    .faq-category h3 {
-        font-size: 1.2rem;
-    }
-
-    .faq-question {
-        padding: 15px 20px;
-        font-size: 0.95rem;
-    }
-
-    .faq-answer p {
-        padding: 0 20px 15px 20px;
-        font-size: 0.9rem;
-    }
-
-    .contact-info {
-        grid-template-columns: 1fr;
-    }
-
-    .contact-card {
-        padding: 20px;
-    }
-
     .contact-form-box {
         padding: 25px;
-    }
-
-    .contact-form-box h3 {
-        font-size: 1.5rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .faq-header h2,
-    .contact-header h2 {
-        font-size: 1.6rem;
-    }
-
-    .contact-icon {
-        width: 40px;
-        height: 40px;
-    }
-
-    .contact-icon i {
-        font-size: 1.1rem;
     }
 }

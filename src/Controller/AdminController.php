@@ -197,6 +197,7 @@ class AdminController extends AbstractController
         $campus = $request->query->get('campus', '');
         $yearLevel = $request->query->get('year_level', '');
         $scholarshipType = $request->query->get('scholarship_type', '');
+        $status = $request->query->get('status', '');
         $registrationStatus = $request->query->get('registration_status', '');
 
         // Pass filter values to template
@@ -205,6 +206,7 @@ class AdminController extends AbstractController
             'campus' => $campus,
             'yearLevel' => $yearLevel,
             'scholarshipType' => $scholarshipType,
+            'status' => $status,
             'registrationStatus' => $registrationStatus,
         ]);
     }

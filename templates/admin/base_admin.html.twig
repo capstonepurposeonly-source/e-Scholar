@@ -483,29 +483,29 @@
 
         <div class="workspace-label">WORKSPACE</div>
         <nav class="nav-menu">
-            <a href="{{ path('admin_dashboard') }}" class="nav-item {% if app.request.get('_route') == 'admin_dashboard' %}active{% endif %}">
+            <a href="{{ path('admin_dashboard') }}" class="nav-item {% if app.request.attributes.get('_route') == 'admin_dashboard' %}active{% endif %}">
                 Overview
             </a>
-            <a href="{{ path('admin_students') }}" class="nav-item {% if app.request.get('_route') == 'admin_students' %}active{% endif %}">
+            <a href="{{ path('admin_students') }}" class="nav-item {% if app.request.attributes.get('_route') == 'admin_students' %}active{% endif %}">
                 Student directory
                 <span class="nav-badge">28</span>
             </a>
-            <a href="{{ path('admin_campuses') }}" class="nav-item {% if app.request.get('_route') == 'admin_campuses' %}active{% endif %}">
+            <a href="{{ path('admin_campuses') }}" class="nav-item {% if app.request.attributes.get('_route') == 'admin_campuses' %}active{% endif %}">
                 Campuses
             </a>
-            <a href="{{ path('admin_liquidations') }}" class="nav-item {% if app.request.get('_route') == 'admin_liquidations' %}active{% endif %}">
+            <a href="{{ path('admin_liquidations') }}" class="nav-item {% if app.request.attributes.get('_route') == 'admin_liquidations' %}active{% endif %}">
                 Liquidations
             </a>
-            <a href="{{ path('admin_reports') }}" class="nav-item {% if app.request.get('_route') == 'admin_reports' %}active{% endif %}">
+            <a href="{{ path('admin_reports') }}" class="nav-item {% if app.request.attributes.get('_route') == 'admin_reports' %}active{% endif %}">
                 Reports & activity
             </a>
-            <a href="{{ path('admin_registration') }}" class="nav-item {% if app.request.get('_route') == 'admin_registration' %}active{% endif %}">
+            <a href="{{ path('admin_registration') }}" class="nav-item {% if app.request.attributes.get('_route') == 'admin_registration' %}active{% endif %}">
                 Registration
             </a>
         </nav>
         <div class="workspace-label" style="margin-top: 24px;">ACCOUNT</div>
         <nav class="nav-menu">
-            <a href="{{ path('admin_profile') }}" class="nav-item {% if app.request.get('_route') starts with 'admin_profile' %}active{% endif %}">
+            <a href="{{ path('admin_profile') }}" class="nav-item {% if app.request.attributes.get('_route') starts with 'admin_profile' %}active{% endif %}">
                 👤 Administrator Profile
             </a>
         </nav>

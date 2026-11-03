@@ -251,7 +251,6 @@ class StudentController extends AbstractController
             'announcements' => $announcements,
         ]);
     }
-}
 
     #[Route('/student/dashboard-new', name: 'student_dashboard_new')]
     public function dashboardNew(AnnouncementRepository $announcementRepository): Response
@@ -338,3 +337,4 @@ class StudentController extends AbstractController
             'student' => $student,
         ]);
     }
+}

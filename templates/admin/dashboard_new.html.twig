@@ -1,9 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base_admin.html.twig' %}
 
-{% block title %}Admin Dashboard - e-Scholar NORSU{% endblock %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
+{% block extra_css %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.css">
     <style>
@@ -396,26 +396,7 @@
     </style>
 {% endblock %}
 
-{% block body %}
-    <header class="admin-header">
-        <div class="admin-header-content">
-            <div class="admin-logo">
-                <img src="{{ asset('images/scholarship.png') }}" alt="NORSU Logo">
-                <h1>e-Scholar NORSU Admin</h1>
-            </div>
-            <div class="admin-user">
-                <div class="user-info">
-                    <div class="user-name">{{ app.user.fullName }}</div>
-                    <div class="user-role">Administrator</div>
-                </div>
-                <a href="{{ path('admin_logout') }}" class="btn-logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Logout
-                </a>
-            </div>
-        </div>
-    </header>
-
+{% block page_content %}
     <div class="dashboard-container">
         <!-- Welcome Section -->
         <div class="welcome-section">

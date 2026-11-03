@@ -342,6 +342,73 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/export/students', name: 'admin_export_students')]
+    public function exportStudents(StudentRepository $studentRepository): Response
+    {
+        $students = $studentRepository->findAll();
+
+        // Create CSV content
+        $csv = [];
+
+        // Add headers
+        $csv[] = [
+            'Student Number',
+            'First Name',
+            'Middle Name',
+            'Last Name',
+            'Sex',
+            'Date of Birth',
+            'Campus',
+            'Course',
+            'Year Level',
+            'Scholarship Type',
+            'Email',
+            'Contact Number',
+            'Municipality',
+            'Province',
+            'Registration Status',
+            'Created At'
+        ];
+
+        // Add student data
+        foreach ($students as $student) {
+            $csv[] = [
+                $student->getStudentNumber(),
+                $student->getFirstName(),
+                $student->getMiddleName() ?? '',
+                $student->getLastName(),
+                $student->getSex(),
+                $student->getDateOfBirth() ? $student->getDateOfBirth()->format('Y-m-d') : '',
+                $student->getCampus(),
+                $student->getCourse(),
+                $student->getYearLevel(),
+                $student->getScholarshipType(),
+                $student->getEmail(),
+                $student->getContactNumber(),
+                $student->getMunicipality(),
+                $student->getProvince(),
+                $student->getRegistrationStatus(),
+                $student->getCreatedAt() ? $student->getCreatedAt()->format('Y-m-d H:i:s') : ''
+            ];
+        }
+
+        // Generate CSV
+        $output = fopen('php://temp', 'r+');
+        foreach ($csv as $row) {
+            fputcsv($output, $row);
+        }
+        rewind($output);
+        $csvContent = stream_get_contents($output);
+        fclose($output);
+
+        // Create response
+        $response = new Response($csvContent);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="students_export_' . date('Y-m-d_His') . '.csv"');
+
+        return $response;
+    }
+
     #[Route('/admin/registration', name: 'admin_registration')]
     public function registration(
         \App\Repository\CampusRepository $campusRepository

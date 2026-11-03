@@ -1,0 +1,62 @@
+{% extends 'student/base_student.html.twig' %}
+
+{% block title %}Authorization Process{% endblock %}
+{% block page_title %}Authorization Process{% endblock %}
+
+{% block page_content %}
+<div class="card" style="background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <h3 style="margin-bottom: 20px;">Scholarship Authorization Process</h3>
+    
+    <div style="margin-bottom: 32px;">
+        <h5 style="color: #667eea; margin-bottom: 16px;">Current Status</h5>
+        <div style="padding: 20px; background: #f9fafb; border-radius: 8px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="width: 60px; height: 60px; background: {{ student.isActive ? '#d1fae5' : '#fef3c7' }}; color: {{ student.isActive ? '#059669' : '#d97706' }}; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                    <i class="fa-solid fa-{{ student.isActive ? 'check-circle' : 'clock' }}"></i>
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 4px 0;">{{ student.isActive ? 'Approved' : 'Pending Verification' }}</h4>
+                    <p style="margin: 0; color: #6b7280;">{{ student.isActive ? 'Your scholarship has been authorized' : 'Your application is under review' }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h5 style="color: #667eea; margin-bottom: 16px;">Process Steps</h5>
+        <div style="position: relative;">
+            {% set steps = [
+                {title: 'Application Submitted', status: 'completed', description: 'Your registration has been received'},
+                {title: 'Document Verification', status: student.loadSlipPath ? 'completed' : 'pending', description: 'Load slip and requirements review'},
+                {title: 'Admin Review', status: student.isActive ? 'completed' : 'in_progress', description: 'Scholarship eligibility assessment'},
+                {title: 'Authorization', status: student.isActive ? 'completed' : 'pending', description: 'Final approval and activation'}
+            ] %}
+
+            {% for step in steps %}
+                <div style="display: flex; gap: 16px; margin-bottom: {{ loop.last ? '0' : '24px' }};">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;
+                            background: {{ step.status == 'completed' ? '#d1fae5' : (step.status == 'in_progress' ? '#fef3c7' : '#f3f4f6') }};
+                            color: {{ step.status == 'completed' ? '#059669' : (step.status == 'in_progress' ? '#d97706' : '#9ca3af') }};">
+                            {% if step.status == 'completed' %}
+                                <i class="fa-solid fa-check"></i>
+                            {% elseif step.status == 'in_progress' %}
+                                <i class="fa-solid fa-spinner"></i>
+                            {% else %}
+                                {{ loop.index }}
+                            {% endif %}
+                        </div>
+                        {% if not loop.last %}
+                            <div style="width: 2px; height: 40px; background: {{ step.status == 'completed' ? '#059669' : '#e5e7eb' }};"></div>
+                        {% endif %}
+                    </div>
+                    <div style="flex: 1; padding-bottom: {{ loop.last ? '0' : '16px' }};">
+                        <h6 style="margin: 0 0 4px 0; font-weight: 600;">{{ step.title }}</h6>
+                        <p style="margin: 0; color: #6b7280; font-size: 14px;">{{ step.description }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

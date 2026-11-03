@@ -1,0 +1,21 @@
+{% extends 'student/base_student.html.twig' %}
+
+{% block title %}Documents{% endblock %}
+{% block page_title %}Documents{% endblock %}
+
+{% block page_content %}
+<div class="card" style="background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <h3 style="margin-bottom: 20px;">Document Requests</h3>
+    
+    <div style="margin-bottom: 24px;">
+        <button class="btn btn-primary" style="background: #667eea; border: none; padding: 10px 20px; border-radius: 8px;">
+            <i class="fa-solid fa-plus"></i> Request New Document
+        </button>
+    </div>
+
+    <p style="text-align: center; color: #9ca3af; padding: 40px;">
+        <i class="fa-solid fa-file-alt" style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;"></i><br>
+        No document requests yet
+    </p>
+</div>
+{% endblock %}

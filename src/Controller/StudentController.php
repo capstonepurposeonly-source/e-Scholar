@@ -246,9 +246,95 @@ class StudentController extends AbstractController
         // Get active announcements
         $announcements = $announcementRepository->findActiveAnnouncements();
 
-        return $this->render('student/dashboard.html.twig', [
+        return $this->render('student/dashboard_new.html.twig', [
             'student' => $student,
             'announcements' => $announcements,
         ]);
     }
 }
+
+    #[Route('/student/dashboard-new', name: 'student_dashboard_new')]
+    public function dashboardNew(AnnouncementRepository $announcementRepository): Response
+    {
+        $student = $this->getUser();
+
+        if (!$student instanceof Student) {
+            return $this->redirectToRoute('student_login');
+        }
+
+        // Get active announcements
+        $announcements = $announcementRepository->findActiveAnnouncements();
+
+        return $this->render('student/dashboard_new.html.twig', [
+            'student' => $student,
+            'announcements' => $announcements,
+        ]);
+    }
+
+    #[Route('/student/profile', name: 'student_profile')]
+    public function profile(): Response
+    {
+        $student = $this->getUser();
+
+        if (!$student instanceof Student) {
+            return $this->redirectToRoute('student_login');
+        }
+
+        return $this->render('student/profile.html.twig', [
+            'student' => $student,
+        ]);
+    }
+
+    #[Route('/student/announcements', name: 'student_announcements')]
+    public function announcements(AnnouncementRepository $announcementRepository): Response
+    {
+        $student = $this->getUser();
+
+        if (!$student instanceof Student) {
+            return $this->redirectToRoute('student_login');
+        }
+
+        $announcements = $announcementRepository->findActiveAnnouncements();
+
+        return $this->render('student/announcements.html.twig', [
+            'announcements' => $announcements,
+        ]);
+    }
+
+    #[Route('/student/notifications', name: 'student_notifications')]
+    public function notifications(): Response
+    {
+        $student = $this->getUser();
+
+        if (!$student instanceof Student) {
+            return $this->redirectToRoute('student_login');
+        }
+
+        return $this->render('student/notifications.html.twig');
+    }
+
+    #[Route('/student/documents', name: 'student_documents')]
+    public function documents(): Response
+    {
+        $student = $this->getUser();
+
+        if (!$student instanceof Student) {
+            return $this->redirectToRoute('student_login');
+        }
+
+        return $this->render('student/documents.html.twig');
+    }
+
+    #[Route('/student/authorization', name: 'student_authorization')]
+    public function authorization(): Response
+    {
+        $student = $this->getUser();
+
+        if (!$student instanceof Student) {
+            return $this->redirectToRoute('student_login');
+        }
+
+        return $this->render('student/authorization.html.twig', [
+            'student' => $student,
+        ]);
+    }

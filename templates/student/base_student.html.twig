@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Portal{% endblock %} - e-Scholar NORSU</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e5a8e;
+            --sidebar-bg: #1a1f36;
+            --sidebar-hover: #2a2f46;
+            --text-light: #e0e6ed;
+            --text-muted: #8b92a8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar-bg);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .brand {
+            padding: 24px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .brand-mark {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .brand-text h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+            color: white;
+        }
+
+        .brand-text p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .workspace-label {
+            padding: 20px 20px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
+            padding: 0 12px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 16px;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .nav-item i {
+            width: 20px;
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        .nav-item:hover {
+            background: var(--sidebar-hover);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 24px 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-brand {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .footer-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .footer-text h4 {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin: 0 0 2px 0;
+            line-height: 1.2;
+        }
+
+        .footer-text p {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+            margin-bottom: 8px;
+        }
+
+        .btn-logout {
+            background: rgba(220, 38, 38, 0.1);
+            color: #ef4444;
+        }
+
+        .btn-logout:hover {
+            background: rgba(220, 38, 38, 0.2);
+            color: #dc2626;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .top-header {
+            background: white;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .breadcrumb strong {
+            color: #111827;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-role {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .page-content {
+            flex: 1;
+            padding: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-mark">e</div>
+            <div class="brand-text">
+                <h3>e-Scholar</h3>
+                <p>Student Portal</p>
+            </div>
+        </div>
+
+        <div class="workspace-label">STUDENT PORTAL</div>
+        <nav class="nav-menu">
+            <a href="{{ path('student_dashboard') }}" class="nav-item {% if app.request.attributes.get('_route') == 'student_dashboard' %}active{% endif %}">
+                <i class="fa-solid fa-house"></i> Overview
+            </a>
+            <a href="{{ path('student_profile') }}" class="nav-item {% if app.request.attributes.get('_route') starts with 'student_profile' %}active{% endif %}">
+                <i class="fa-solid fa-user"></i> My Profile
+            </a>
+            <a href="{{ path('student_announcements') }}" class="nav-item {% if app.request.attributes.get('_route') == 'student_announcements' %}active{% endif %}">
+                <i class="fa-solid fa-bullhorn"></i> Announcements
+            </a>
+            <a href="{{ path('student_notifications') }}" class="nav-item {% if app.request.attributes.get('_route') == 'student_notifications' %}active{% endif %}">
+                <i class="fa-solid fa-bell"></i> Notifications
+            </a>
+            <a href="{{ path('student_documents') }}" class="nav-item {% if app.request.attributes.get('_route') == 'student_documents' %}active{% endif %}">
+                <i class="fa-solid fa-file-alt"></i> Documents
+            </a>
+        </nav>
+
+        <div class="workspace-label" style="margin-top: 24px;">SCHOLARSHIP</div>
+        <nav class="nav-menu">
+            <a href="{{ path('student_authorization') }}" class="nav-item {% if app.request.attributes.get('_route') == 'student_authorization' %}active{% endif %}">
+                <i class="fa-solid fa-check-circle"></i> Authorization Process
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="{{ path('student_logout') }}" class="action-btn btn-logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+            <div class="footer-brand">
+                <div class="footer-icon">N</div>
+                <div class="footer-text">
+                    <h4>One university.</h4>
+                    <h4>Every student's future.</h4>
+                    <p>Negros Oriental State University</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="breadcrumb">
+                <a href="#">Student Portal</a>
+                <span>/</span>
+                <strong>{% block page_title %}Page{% endblock %}</strong>
+            </div>
+            <div class="user-menu">
+                <span class="user-role">Student</span>
+                <div class="user-avatar" title="{{ app.user.firstName }} {{ app.user.lastName }}">
+                    {{ app.user.firstName|first|upper }}{{ app.user.lastName|first|upper }}
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            {% block page_content %}{% endblock %}
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

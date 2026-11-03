@@ -320,6 +320,46 @@
                         </div>
                         {% endif %}
                     </div>
+
+                    <h5 class="section-title mt-4"><i class="fas fa-users"></i> Family Information</h5>
+                    <div class="info-grid">
+                        {% if student.fatherName %}
+                        <div class="info-item">
+                            <label><i class="fas fa-male"></i> Father's Name</label>
+                            <span>{{ student.fatherName }}</span>
+                        </div>
+                        {% endif %}
+                        {% if student.fatherOccupation %}
+                        <div class="info-item">
+                            <label><i class="fas fa-briefcase"></i> Father's Occupation</label>
+                            <span>{{ student.fatherOccupation }}</span>
+                        </div>
+                        {% endif %}
+                        {% if student.motherName %}
+                        <div class="info-item">
+                            <label><i class="fas fa-female"></i> Mother's Name</label>
+                            <span>{{ student.motherName }}</span>
+                        </div>
+                        {% endif %}
+                        {% if student.motherOccupation %}
+                        <div class="info-item">
+                            <label><i class="fas fa-briefcase"></i> Mother's Occupation</label>
+                            <span>{{ student.motherOccupation }}</span>
+                        </div>
+                        {% endif %}
+                        {% if student.parentsAddress %}
+                        <div class="info-item">
+                            <label><i class="fas fa-map-marker-alt"></i> Parents' Address</label>
+                            <span>{{ student.parentsAddress }}</span>
+                        </div>
+                        {% endif %}
+                        {% if student.familyMonthlyIncome %}
+                        <div class="info-item">
+                            <label><i class="fas fa-money-bill-wave"></i> Family Monthly Income</label>
+                            <span>₱{{ student.familyMonthlyIncome|number_format(2, '.', ',') }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
 

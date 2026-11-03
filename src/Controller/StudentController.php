@@ -127,6 +127,11 @@ class StudentController extends AbstractController
                 $student->setMotherOccupation($request->request->get('motherOccupation'));
                 $student->setParentsAddress($request->request->get('parentsAddress'));
 
+                $familyMonthlyIncome = $request->request->get('familyMonthlyIncome');
+                if ($familyMonthlyIncome !== null && $familyMonthlyIncome !== '') {
+                    $student->setFamilyMonthlyIncome((float)$familyMonthlyIncome);
+                }
+
                 // Set scholarship type to "Pending Assignment" - admin will assign actual scholarship
                 $student->setScholarshipType('Pending Assignment');
 

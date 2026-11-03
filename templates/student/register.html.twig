@@ -18,7 +18,7 @@
             border-radius: 15px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             overflow: hidden;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         .register-header {
@@ -121,30 +121,34 @@
                 </div>
             {% endfor %}
 
-            <p class="required-note"><i class="fas fa-info-circle"></i> All fields marked with <span class="text-danger">*</span> are required</p>
+            <p class="required-note"><i class="fas fa-info-circle"></i> Fields marked with <span class="text-danger">*</span> are required</p>
 
             <form method="post" action="{{ path('student_register') }}" enctype="multipart/form-data">
                 
                 <!-- Personal Information -->
                 <h5 class="section-title"><i class="fas fa-user"></i> Personal Information</h5>
                 <div class="row">
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="firstName" name="firstName" required>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <label for="middleName" class="form-label">Middle Name</label>
                         <input type="text" class="form-control" id="middleName" name="middleName">
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="lastName" name="lastName" required>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="suffix" class="form-label">Suffix</label>
+                        <input type="text" class="form-control" id="suffix" name="suffix" placeholder="Jr., Sr., III">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-3 mb-3">
-                        <label for="sex" class="form-label">Sex <span class="text-danger">*</span></label>
+                        <label for="sex" class="form-label">Gender <span class="text-danger">*</span></label>
                         <select class="form-select" id="sex" name="sex" required>
                             <option value="">Select...</option>
                             <option value="Male">Male</option>
@@ -152,11 +156,15 @@
                         </select>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label for="birthDate" class="form-label">Birth Date <span class="text-danger">*</span></label>
+                        <label for="birthDate" class="form-label">Birthday <span class="text-danger">*</span></label>
                         <input type="date" class="form-control" id="birthDate" name="birthDate" required>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label for="civilStatus" class="form-label">Civil Status <span class="text-danger">*</span></label>
+                        <label for="birthPlace" class="form-label">Birth Place <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="birthPlace" name="birthPlace" required>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="civilStatus" class="form-label">Marital Status <span class="text-danger">*</span></label>
                         <select class="form-select" id="civilStatus" name="civilStatus" required>
                             <option value="">Select...</option>
                             <option value="Single">Single</option>
@@ -165,28 +173,46 @@
                             <option value="Separated">Separated</option>
                         </select>
                     </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="religion" class="form-label">Religion</label>
-                        <input type="text" class="form-control" id="religion" name="religion">
-                    </div>
                 </div>
 
                 <!-- Contact Information -->
                 <h5 class="section-title"><i class="fas fa-address-book"></i> Contact Information</h5>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="contactNumber" class="form-label">Contact Number <span class="text-danger">*</span></label>
+                        <label for="contactNumber" class="form-label">Contact No. <span class="text-danger">*</span></label>
                         <input type="tel" class="form-control" id="contactNumber" name="contactNumber" required placeholder="09XXXXXXXXX">
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="address" class="form-label">Complete Address <span class="text-danger">*</span></label>
-                    <textarea class="form-control" id="address" name="address" rows="2" required></textarea>
+                <!-- Address -->
+                <h5 class="section-title"><i class="fas fa-map-marker-alt"></i> Address</h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="street" class="form-label">Street</label>
+                        <input type="text" class="form-control" id="street" name="street">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="barangay" class="form-label">Barangay <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="barangay" name="barangay" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="municipality" class="form-label">City / Town <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="municipality" name="municipality" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="province" class="form-label">Province <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="province" name="province" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" class="form-control" id="country" name="country" value="Philippines">
+                    </div>
                 </div>
 
                 <!-- Academic Information -->
@@ -197,6 +223,10 @@
                         <input type="text" class="form-control" id="studentNumber" name="studentNumber" required placeholder="20XX-XXXXX">
                     </div>
                     <div class="col-md-4 mb-3">
+                        <label for="lrn" class="form-label">LRN</label>
+                        <input type="text" class="form-control" id="lrn" name="lrn" placeholder="Learner Reference Number">
+                    </div>
+                    <div class="col-md-4 mb-3">
                         <label for="campus" class="form-label">Campus <span class="text-danger">*</span></label>
                         <select class="form-select" id="campus" name="campus" required>
                             <option value="">Select Campus...</option>
@@ -205,6 +235,9 @@
                             {% endfor %}
                         </select>
                     </div>
+                </div>
+
+                <div class="row">
                     <div class="col-md-4 mb-3">
                         <label for="yearLevel" class="form-label">Year Level <span class="text-danger">*</span></label>
                         <select class="form-select" id="yearLevel" name="yearLevel" required>
@@ -216,11 +249,8 @@
                             <option value="5th Year">5th Year</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="course" class="form-label">Course/Program <span class="text-danger">*</span></label>
+                    <div class="col-md-8 mb-3">
+                        <label for="course" class="form-label">Course <span class="text-danger">*</span></label>
                         <select class="form-select" id="course" name="course" required>
                             <option value="">Select Course/Program...</option>
                             <optgroup label="Business and Accountancy">
@@ -298,32 +328,56 @@
                             </optgroup>
                         </select>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="department" class="form-label">College/Department <span class="text-danger">*</span></label>
-                        <select class="form-select" id="department" name="department" required>
-                            <option value="">Select College/Department...</option>
-                            <optgroup label="Main Campus Colleges">
-                                <option value="Graduate School">Graduate School</option>
-                                <option value="College of Law">College of Law</option>
-                                <option value="College of Arts and Sciences (CAS)">College of Arts and Sciences (CAS)</option>
-                                <option value="College of Business Administration (CBA)">College of Business Administration (CBA)</option>
-                                <option value="College of Teacher Education (CTEd)">College of Teacher Education (CTEd)</option>
-                                <option value="College of Engineering and Architecture (CEA)">College of Engineering and Architecture (CEA)</option>
-                                <option value="College of Nursing, Pharmacy, and Allied Health Sciences (CNPAHS)">College of Nursing, Pharmacy, and Allied Health Sciences (CNPAHS)</option>
-                                <option value="College of Industrial Technology (CIT)">College of Industrial Technology (CIT)</option>
-                                <option value="College of Criminal Justice Education (CCJE)">College of Criminal Justice Education (CCJE)</option>
-                                <option value="College of Agriculture and Forestry (CAF)">College of Agriculture and Forestry (CAF)</option>
-                            </optgroup>
-                            <optgroup label="Satellite Campus Departments">
-                                <option value="Bais Campus I Academic Programs Department">Bais Campus I Academic Programs Department</option>
-                                <option value="Bais Campus II Academic Programs Department">Bais Campus II Academic Programs Department</option>
-                                <option value="Bayawan-Sta. Catalina Campus Academic Programs Department">Bayawan-Sta. Catalina Campus Academic Programs Department</option>
-                                <option value="Guihulngan Campus Academic Programs Department">Guihulngan Campus Academic Programs Department</option>
-                                <option value="Mabinay Campus Academic Programs Department">Mabinay Campus Academic Programs Department</option>
-                                <option value="Siaton Campus Academic Programs Department">Siaton Campus Academic Programs Department</option>
-                                <option value="Pamplona Extension Campus Academic Programs Department">Pamplona Extension Campus Academic Programs Department</option>
-                            </optgroup>
-                        </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="department" class="form-label">College/Department <span class="text-danger">*</span></label>
+                    <select class="form-select" id="department" name="department" required>
+                        <option value="">Select College/Department...</option>
+                        <optgroup label="Main Campus Colleges">
+                            <option value="Graduate School">Graduate School</option>
+                            <option value="College of Law">College of Law</option>
+                            <option value="College of Arts and Sciences (CAS)">College of Arts and Sciences (CAS)</option>
+                            <option value="College of Business Administration (CBA)">College of Business Administration (CBA)</option>
+                            <option value="College of Teacher Education (CTEd)">College of Teacher Education (CTEd)</option>
+                            <option value="College of Engineering and Architecture (CEA)">College of Engineering and Architecture (CEA)</option>
+                            <option value="College of Nursing, Pharmacy, and Allied Health Sciences (CNPAHS)">College of Nursing, Pharmacy, and Allied Health Sciences (CNPAHS)</option>
+                            <option value="College of Industrial Technology (CIT)">College of Industrial Technology (CIT)</option>
+                            <option value="College of Criminal Justice Education (CCJE)">College of Criminal Justice Education (CCJE)</option>
+                            <option value="College of Agriculture and Forestry (CAF)">College of Agriculture and Forestry (CAF)</option>
+                        </optgroup>
+                        <optgroup label="Satellite Campus Departments">
+                            <option value="Bais Campus I Academic Programs Department">Bais Campus I Academic Programs Department</option>
+                            <option value="Bais Campus II Academic Programs Department">Bais Campus II Academic Programs Department</option>
+                            <option value="Bayawan-Sta. Catalina Campus Academic Programs Department">Bayawan-Sta. Catalina Campus Academic Programs Department</option>
+                            <option value="Guihulngan Campus Academic Programs Department">Guihulngan Campus Academic Programs Department</option>
+                            <option value="Mabinay Campus Academic Programs Department">Mabinay Campus Academic Programs Department</option>
+                            <option value="Siaton Campus Academic Programs Department">Siaton Campus Academic Programs Department</option>
+                            <option value="Pamplona Extension Campus Academic Programs Department">Pamplona Extension Campus Academic Programs Department</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <!-- Educational Background -->
+                <h5 class="section-title"><i class="fas fa-school"></i> Educational Background</h5>
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label for="elementary" class="form-label">Elementary</label>
+                        <input type="text" class="form-control" id="elementary" name="elementary" placeholder="School Name">
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label for="elementaryYear" class="form-label">Year</label>
+                        <input type="text" class="form-control" id="elementaryYear" name="elementaryYear" placeholder="YYYY">
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <label for="highSchool" class="form-label">High School</label>
+                        <input type="text" class="form-control" id="highSchool" name="highSchool" placeholder="School Name">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 mb-3">
+                        <label for="highSchoolYear" class="form-label">Year</label>
+                        <input type="text" class="form-control" id="highSchoolYear" name="highSchoolYear" placeholder="YYYY">
                     </div>
                 </div>
 
@@ -331,12 +385,23 @@
                 <h5 class="section-title"><i class="fas fa-users"></i> Family Information</h5>
                 <div class="row">
                     <div class="col-md-6 mb-3">
+                        <label for="guardianName" class="form-label">Parent/Guardian</label>
+                        <input type="text" class="form-control" id="guardianName" name="guardianName">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="guardianContactNumber" class="form-label">Contact No.(Guardian)</label>
+                        <input type="tel" class="form-control" id="guardianContactNumber" name="guardianContactNumber">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
                         <label for="fatherName" class="form-label">Father's Name</label>
                         <input type="text" class="form-control" id="fatherName" name="fatherName">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="fatherOccupation" class="form-label">Father's Occupation</label>
-                        <input type="text" class="form-control" id="fatherOccupation" name="fatherOccupation">
+                        <label for="fatherContactNumber" class="form-label">Contact No.(Father)</label>
+                        <input type="tel" class="form-control" id="fatherContactNumber" name="fatherContactNumber">
                     </div>
                 </div>
 
@@ -346,14 +411,20 @@
                         <input type="text" class="form-control" id="motherName" name="motherName">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="motherOccupation" class="form-label">Mother's Occupation</label>
-                        <input type="text" class="form-control" id="motherOccupation" name="motherOccupation">
+                        <label for="motherContactNumber" class="form-label">Contact No.(Mother)</label>
+                        <input type="tel" class="form-control" id="motherContactNumber" name="motherContactNumber">
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="parentsAddress" class="form-label">Parent's Address</label>
-                    <textarea class="form-control" id="parentsAddress" name="parentsAddress" rows="2"></textarea>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="spouseName" class="form-label">Name of Spouse</label>
+                        <input type="text" class="form-control" id="spouseName" name="spouseName">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="spouseContactNumber" class="form-label">Contact No.(Spouse)</label>
+                        <input type="tel" class="form-control" id="spouseContactNumber" name="spouseContactNumber">
+                    </div>
                 </div>
 
                 <div class="mb-3">

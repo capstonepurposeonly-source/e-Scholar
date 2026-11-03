@@ -96,40 +96,68 @@ class StudentController extends AbstractController
 
                 // Personal Information
                 $student->setStudentNumber($request->request->get('studentNumber'));
+                $student->setLrn($request->request->get('lrn'));
                 $student->setFirstName($request->request->get('firstName'));
                 $student->setMiddleName($request->request->get('middleName'));
                 $student->setLastName($request->request->get('lastName'));
+                $student->setSuffix($request->request->get('suffix'));
                 $student->setSex($request->request->get('sex'));
 
                 $birthDate = $request->request->get('birthDate');
                 if ($birthDate) {
-                    $student->setBirthDate(new \DateTime($birthDate));
+                    $student->setDateOfBirth(new \DateTime($birthDate));
                 }
 
+                $student->setPlaceOfBirth($request->request->get('birthPlace'));
                 $student->setCivilStatus($request->request->get('civilStatus'));
-                $student->setReligion($request->request->get('religion'));
 
                 // Contact Information
                 $student->setEmail($request->request->get('email'));
                 $student->setContactNumber($request->request->get('contactNumber'));
-                $student->setAddress($request->request->get('address'));
+
+                // Address
+                $student->setStreet($request->request->get('street'));
+                $student->setBarangay($request->request->get('barangay'));
+                $student->setMunicipality($request->request->get('municipality'));
+                $student->setProvince($request->request->get('province'));
+                $student->setCountry($request->request->get('country') ?: 'Philippines');
+
+                // Build full address
+                $addressParts = array_filter([
+                    $request->request->get('street'),
+                    $request->request->get('barangay'),
+                    $request->request->get('municipality'),
+                    $request->request->get('province')
+                ]);
+                $student->setPermanentAddress(implode(', ', $addressParts));
 
                 // Academic Information
                 $student->setCampus($request->request->get('campus'));
                 $student->setCourse($request->request->get('course'));
                 $student->setYearLevel($request->request->get('yearLevel'));
                 $student->setDepartment($request->request->get('department'));
+                $student->setSemester('1st Semester');
+                $student->setAcademicYear(date('Y') . '-' . (date('Y') + 1));
+
+                // Educational Background
+                $student->setElementary($request->request->get('elementary'));
+                $student->setElementaryYear($request->request->get('elementaryYear'));
+                $student->setHighSchool($request->request->get('highSchool'));
+                $student->setHighSchoolYear($request->request->get('highSchoolYear'));
 
                 // Family Information
+                $student->setGuardianName($request->request->get('guardianName'));
+                $student->setGuardianContactNumber($request->request->get('guardianContactNumber'));
                 $student->setFatherName($request->request->get('fatherName'));
-                $student->setFatherOccupation($request->request->get('fatherOccupation'));
+                $student->setFatherContactNumber($request->request->get('fatherContactNumber'));
                 $student->setMotherName($request->request->get('motherName'));
-                $student->setMotherOccupation($request->request->get('motherOccupation'));
-                $student->setParentsAddress($request->request->get('parentsAddress'));
+                $student->setMotherContactNumber($request->request->get('motherContactNumber'));
+                $student->setSpouseName($request->request->get('spouseName'));
+                $student->setSpouseContactNumber($request->request->get('spouseContactNumber'));
 
                 $familyMonthlyIncome = $request->request->get('familyMonthlyIncome');
                 if ($familyMonthlyIncome !== null && $familyMonthlyIncome !== '') {
-                    $student->setFamilyMonthlyIncome((float)$familyMonthlyIncome);
+                    $student->setFamilyMonthlyIncome((string)$familyMonthlyIncome);
                 }
 
                 // Set scholarship type to "Pending Assignment" - admin will assign actual scholarship

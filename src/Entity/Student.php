@@ -36,6 +36,12 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $extensionName = null;
 
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $suffix = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $lrn = null;
+
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
@@ -75,6 +81,12 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $highSchoolYear = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $elementary = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $elementaryYear = null;
+
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
@@ -90,6 +102,9 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $currentAddress = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $street = null;
+
     #[ORM\Column(length: 100)]
     private ?string $barangay = null;
 
@@ -98,6 +113,9 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 100)]
     private ?string $province = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $country = 'Philippines';
 
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $zipCode = null;
@@ -128,6 +146,12 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $guardianContactNumber = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $spouseName = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $spouseContactNumber = null;
 
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $numberOfSiblings = null;
@@ -229,6 +253,28 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
     public function setExtensionName(?string $extensionName): static
     {
         $this->extensionName = $extensionName;
+        return $this;
+    }
+
+    public function getSuffix(): ?string
+    {
+        return $this->suffix;
+    }
+
+    public function setSuffix(?string $suffix): static
+    {
+        $this->suffix = $suffix;
+        return $this;
+    }
+
+    public function getLrn(): ?string
+    {
+        return $this->lrn;
+    }
+
+    public function setLrn(?string $lrn): static
+    {
+        $this->lrn = $lrn;
         return $this;
     }
 
@@ -375,6 +421,28 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getElementary(): ?string
+    {
+        return $this->elementary;
+    }
+
+    public function setElementary(?string $elementary): static
+    {
+        $this->elementary = $elementary;
+        return $this;
+    }
+
+    public function getElementaryYear(): ?string
+    {
+        return $this->elementaryYear;
+    }
+
+    public function setElementaryYear(?string $elementaryYear): static
+    {
+        $this->elementaryYear = $elementaryYear;
+        return $this;
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -474,6 +542,28 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getStreet(): ?string
+    {
+        return $this->street;
+    }
+
+    public function setStreet(?string $street): static
+    {
+        $this->street = $street;
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?string $country): static
+    {
+        $this->country = $country;
+        return $this;
+    }
+
     public function getFatherName(): ?string
     {
         return $this->fatherName;
@@ -570,6 +660,28 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
     public function setGuardianContactNumber(?string $guardianContactNumber): static
     {
         $this->guardianContactNumber = $guardianContactNumber;
+        return $this;
+    }
+
+    public function getSpouseName(): ?string
+    {
+        return $this->spouseName;
+    }
+
+    public function setSpouseName(?string $spouseName): static
+    {
+        $this->spouseName = $spouseName;
+        return $this;
+    }
+
+    public function getSpouseContactNumber(): ?string
+    {
+        return $this->spouseContactNumber;
+    }
+
+    public function setSpouseContactNumber(?string $spouseContactNumber): static
+    {
+        $this->spouseContactNumber = $spouseContactNumber;
         return $this;
     }
 

@@ -221,7 +221,82 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="course" class="form-label">Course/Program <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="course" name="course" required placeholder="e.g., BS Computer Science">
+                        <select class="form-select" id="course" name="course" required>
+                            <option value="">Select Course/Program...</option>
+                            <optgroup label="Business and Accountancy">
+                                <option value="Bachelor of Science in Accountancy (BSA)">Bachelor of Science in Accountancy (BSA)</option>
+                                <option value="Bachelor of Science in Business Administration (BSBA) - Major in Financial Management">BSBA - Major in Financial Management</option>
+                                <option value="Bachelor of Science in Business Administration (BSBA) - Major in Human Resource Management">BSBA - Major in Human Resource Management</option>
+                                <option value="Bachelor of Science in Tourism Management (BSTM)">Bachelor of Science in Tourism Management (BSTM)</option>
+                                <option value="Bachelor of Science in Hospitality Management (BSHM)">Bachelor of Science in Hospitality Management (BSHM)</option>
+                                <option value="Bachelor of Science in Office Administration (BSOA)">Bachelor of Science in Office Administration (BSOA)</option>
+                                <option value="Bachelor of Science in Entrepreneurship">Bachelor of Science in Entrepreneurship</option>
+                            </optgroup>
+                            <optgroup label="Computer Science and Information Technology">
+                                <option value="Bachelor of Science in Computer Science (BSCS)">Bachelor of Science in Computer Science (BSCS)</option>
+                                <option value="Bachelor of Science in Information Technology (BSIT)">Bachelor of Science in Information Technology (BSIT)</option>
+                            </optgroup>
+                            <optgroup label="Natural Sciences">
+                                <option value="Bachelor of Science in Biology">Bachelor of Science in Biology</option>
+                                <option value="Bachelor of Science in Chemistry">Bachelor of Science in Chemistry</option>
+                                <option value="Bachelor of Science in Mathematics">Bachelor of Science in Mathematics</option>
+                                <option value="Bachelor of Science in Psychology">Bachelor of Science in Psychology</option>
+                                <option value="Bachelor of Science in Geology (BSGEO)">Bachelor of Science in Geology (BSGEO)</option>
+                            </optgroup>
+                            <optgroup label="Arts and Communication">
+                                <option value="Bachelor of Arts (AB) - Major in General Social Science">Bachelor of Arts (AB) - Major in General Social Science</option>
+                                <option value="Bachelor of Mass Communication (BMC)">Bachelor of Mass Communication (BMC)</option>
+                            </optgroup>
+                            <optgroup label="Engineering">
+                                <option value="Bachelor of Science in Architecture (BS Arch)">Bachelor of Science in Architecture (BS Arch)</option>
+                                <option value="Bachelor of Science in Civil Engineering (BSCE)">Bachelor of Science in Civil Engineering (BSCE)</option>
+                                <option value="Bachelor of Science in Computer Engineering (BSCpE)">Bachelor of Science in Computer Engineering (BSCpE)</option>
+                                <option value="Bachelor of Science in Electrical Engineering (BSEE)">Bachelor of Science in Electrical Engineering (BSEE)</option>
+                                <option value="Bachelor of Science in Electronics Engineering (BSECE)">Bachelor of Science in Electronics Engineering (BSECE)</option>
+                                <option value="Bachelor of Science in Geodetic Engineering (BSGE)">Bachelor of Science in Geodetic Engineering (BSGE)</option>
+                                <option value="Bachelor of Science in Geothermal Engineering (BSGthE)">Bachelor of Science in Geothermal Engineering (BSGthE)</option>
+                                <option value="Bachelor of Science in Mechanical Engineering (BSME)">Bachelor of Science in Mechanical Engineering (BSME)</option>
+                            </optgroup>
+                            <optgroup label="Education">
+                                <option value="Bachelor of Elementary Education (BEEd)">Bachelor of Elementary Education (BEEd)</option>
+                                <option value="Bachelor of Early Childhood Education (BECEd)">Bachelor of Early Childhood Education (BECEd)</option>
+                                <option value="Bachelor of Special Needs Education (BSNEd)">Bachelor of Special Needs Education (BSNEd)</option>
+                                <option value="Bachelor of Physical Education (BPEd)">Bachelor of Physical Education (BPEd)</option>
+                                <option value="Bachelor of Secondary Education (BSEd) - Major in English">BSEd - Major in English</option>
+                                <option value="Bachelor of Secondary Education (BSEd) - Major in Filipino">BSEd - Major in Filipino</option>
+                                <option value="Bachelor of Secondary Education (BSEd) - Major in Mathematics">BSEd - Major in Mathematics</option>
+                                <option value="Bachelor of Secondary Education (BSEd) - Major in Science">BSEd - Major in Science</option>
+                                <option value="Bachelor of Secondary Education (BSEd) - Major in Social Studies">BSEd - Major in Social Studies</option>
+                                <option value="Bachelor of Secondary Education (BSEd) - Major in Values Education">BSEd - Major in Values Education</option>
+                                <option value="Bachelor of Technical-Vocational Teacher Education (BTVTED)">Bachelor of Technical-Vocational Teacher Education (BTVTED)</option>
+                            </optgroup>
+                            <optgroup label="Health Sciences">
+                                <option value="Bachelor of Science in Nursing (BSN)">Bachelor of Science in Nursing (BSN)</option>
+                                <option value="Bachelor of Science in Pharmacy (BS Pharm)">Bachelor of Science in Pharmacy (BS Pharm)</option>
+                            </optgroup>
+                            <optgroup label="Criminology">
+                                <option value="Bachelor of Science in Criminology (BSCrim)">Bachelor of Science in Criminology (BSCrim)</option>
+                            </optgroup>
+                            <optgroup label="Agriculture and Forestry">
+                                <option value="Bachelor of Science in Agriculture (BSA) - Major in Animal Science">BSA - Major in Animal Science</option>
+                                <option value="Bachelor of Science in Agriculture (BSA) - Major in Crop Science">BSA - Major in Crop Science</option>
+                                <option value="Bachelor of Science in Forestry (BSF)">Bachelor of Science in Forestry (BSF)</option>
+                            </optgroup>
+                            <optgroup label="Industrial Technology">
+                                <option value="Bachelor of Science in Industrial Technology (BSIndTech) - Major in Automotive Technology">BSIndTech - Major in Automotive Technology</option>
+                                <option value="Bachelor of Science in Industrial Technology (BSIndTech) - Major in Civil Technology">BSIndTech - Major in Civil Technology</option>
+                                <option value="Bachelor of Science in Industrial Technology (BSIndTech) - Major in Electrical Technology">BSIndTech - Major in Electrical Technology</option>
+                                <option value="Bachelor of Science in Industrial Technology (BSIndTech) - Major in Electronics Technology">BSIndTech - Major in Electronics Technology</option>
+                                <option value="Bachelor of Science in Industrial Technology (BSIndTech) - Major in Food and Beverage Preparation and Services">BSIndTech - Major in Food and Beverage Preparation and Services</option>
+                                <option value="Bachelor of Science in Industrial Technology (BSIndTech) - Major in Garments and Fashion Design">BSIndTech - Major in Garments and Fashion Design</option>
+                                <option value="Bachelor of Science in Industrial Technology (BSIndTech) - Major in Mechanical Technology">BSIndTech - Major in Mechanical Technology</option>
+                                <option value="Bachelor of Science in Industrial Technology (BSIndTech) - Major in Refrigeration and Air-Conditioning Technology">BSIndTech - Major in Refrigeration and Air-Conditioning Technology</option>
+                                <option value="Bachelor of Science in Industrial Technology (BSIndTech) - Major in Welding and Fabrication Technology">BSIndTech - Major in Welding and Fabrication Technology</option>
+                            </optgroup>
+                            <optgroup label="Aviation">
+                                <option value="Bachelor of Science in Aviation Maintenance">Bachelor of Science in Aviation Maintenance</option>
+                            </optgroup>
+                        </select>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="department" class="form-label">Department</label>

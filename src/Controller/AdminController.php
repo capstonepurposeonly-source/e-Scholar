@@ -315,8 +315,8 @@ class AdminController extends AbstractController
                     COUNT(*) as total_students,
                     SUM(CASE WHEN registration_status = "Enrolled" THEN 1 ELSE 0 END) as enrolled,
                     SUM(CASE WHEN registration_status = "Not Enrolled" THEN 1 ELSE 0 END) as not_enrolled,
-                    SUM(CASE WHEN gender = "Male" THEN 1 ELSE 0 END) as male_students,
-                    SUM(CASE WHEN gender = "Female" THEN 1 ELSE 0 END) as female_students
+                    SUM(CASE WHEN sex = "Male" THEN 1 ELSE 0 END) as male_students,
+                    SUM(CASE WHEN sex = "Female" THEN 1 ELSE 0 END) as female_students
                 FROM students';
         $stats = $conn->executeQuery($sql)->fetchAssociative();
 

@@ -24,10 +24,10 @@
             <tbody>
                 {% for liquidation in upcomingLiquidations %}
                     <tr>
-                        <td><strong>{{ liquidation.scholarshipName }}</strong></td>
-                        <td>{{ liquidation.campusName }}</td>
-                        <td>{{ liquidation.deadline|date('M d, Y') }}</td>
-                        <td>{{ liquidation.daysRemaining }} days</td>
+                        <td><strong>{{ liquidation.scholarshipType }}</strong></td>
+                        <td>{{ liquidation.student.campus }}</td>
+                        <td>{{ liquidation.deadlineDate|date('M d, Y') }}</td>
+                        <td>{{ liquidation.daysUntilDeadline }} days</td>
                         <td>
                             <span class="enrollment-badge badge-{{ liquidation.status == 'Active' ? 'success' : (liquidation.status == 'Due Soon' ? 'warning' : 'danger') }}">
                                 {{ liquidation.status }}
@@ -66,10 +66,10 @@
             <tbody>
                 {% for liquidation in overdueLiquidations %}
                     <tr>
-                        <td><strong>{{ liquidation.scholarshipName }}</strong></td>
-                        <td>{{ liquidation.campusName }}</td>
-                        <td>{{ liquidation.deadline|date('M d, Y') }}</td>
-                        <td>{{ liquidation.daysRemaining|abs }} days</td>
+                        <td><strong>{{ liquidation.scholarshipType }}</strong></td>
+                        <td>{{ liquidation.student.campus }}</td>
+                        <td>{{ liquidation.deadlineDate|date('M d, Y') }}</td>
+                        <td>{{ liquidation.daysUntilDeadline|abs }} days</td>
                         <td>
                             <span class="enrollment-badge badge-danger">
                                 Overdue

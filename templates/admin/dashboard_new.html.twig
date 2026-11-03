@@ -651,6 +651,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script>
+    <script>
         // Scholarship Distribution Pie Chart
         const scholarshipCtx = document.getElementById('scholarshipChart').getContext('2d');
         new Chart(scholarshipCtx, {
@@ -658,7 +659,7 @@
             data: {
                 labels: {{ scholarshipStats|keys|json_encode|raw }},
                 datasets: [{
-                    data: {{ scholarshipStats|json_encode|raw }},
+                    data: Object.values({{ scholarshipStats|json_encode|raw }}),
                     backgroundColor: [
                         '#1e5ba8', '#ffc107', '#4caf50', '#f44336', '#9c27b0', '#ff9800', '#00bcd4'
                     ]
@@ -683,7 +684,7 @@
                 labels: {{ statusStats|keys|json_encode|raw }},
                 datasets: [{
                     label: 'Students',
-                    data: {{ statusStats|json_encode|raw }},
+                    data: Object.values({{ statusStats|json_encode|raw }}),
                     backgroundColor: ['#4caf50', '#ff9800']
                 }]
             },
@@ -697,7 +698,10 @@
                 },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
                     }
                 }
             }

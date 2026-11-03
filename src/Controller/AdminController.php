@@ -192,8 +192,21 @@ class AdminController extends AbstractController
     #[Route('/admin/students', name: 'admin_students')]
     public function students(Request $request, StudentRepository $studentRepository): Response
     {
-        // This will be handled by the new enhanced template with AJAX
-        return $this->render('admin/students.html.twig');
+        // Get filter parameters from request
+        $search = $request->query->get('search', '');
+        $campus = $request->query->get('campus', '');
+        $yearLevel = $request->query->get('year_level', '');
+        $scholarshipType = $request->query->get('scholarship_type', '');
+        $registrationStatus = $request->query->get('registration_status', '');
+
+        // Pass filter values to template
+        return $this->render('admin/students.html.twig', [
+            'search' => $search,
+            'campus' => $campus,
+            'yearLevel' => $yearLevel,
+            'scholarshipType' => $scholarshipType,
+            'registrationStatus' => $registrationStatus,
+        ]);
     }
 
     #[Route('/admin/students/{id}', name: 'admin_student_view')]

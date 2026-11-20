@@ -494,7 +494,7 @@
                 Campuses
             </a>
             <a href="{{ path('admin_liquidations') }}" class="nav-item {% if app.request.attributes.get('_route') == 'admin_liquidations' %}active{% endif %}">
-                Liquidations
+                Billing
             </a>
             <a href="{{ path('admin_announcements') }}" class="nav-item {% if app.request.attributes.get('_route') starts with 'admin_announcement' %}active{% endif %}">
                 Announcements
@@ -509,7 +509,7 @@
         <div class="workspace-label" style="margin-top: 24px;">ACCOUNT</div>
         <nav class="nav-menu">
             <a href="{{ path('admin_profile') }}" class="nav-item {% if app.request.attributes.get('_route') starts with 'admin_profile' %}active{% endif %}">
-                👤 Administrator Profile
+                Administrator Profile
             </a>
         </nav>
         <div class="sidebar-actions">
